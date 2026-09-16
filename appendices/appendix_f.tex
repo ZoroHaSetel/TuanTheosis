@@ -1,0 +1,54 @@
+\chapter{Reproducibility Instructions}
+
+These instructions describe the original research repository and its evidence records, not files supplied with this LaTeX workspace.
+\section{Reproduce the reported numbers without retraining}
+
+Start from the same repository snapshot and preserve every experimental file. Read the canonical result JSONs, their input validation, and score-cache metadata. Check that the matrix dimensions match the number of ordered queries and corpus identities. A result label alone is insufficient: use the dataset, index condition, split, model state, and artifact family specified in the manuscript.
+
+For ALQAC and Zalo, the primary hybrid value is the \texttt{oof} aggregate, not the arithmetic mean of the fold means under \texttt{summary}. For BCA, select a particular \texttt{views} protocol and cohort. For fine-tuning, select \texttt{confirma\allowbreak{}tory\_eva\allowbreak{}luation\_\allowbreak{}correcte\allowbreak{}d} and compare systems within the same seed and fold-zero population. Average the three fine-tuned metric values only when reporting the explicitly labeled seed mean. Do not average scores from different query populations or treat the repeated pretrained reference as extra evidence.
+
+The derivation audit additionally replays the canonical normalized caches with the exact evaluator bodies and stored selected weights. It asserts corpus and query order, then evaluates three fixed one-hot configurations for the standalone models. This is deterministic reaggregation of existing evidence, not a new relevance-based search. It writes only a separate writing-stage JSON. The script and required NumPy runtime are needed only to repeat this deeper cache audit; reading the final manuscript does not require executing them.
+
+\begin{Verbatim}[fontsize=\footnotesize,breaklines=true,breakanywhere=true]
+# Run from the repository root in a Python environment with NumPy available.
+python -X utf8 report/audit_baseline_thesis_20260905.py
+\end{Verbatim}
+
+The command above reaggregates several large caches and may take appreciable time. Its code opens score matrices read-only and does not encode text, train models, change the experimental ledger, or unseal a new evaluation. The derived JSON records hashes and the maximum discrepancy against each canonical hybrid. The writing audit obtained 0.0 maximum discrepancy for both hybrids in all four ALQAC/\allowbreak{}Zalo conditions.
+
+\section{Verify small artifacts and arithmetic}
+
+The code below is a minimal verification recipe for the completed fine-tuning results. It reads the published corrected statistics and checks the paired mean difference against the seed-specific aggregate values. It illustrates the calculation behind the manuscript without relying on rounded table entries. SHA-256 sidecars can be checked similarly; a matching sidecar establishes byte consistency, not semantic correctness of the original evaluation.
+
+\begin{Verbatim}[fontsize=\footnotesize,breaklines=true,breakanywhere=true]
+import hashlib
+import json
+from pathlib import Path
+from statistics import mean
+
+root = Path.cwd()
+study = root / "experiments/LEGAL_BGE_FT_20260815T150627Z_686566d5"
+path = study / "confirmatory_evaluation_corrected/statistics.json"
+values = json.loads(path.read_text(encoding="utf-8"))
+sidecar = Path(str(path) + ".sha256")
+assert hashlib.sha256(path.read_bytes()).hexdigest() == sidecar.read_text().split()[0]
+for tag, suffix in [("two_way", ""), ("three_way", "_e5")]:
+    deltas = []
+    for systems in values["seed_metrics"].values():
+        pt = systems["bm25_bge_pretrained" + suffix]["ndcg@10"]
+        adapted = systems["bm25_bge_finetuned" + suffix]["ndcg@10"]
+        deltas.append(adapted - pt)
+    assert abs(mean(deltas) - values["paired"][tag]["mean_delta_ndcg@10"]) < 1e-12
+\end{Verbatim}
+\section{Reproduction boundaries}
+
+Metric reaggregation is weaker than retraining reproduction. Recreating the final encoders requires the pinned model revision, tokenizer, ordered group files, random states, actual package versions, precision, accumulation and epoch-tail policy, checkpoint files, optimizer state, and runtime environment. The thesis records those elements where available but does not claim to have retrained the models during writing. Remote checkpoint references or sidecars alone do not prove that the binary payload is locally present.
+
+Likewise, the validation of numerical outputs does not repair historical design limitations. The corrected baseline addresses an identifier error, while prior test exposure remains a fact. BCA's component-aware protocol handles grouping more honestly, but one giant component still supplies limited between-component information. Reproduction should preserve these conditions and make any revised experiment a new, clearly identified analysis rather than overwriting the canonical files.
+
+\section{Document assembly and conversion}
+
+The September 12 progress update is applied by \texttt{report/u\allowbreak{}pdate\_th\allowbreak{}esis\_pro\allowbreak{}gress\_20\allowbreak{}260912.p\allowbreak{}y}; validate the current evidence with \texttt{report/v\allowbreak{}alidate\_\allowbreak{}thesis\_2\allowbreak{}0260912.\allowbreak{}py}. The approved six-chapter manuscript is assembled by \texttt{report/r\allowbreak{}estructu\allowbreak{}re\_thesi\allowbreak{}s\_202609\allowbreak{}09.py} from the preserved pre-revision manuscript and the explicitly authored restructuring passages. Run \texttt{python -\allowbreak{}X utf8 r\allowbreak{}eport/va\allowbreak{}lidate\_t\allowbreak{}hesis\_20\allowbreak{}260909.p\allowbreak{}y} to check this revision. The older assembly and validation scripts describe the historical nine-chapter version and should not be used to regenerate the current structure. The restructuring map records caption and section migrations; the validation report includes source identities and checks that every inherited numbered table retains its original cells.
+
+This manuscript contains its front matter, chapters, tables, diagrams, references, and appendices in one Markdown file. Provenance links point to underlying evidence, but no chapter text is included from another file at rendering time. Mermaid diagrams may require a compatible renderer during conversion. LaTeX display equations and Unicode Vietnamese text require a suitable conversion toolchain and font. Pagination, margins, title-page formatting, and university signature requirements are conversion-stage concerns; no measured page count is asserted here.
+

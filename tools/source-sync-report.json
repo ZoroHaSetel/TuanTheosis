@@ -1,0 +1,27 @@
+{
+  "synchronized_on": "2026-09-16",
+  "source": "source/thesisproposalTuan.md",
+  "source_sha256": "cf1324f10c64eab942720bca5f96f34d498ce4d1f81e3b9034cce101f5f08649",
+  "source_unchanged": true,
+  "source_evidence_audit_date": "2026-09-12",
+  "updated_sections": [
+    "Front matter: author-provided declaration and acknowledgements; expanded glossary",
+    "Chapter 1: motivation, approach, workflow, and scope",
+    "Appendix G: removed source-deleted Sections G.2\u2013G.4",
+    "Main document provenance"
+  ],
+  "unchanged_scientific_tables": 41,
+  "unchanged_chapters": [
+    2,
+    3,
+    4,
+    5,
+    6
+  ],
+  "references_unchanged": true,
+  "pdf_pages": 162,
+  "previous_page_limit": 80,
+  "within_previous_page_limit": false,
+  "workspace_version": "Six chapters, seven appendices; earlier 59-page analytical revision absent from this snapshot",
+  "new_experiments_performed": false
+}

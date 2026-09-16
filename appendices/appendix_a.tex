@@ -1,0 +1,46 @@
+\chapter{Dataset Details}
+
+Dataset identities and coverage records in this appendix are transcribed from the canonical project evidence.
+\section{Evaluation identity and relevance records}
+
+The manuscript uses the counts in Table 4.1 as counts of evaluated queries and retrieval units. It does not substitute numbers of source laws, crawled pages, training groups, or citation strings. ALQAC's original question partitions are combined only for the canonical grouped baseline procedure. The corrected hybrid adaptation uses a separate Zalo fold partition; the later dense follow-up has its own eligibility rule. A matching name such as “Zalo test” is insufficient to identify one of these populations.
+
+The following table preserves the canonical cache identity fields. The corpus hash covers ordered document identities under the producer's serialization, and the query hash covers its ordered query input. These hashes are not interchangeable with a hash of a JSON file or with the input validator's differently named query-ID hash. The precise hash construction remains in the source implementation. Retaining the field name prevents a later audit from comparing unlike hashes and incorrectly diagnosing corruption.
+
+\begingroup
+\small
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.18}
+\begin{longtable}{>{\raggedright\arraybackslash}p{2.753cm}>{\raggedright\arraybackslash}p{6.293cm}>{\raggedright\arraybackslash}p{6.293cm}}
+\caption[Canonical baseline cache identities.]{Canonical baseline cache identities.}\label{tab:A.1}\\
+\toprule
+\textbf{Condition} & \textbf{Ordered corpus SHA-256} & \textbf{Ordered query SHA-256} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Condition} & \textbf{Ordered corpus SHA-256} & \textbf{Ordered query SHA-256} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{3}{r}{\footnotesize Continued on next page}\\
+\endfoot
+\bottomrule
+\endlastfoot
+ALQAC A & 9d1c9b85\allowbreak{}a1102a2b\allowbreak{}5c6a022c\allowbreak{}e54efa8b\allowbreak{}28157011\allowbreak{}6c71ab00\allowbreak{}28a0e81c\allowbreak{}64791371 & 25aa0cf2\allowbreak{}5485e892\allowbreak{}118a0882\allowbreak{}27f963c7\allowbreak{}add95385\allowbreak{}88db4502\allowbreak{}1b771cc5\allowbreak{}f94cdea5 \\
+ALQAC B & 06dcfbdd\allowbreak{}533a46b6\allowbreak{}9b9a980d\allowbreak{}60aad233\allowbreak{}474487bf\allowbreak{}94e15fcb\allowbreak{}8ab97994\allowbreak{}b4820f75 & 25aa0cf2\allowbreak{}5485e892\allowbreak{}118a0882\allowbreak{}27f963c7\allowbreak{}add95385\allowbreak{}88db4502\allowbreak{}1b771cc5\allowbreak{}f94cdea5 \\
+Zalo A & 58c1634a\allowbreak{}86cac825\allowbreak{}c9fa8ad6\allowbreak{}29c88cd6\allowbreak{}0ae6d636\allowbreak{}5d6b11aa\allowbreak{}d745a5a6\allowbreak{}14a74688 & 5077d396\allowbreak{}4f6cacad\allowbreak{}465d2ee5\allowbreak{}8700e33a\allowbreak{}6ab510af\allowbreak{}99dcafe2\allowbreak{}fadbb997\allowbreak{}f7436956 \\
+Zalo B & 58c1634a\allowbreak{}86cac825\allowbreak{}c9fa8ad6\allowbreak{}29c88cd6\allowbreak{}0ae6d636\allowbreak{}5d6b11aa\allowbreak{}d745a5a6\allowbreak{}14a74688 & 5077d396\allowbreak{}4f6cacad\allowbreak{}465d2ee5\allowbreak{}8700e33a\allowbreak{}6ab510af\allowbreak{}99dcafe2\allowbreak{}fadbb997\allowbreak{}f7436956 \\
+\end{longtable}
+\endgroup
+
+\section{Coverage and annotation boundaries}
+
+BCA's 440 answerable queries include its 229 partial-target queries. The 106 unanswerable queries are disjoint from the answerable group. These categories must not be summed as three independent groups. An answerable query has at least one represented target; it need not have every target represented. The end-to-end result retains original target denominators so that missing evidence is visible in the measured system. Sources: the BCA diagnostics and results cited in Chapter 5.
+
+The manuscript does not claim that citation strings constitute an independently adjudicated exhaustive relevance set. Normalization, article matching, and whole-law wildcard rules are part of the evaluated operational definition. A future annotation revision would create a new relevance version, whose results should be reported alongside, rather than silently substituted for, this version.
+
+\begin{quote}
+
+\textbf{TODO — Evidence required:} Verified aggregate relevanc\allowbreak{}e-judgme\allowbreak{}nt counts and tokenize\allowbreak{}r-specif\allowbreak{}ic query/\allowbreak{}document length distributions are not included in the current canonical aggregate tables. They must be derived with a declared deduplication and tokenization policy before adding dataset statistics of that type.
+
+\end{quote}

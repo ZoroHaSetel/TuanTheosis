@@ -1,0 +1,89 @@
+\chapter{Introduction}
+\section{Research Context and Motivation}
+
+Retrieval-Augmented Generation (RAG) combines a language model with information retrieved from an external corpus. Lewis et al. evaluate this architecture on knowledge-intensive NLP tasks~\cite{lewis2020}. For this thesis, RAG motivates a narrower question: whether the retriever supplies the annotated legal evidence needed by a downstream system. Better retrieval may improve the available evidence, but it does not by itself establish the reliability or legal correctness of a generated answer.
+
+This thesis focuses on the retrieval component of Vietnamese legal RAG. Given a legal question, the task is to rank legal articles or indexed legal documents according to their relevance. Effective legal retrieval requires identifying the specific provisions that address the question, not merely documents that are topically similar. Small differences in conditions, actors, exceptions, or procedures can determine whether a provision is legally relevant~\cite{alqac2024}.
+
+The research problem is defined as follows: given a fixed collection of legal documents, questions, and relevance annotations, which combination of lexical and dense retrieval signals produces the most effective ranking? The thesis evaluates retrieval effectiveness only. It does not assess the correctness of generated legal advice, determine whether a law is currently in force, or judge whether an answer is legally sufficient.
+
+BM25 is used as the lexical baseline because legal questions may contain terms, document numbers, or phrases that also appear in relevant provisions. Its strength is transparent term matching, but it may fail when users express their needs in everyday language while legal texts use formal terminology. Dense retrievers address this limitation by ranking documents through learned vector representations. This thesis evaluates BGE-M3 and multilin\allowbreak{}gual-E5-\allowbreak{}Base as pretrained dense models~\cite{robertson2009,rosa2021,chen2024,wang2024}.
+
+However, semantic similarity is not the same as legal relevance. A dense model may retrieve conceptually related texts while missing legally decisive distinctions. Therefore, the value of dense retrieval must be measured empirically against the same corpus, queries, and relevance judgments used for BM25.
+
+The thesis evaluates hybrid retrieval systems that combine lexical and dense signals. The two-way system combines BM25 and BGE-M3, while the three-way system additionally includes multilin\allowbreak{}gual-E5-\allowbreak{}Base. The additional model is useful only if it contributes ranking information not already captured by the existing components. Its value is therefore evaluated against a competitive BM25+\allowbreak{}BGE-M3 hybrid, not only against BM25.
+
+The experiments also compare multiple corpus representations. The \texttt{A\_clean} and \texttt{B\_parsed} conditions distinguish curated and parsed document versions. These conditions help examine whether retrieval conclusions remain stable when document representation changes, while avoiding unsupported claims that performance differences are caused by a single type of preprocessing noise.
+
+The evaluated collections include ALQAC, Zalo, and BCA. ALQAC contains 811 queries with 3,363 clean documents and 3,381 parsed documents. Zalo contains 3,196 queries and 61,425 documents in both conditions. BCA contributes 546 evaluated queries and 14,789 retrieval units. These datasets are used to test the boundaries of retrieval findings across different collection structures rather than to make simple claims based only on corpus size.
+
+Fine-tuning is examined as a second intervention. A pretrained dense encoder can be adapted using legal question–document pairs, but training loss or development-set improvement alone does not prove generalisation. The fine-tuned model must be evaluated on held-out queries and within the full hybrid retrieval pipeline~\cite{karpukhin2020,cawley2010}.
+
+Overall, the thesis aims to determine what the experiments actually support: whether lexical–dense hybrid retrieval improves ranking, whether a third dense component adds value, whether fine-tuning improves retrieval, and whether any observed improvement persists beyond development data. The contribution lies in providing an evidence-based analysis of Vietnamese legal retrieval for RAG, including both positive results and limitations.
+
+\section{Challenges and Research Approach}
+
+This study follows two main stages: baseline comparison and supervised intervention. The baseline stage evaluates pretrained retrieval systems using two-way and three-way weighted fusion. Scores from each retrieval component are normalized per query before combination, and fusion weights are selected on designated fitting queries. Final effectiveness is then measured on queries outside that fitting subset.
+
+The ALQAC and Zalo results are reported separately by collection and corpus representation rather than merged into a single average. BCA is evaluated separately because its connected citation structure creates dependency between queries. In particular, many BCA queries share legal targets, so treating them as fully independent would overstate the reliability of standard evaluation splits.
+
+BCA also shows why evaluation design is part of the research contribution. A corrected analysis identifies one giant query component and a much smaller set of outside queries. The protocol therefore distinguishes three views: a giant-component holdout, grouped evaluation of smaller components, and a combined descriptive summary. The combined score describes observed performance, while component-aware inference accounts for query dependence.
+
+Failure analysis is conducted after the baseline stage. It separates target absence, incomplete target coverage, missed retrieval, and low ranking of available targets. This prevents broad explanations, such as semantic dilution, from being claimed without supporting rank or coverage evidence. The analysis therefore links observed retrieval failures to the motivation for represen\allowbreak{}tation-b\allowbreak{}ased intervention.
+
+The fine-tuning stage selects the BGE adaptation recipe on development data, trains on the permitted training folds, and evaluates the resulting hybrid systems on a designated Zalo test fold. The main comparison keeps fusion weights fixed between pretrained and fine-tuned versions, so the experiment measures the effect of replacing the pretrained BGE component with its adapted version. It does not claim to find the best possible system after unrestricted parameter retuning. Results from three training seeds are reported separately and summarized.
+
+The study also records an important correction. An earlier held-out analysis was superseded after a document-key mismatch was found in baseline weight selection. The thesis uses the corrected outputs and documents the prior access history. This correction improves result accuracy, but it also means the affected test set can no longer be treated as completely untouched.
+
+Overall, empirical claims in this thesis are tied to reproducible outputs, manifests, or direct result derivations. External methodological claims are tied to primary literature. Reports and tickets are used to locate evidence but do not override experimental outputs. Remaining items, such as cross-dataset transfer and secondary retuning, are treated as open evidence requirements unless quantitative results are available.
+
+\input{figures/research_overview}
+\section{Research Objectives}
+
+The main objective is to establish the effectiveness and limits of hybrid Vietnamese legal retrieval and legal-domain BGE-M3 adaptation through traceable comparisons. The first sub-objective is to compare fixed lexical and dense representations with sparse–dense fusion. The second is to measure E5-base’s incremental contribution beyond BM25+\allowbreak{}BGE-M3. The third is to determine whether adaptation selected on development data yields useful changes in the held-out complete hybrid. A supporting resource objective is to construct and evaluate the BCA QA collection with explicit acquisition, mapping, and coverage boundaries.
+
+Each objective has an observable endpoint: the standalone and hybrid tables for the first, the paired two-way/\allowbreak{}three-way comparisons for the second, corrected development and held-out results for the third, and source/\allowbreak{}coverage audits plus BCA evaluation for the resource objective. No objective assumes a favorable outcome. The primary ranking endpoint is NDCG@10, and changes are interpreted within the collection and protocol that produced them.
+
+\section{Research Questions}
+
+The thesis adopts three research questions that match the evidence available for analysis. They separate the benefit of combination from the benefit of an additional model and from the generalisation of adaptation.
+
+\textbf{RQ1. What improvement over lexical retrieval is supported by the available sparse–dense benchmark evidence?} This question concerns the relationship between BM25 and the implemented hybrid systems on the evaluated collections. Its answer is restricted to comparisons that can be verified from canonical outputs or reaggregated from their preserved score caches. It does not assume universal hybrid superiority or equate an observed difference with a causal explanation for that difference.
+
+\textbf{RQ2. Does adding pretrained multilin\allowbreak{}gual-E5-\allowbreak{}Base improve BM25+\allowbreak{}BGE-M3 across legal collections and corpus conditions?} This question directly corresponds to the canonical two-way versus three-way experiment. The word “across” requires separate examination of ALQAC clean, ALQAC parsed, Zalo clean, Zalo parsed, and corrected BCA evidence. A favorable result in one condition is an answer about that condition; it is not sufficient to establish a general three-way advantage. Effect magnitude, other metrics, and the applicable uncertainty analysis are considered together.
+
+\textbf{RQ3. Do development improvements from legal-domain BGE-M3 fine-tuning persist in the complete hybrid system on held-out Zalo queries?} This question links the model-selection process to the corrected evaluation of both two-way and three-way systems. It asks whether development selection predicts useful performance outside the selection fold. Its answer must preserve any reversal between development and held-out results, distinguish fixed-weight system replacement from retuning, and acknowledge the correction and access history of the held-out analysis.
+
+The later fixed-corpus study now supplies the dense-only comparison needed to interpret adaptation at both encoder and hybrid levels. Section 5.12 reports it as a completed extension of RQ3. The original three research questions are retained, while their evidence base is expanded. Cross-dataset fine-tuning transfer remains unestablished, and the later post-hoc result is not merged with the earlier law-component evaluation.
+
+\section{Research Contributions}
+
+The primary contribution is an experimental investigation of the incremental value and limits of hybrid legal retrieval. It separates improvement over BM25 from improvement over an already strong BM25+\allowbreak{}BGE-M3 reference, using conditio\allowbreak{}n-specif\allowbreak{}ic comparisons rather than a universal superiority claim. Chapter 5 demonstrates the contribution through standalone, hybrid, and paired component results.
+
+The second contribution is an experimental evaluation of legal-domain adaptation inside complete hybrids. Development selection and the corrected three-seed held-out comparison expose whether the chosen training recipe generalizes under fixed fusion weights. The observed regressions are part of this contribution; the thesis does not define successful research as a positive model result.
+
+The third contribution is a resource and application contribution: construction of the Bộ Công an QA retrieval collection from published website questions and answers. Acquisition, cleaning, stable identifiers, citation extraction, and mapping connect the published records to a searchable article corpus. Section 4.3 documents this process, and Section 5.5 demonstrates its use and coverage limitations. The original ministry content is not claimed as authored by this project, and automated citations are not presented as exhaustive expert relevance judgments.
+
+The fourth contribution is an evaluation account of coverage and reference-law dependence, particularly the component-aware BCA analysis. It distinguishes the outcome of the complete data-and-ranking pipeline from ranking conditional on available targets. This is an implemented protocol contribution, not a claim to invent grouped evaluation or resampling.
+
+The fifth contribution is a reproducible analysis of comparison identities and query-level rank failures. Preserved configurations, ordered inputs, source checks, and deterministic case selection support verification of observed outcomes. The analysis describes recovered, lost, and persistent matches without assigning unsupported legal causes. Appendix E supplies the detailed cases and Appendix F the reproduction procedure.
+
+The project uses established retrievers and objectives. Its contributions concern the dataset, experiments, and defensible interpretation of their results; using pretrained models or linear score fusion alone is not claimed as algorithmic novelty.
+
+\section{Scope of the Thesis}
+
+This thesis focuses on measuring the effectiveness of retrieval approaches when applied to a Vietnamese legal question\allowbreak{}-answeri\allowbreak{}ng system. The study examines how well different retrieval configurations rank relevant Vietnamese legal documents or provisions for a given legal question. Although some evaluated models are multilingual encoders, the experiments are limited to Vietnamese legal collections. Therefore, “multilingual” describes the model family, not the evaluation scope across languages or jurisdictions.
+
+The retrieval task is evaluated using the retrieval units and relevance judgments defined in the project datasets. Legal relevance is operationalized through these annotations. The thesis does not claim to measure full legal adequacy, the current validity of legal documents, or the completeness of professional legal reasoning. Questions whose relevant targets are absent from the index are still considered important, because they reveal a practical limitation of retrieval-based legal Q\&A systems: a system cannot return evidence that is not present in its searchable corpus.
+
+The evaluated outcome is retrieval effectiveness, primarily the quality of ranked results under recorded relevance judgments. Metrics such as NDCG@10 are used to assess whether one retrieval approach ranks relevant legal texts better than another. A higher retrieval score is interpreted as improved document ranking, not as proof that a downstream generated answer would be legally correct, faithful, or useful to users~\cite{jarvelin2002}.
+
+Answer generation is therefore outside the main evaluated scope. The retrieval methods studied here may support a future Retrieva\allowbreak{}l-Augmen\allowbreak{}ted Generation system, but this thesis does not evaluate generated legal answers, citation sufficiency, user satisfaction, deployment latency, or operational cost. These require separate downstream and system-level evaluations.
+
+Overall, the thesis is bounded to empirical evaluation of retrieval approaches for Vietnamese legal Q\&A. It aims to determine which retrieval configurations are supported by the available evidence, where their limitations appear, and which claims require further evaluation.
+
+\section{Thesis Organization}
+
+Chapter 2 synthesizes related research into lexical, neural, fusion, adaptation, and evaluation families and identifies the empirical research gap. Chapter 3 develops the theoretical background and notation needed to understand the comparison. Chapter 4 formalizes the task and presents corpus construction, representations, fusion, ranking, and training.
+
+Chapter 5 reports experimental setup, baseline comparisons, component analysis, BCA reliability, failure analysis, and developm\allowbreak{}ent-to-h\allowbreak{}eld-out adaptation results. It follows the investigation from the pretrained reference through the intervention and re-evaluation. Chapter 6 answers the research questions, states the achieved contributions, and connects limitations to future work. Appendices preserve complete metric tables, dataset identities, search spaces, configurations, cases, and reproduction instructions.

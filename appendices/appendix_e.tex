@@ -1,0 +1,378 @@
+\chapter{Failure-Case Examples}
+
+The quoted questions, targets, and retrieved excerpts below are reproduced from the baseline case audit described in the supplied manuscript. They are dataset examples, not independently verified statements of current law.
+
+The following cases expand Table 5.6 using query text and top-result excerpts preserved by the read-only cache audit. Their selection is deterministic and purposive: first stored recovered, lost, and persistent top-ten outcomes in each condition. The category describes the effect of adding E5 to the selected baseline hybrid. It is not an expert annotation of the legal reasoning error. Corrected fine-tuning cases use their separately stored full ranks in Table 5.14 and are not merged into these baseline OOF examples.
+
+\section{ALQAC A — \texttt{train\_al\allowbreak{}qac25\_38\allowbreak{}8}}
+
+\textbf{Query (original Vietnamese):} Nhà chị Y bị mất một con gà. chị Y nghĩ rằng anh X, hàng xóm của chị, là thủ phạm. Tại thời điểm chị Y tố cáo anh X với cơ quan chức năng có thẩm quyền, Anh X chưa được tính là người có tội. Đúng hay sai?
+
+\textbf{Recorded targets:} \texttt{hiến phá\allowbreak{}p:31}. \textbf{Fold:} 2. \textbf{Outcome:} Recovered at ten. The first matching rank is outside ten in two-way and 9 in three-way.
+
+\begingroup
+\small
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.18}
+\begin{longtable}{>{\raggedright\arraybackslash}p{1.935cm}>{\raggedright\arraybackslash}p{2.585cm}>{\raggedright\arraybackslash}p{1.810cm}>{\raggedright\arraybackslash}p{8.790cm}}
+\toprule
+\textbf{System} & \textbf{Top-ranked law} & \textbf{Article} & \textbf{Stored text excerpt} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{System} & \textbf{Top-ranked law} & \textbf{Article} & \textbf{Stored text excerpt} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{4}{r}{\footnotesize Continued on next page}\\
+\endfoot
+\bottomrule
+\endlastfoot
+BM25+\allowbreak{}BGE-M3 & Luật Hôn nhân và gia đình & 112 & Nghĩa vụ cấp dưỡng giữa anh, chị, em Trong trường hợp không còn cha mẹ hoặc cha mẹ không có khả năng lao động và không có tài sản để cấp dưỡng cho con thì anh, chị đã thành niên không sống chung với em có nghĩa vụ cấp dưỡng cho em chưa thành niên không có tài sản để tự nuôi mình hoặc em đã thành niên không có khả năng lao động và không có tài sản để tự nuôi mình; em đã thành niên không sống chung \\
+BM25+\allowbreak{}BGE-M3+\allowbreak{}E5 & Luật Hôn nhân và gia đình & 112 & Nghĩa vụ cấp dưỡng giữa anh, chị, em Trong trường hợp không còn cha mẹ hoặc cha mẹ không có khả năng lao động và không có tài sản để cấp dưỡng cho con thì anh, chị đã thành niên không sống chung với em có nghĩa vụ cấp dưỡng cho em chưa thành niên không có tài sản để tự nuôi mình hoặc em đã thành niên không có khả năng lao động và không có tài sản để tự nuôi mình; em đã thành niên không sống chung \\
+\end{longtable}
+\endgroup
+
+The excerpt is provided for traceability, not as an expert judgment of legal applicability. A different top article alone does not identify the semantic cause of the target-rank change.
+
+\section{ALQAC A — \texttt{train\_al\allowbreak{}qac25\_29\allowbreak{}6}}
+
+\textbf{Query (original Vietnamese):} Chủ tọa phiên tòa không cần hỏi đương sự có thống nhất được với nhau về giải quyết vụ án, đúng hay sai?
+
+\textbf{Recorded targets:} \texttt{luật tố \allowbreak{}tụng hàn\allowbreak{}h chính:\allowbreak{}233}. \textbf{Fold:} 0. \textbf{Outcome:} Lost at ten. The first matching rank is 10 in two-way and outside ten in three-way.
+
+\begingroup
+\small
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.18}
+\begin{longtable}{>{\raggedright\arraybackslash}p{1.948cm}>{\raggedright\arraybackslash}p{2.497cm}>{\raggedright\arraybackslash}p{1.822cm}>{\raggedright\arraybackslash}p{8.852cm}}
+\toprule
+\textbf{System} & \textbf{Top-ranked law} & \textbf{Article} & \textbf{Stored text excerpt} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{System} & \textbf{Top-ranked law} & \textbf{Article} & \textbf{Stored text excerpt} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{4}{r}{\footnotesize Continued on next page}\\
+\endfoot
+\bottomrule
+\endlastfoot
+BM25+\allowbreak{}BGE-M3 & Luật Tố tụng hành chính & 171 & Bảo đảm tính khách quan của người làm chứng  1. Trước khi người làm chứng được hỏi về những vấn đề mà họ biết được có liên quan đến việc giải quyết vụ án, Chủ tọa phiên tòa có thể quyết định những biện pháp cần thiết để những người làm chứng không nghe được lời khai của nhau hoặc tiếp xúc với những người có liên quan.  2. Trường hợp lời khai của đương sự và người làm chứng có ảnh hưởng lẫn nhau th \\
+BM25+\allowbreak{}BGE-M3+\allowbreak{}E5 & Luật Tố tụng hành chính & 171 & Bảo đảm tính khách quan của người làm chứng  1. Trước khi người làm chứng được hỏi về những vấn đề mà họ biết được có liên quan đến việc giải quyết vụ án, Chủ tọa phiên tòa có thể quyết định những biện pháp cần thiết để những người làm chứng không nghe được lời khai của nhau hoặc tiếp xúc với những người có liên quan.  2. Trường hợp lời khai của đương sự và người làm chứng có ảnh hưởng lẫn nhau th \\
+\end{longtable}
+\endgroup
+
+The excerpt is provided for traceability, not as an expert judgment of legal applicability. A different top article alone does not identify the semantic cause of the target-rank change.
+
+\section{ALQAC A — \texttt{train\_al\allowbreak{}qac25\_85}}
+
+\textbf{Query (original Vietnamese):} Hành vi nào sau đây bị cấm?
+
+\textbf{Recorded targets:} \texttt{luật hôn\allowbreak{} nhân và\allowbreak{} gia đìn\allowbreak{}h:5}. \textbf{Fold:} 4. \textbf{Outcome:} Persistent top-ten miss. The first matching rank is outside ten in two-way and outside ten in three-way.
+
+\begingroup
+\small
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.18}
+\begin{longtable}{>{\raggedright\arraybackslash}p{1.866cm}>{\raggedright\arraybackslash}p{3.033cm}>{\raggedright\arraybackslash}p{1.745cm}>{\raggedright\arraybackslash}p{8.476cm}}
+\toprule
+\textbf{System} & \textbf{Top-ranked law} & \textbf{Article} & \textbf{Stored text excerpt} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{System} & \textbf{Top-ranked law} & \textbf{Article} & \textbf{Stored text excerpt} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{4}{r}{\footnotesize Continued on next page}\\
+\endfoot
+\bottomrule
+\endlastfoot
+BM25+\allowbreak{}BGE-M3 & Luật Bảo vệ quyền lợi người tiêu dùng & 10 & Các hành vi bị nghiêm cấm trong bảo vệ quyền lợi người tiêu dùng 1. Tổ chức, cá nhân kinh doanh bị nghiêm cấm thực hiện các hành vi sau đây: a) Lừa dối hoặc gây nhầm lẫn cho người tiêu dùng thông qua việc cung cấp thông tin sai lệch, không đầy đủ, không chính xác về một trong các nội dung sau đây: sản phẩm, hàng hóa, dịch vụ mà tổ chức, cá nhân kinh doanh bán, cung cấp; uy tín, khả năng kinh doanh \\
+BM25+\allowbreak{}BGE-M3+\allowbreak{}E5 & Luật Đường bộ & 7 & Các hành vi bị nghiêm cấm 1. Phá hoại kết cấu hạ tầng đường bộ; khai thác, sử dụng kết cấu hạ tầng đường bộ trái quy định của pháp luật. 2. Đấu nối trái phép vào đường chính, đường nhánh; tháo dỡ, di chuyển trái phép hoặc làm sai lệch công trình đường bộ. 3. Lấn, chiếm, sử dụng, xây dựng trái phép trong phạm vi bảo vệ kết cấu hạ tầng đường bộ. 4. Lắp đặt, tháo dỡ, di chuyển, điều chỉnh, che khuất \\
+\end{longtable}
+\endgroup
+
+The excerpt is provided for traceability, not as an expert judgment of legal applicability. A different top article alone does not identify the semantic cause of the target-rank change.
+
+\section{ALQAC B — \texttt{train\_al\allowbreak{}qac25\_38\allowbreak{}8}}
+
+\textbf{Query (original Vietnamese):} Nhà chị Y bị mất một con gà. chị Y nghĩ rằng anh X, hàng xóm của chị, là thủ phạm. Tại thời điểm chị Y tố cáo anh X với cơ quan chức năng có thẩm quyền, Anh X chưa được tính là người có tội. Đúng hay sai?
+
+\textbf{Recorded targets:} \texttt{hiến phá\allowbreak{}p:31}. \textbf{Fold:} 2. \textbf{Outcome:} Recovered at ten. The first matching rank is outside ten in two-way and 5 in three-way.
+
+\begingroup
+\small
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.18}
+\begin{longtable}{>{\raggedright\arraybackslash}p{1.935cm}>{\raggedright\arraybackslash}p{2.585cm}>{\raggedright\arraybackslash}p{1.810cm}>{\raggedright\arraybackslash}p{8.790cm}}
+\toprule
+\textbf{System} & \textbf{Top-ranked law} & \textbf{Article} & \textbf{Stored text excerpt} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{System} & \textbf{Top-ranked law} & \textbf{Article} & \textbf{Stored text excerpt} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{4}{r}{\footnotesize Continued on next page}\\
+\endfoot
+\bottomrule
+\endlastfoot
+BM25+\allowbreak{}BGE-M3 & Luật Hôn nhân và gia đình & 112 & Nghĩa vụ cấp dưỡng giữa anh, chị, em     Trong trường hợp không còn cha mẹ hoặc cha mẹ không có khả năng lao động và không có tài sản để cấp dưỡng cho con thì anh, chị đã thành niên không sống chung với em có nghĩa vụ cấp dưỡng cho em chưa thành niên không có tài sản để tự nuôi mình hoặc em đã thành niên không có khả năng lao động và không có tài sản để tự nuôi mình; em đã thành niên không sống ch \\
+BM25+\allowbreak{}BGE-M3+\allowbreak{}E5 & Bộ luật dân sự & 70 & Người giám hộ đương nhiên của người chưa thành niên    Người giám hộ đương nhiên của người chưa thành niên mà không còn cả cha và mẹ, không xác định được cha, mẹ hoặc cả cha và mẹ đều mất năng lực hành vi dân sự, bị hạn chế năng lực hành vi dân sự, bị Toà án hạn chế quyền của cha, mẹ hoặc còn cha, mẹ nhưng cha, mẹ không có điều kiện chăm sóc, giáo dục người chưa thành niên đó và nếu cha, mẹ có yêu \\
+\end{longtable}
+\endgroup
+
+The excerpt is provided for traceability, not as an expert judgment of legal applicability. A different top article alone does not identify the semantic cause of the target-rank change.
+
+\section{ALQAC B — \texttt{train\_al\allowbreak{}qac25\_31\allowbreak{}4}}
+
+\textbf{Query (original Vietnamese):} Cung cấp thông tin bao gồm việc công dân công khai thông tin và cung cấp thông tin theo yêu cầu của cơ quan nhà nước, đúng hay sai?
+
+\textbf{Recorded targets:} \texttt{luật tiế\allowbreak{}p cận th\allowbreak{}ông tin:\allowbreak{}2}. \textbf{Fold:} 3. \textbf{Outcome:} Lost at ten. The first matching rank is 9 in two-way and outside ten in three-way.
+
+\begingroup
+\small
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.18}
+\begin{longtable}{>{\raggedright\arraybackslash}p{1.948cm}>{\raggedright\arraybackslash}p{2.497cm}>{\raggedright\arraybackslash}p{1.822cm}>{\raggedright\arraybackslash}p{8.852cm}}
+\toprule
+\textbf{System} & \textbf{Top-ranked law} & \textbf{Article} & \textbf{Stored text excerpt} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{System} & \textbf{Top-ranked law} & \textbf{Article} & \textbf{Stored text excerpt} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{4}{r}{\footnotesize Continued on next page}\\
+\endfoot
+\bottomrule
+\endlastfoot
+BM25+\allowbreak{}BGE-M3 & Luật Tiếp cận thông tin & 34 & Trách nhiệm của cơ quan cung cấp thông tin trong việc bảo đảm thực hiện quyền tiếp cận thông tin    1. Cơ quan nhà nước có trách nhiệm cung cấp thông tin quy định tại Điều 9 của Luật này có trách nhiệm:    a) Công khai, cung cấp thông tin một cách kịp thời, chính xác, đầy đủ; trong trường hợp phát hiện thông tin đã cung cấp không chính xác hoặc không đầy đủ thì phải đính chính hoặc cung cấp bổ sun \\
+BM25+\allowbreak{}BGE-M3+\allowbreak{}E5 & Luật Tiếp cận thông tin & 34 & Trách nhiệm của cơ quan cung cấp thông tin trong việc bảo đảm thực hiện quyền tiếp cận thông tin    1. Cơ quan nhà nước có trách nhiệm cung cấp thông tin quy định tại Điều 9 của Luật này có trách nhiệm:    a) Công khai, cung cấp thông tin một cách kịp thời, chính xác, đầy đủ; trong trường hợp phát hiện thông tin đã cung cấp không chính xác hoặc không đầy đủ thì phải đính chính hoặc cung cấp bổ sun \\
+\end{longtable}
+\endgroup
+
+The excerpt is provided for traceability, not as an expert judgment of legal applicability. A different top article alone does not identify the semantic cause of the target-rank change.
+
+\section{ALQAC B — \texttt{train\_al\allowbreak{}qac25\_29}}
+
+\textbf{Query (original Vietnamese):} Cơ sở điện ảnh phát hành phim phải chịu trách nhiệm trước pháp luật về nội dung phim phát hành là đúng hay sai?
+
+\textbf{Recorded targets:} \texttt{luật điệ\allowbreak{}n ảnh:15}. \textbf{Fold:} 4. \textbf{Outcome:} Persistent top-ten miss. The first matching rank is outside ten in two-way and outside ten in three-way.
+
+\begingroup
+\small
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.18}
+\begin{longtable}{>{\raggedright\arraybackslash}p{2.022cm}>{\raggedright\arraybackslash}p{2.022cm}>{\raggedright\arraybackslash}p{1.891cm}>{\raggedright\arraybackslash}p{9.185cm}}
+\toprule
+\textbf{System} & \textbf{Top-ranked law} & \textbf{Article} & \textbf{Stored text excerpt} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{System} & \textbf{Top-ranked law} & \textbf{Article} & \textbf{Stored text excerpt} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{4}{r}{\footnotesize Continued on next page}\\
+\endfoot
+\bottomrule
+\endlastfoot
+BM25+\allowbreak{}BGE-M3 & Luật Điện ảnh & 50 & Hành vi vi phạm trong phát hành phim    1. Phát hành phim khi chưa có giấy phép phổ biến của cơ quan quản lý nhà nước có thẩm quyền về điện ảnh hoặc chưa có quyết định phát sóng của Tổng giám đốc Đài truyền hình Việt Nam, Giám đốc đài phát thanh - truyền hình cấp tỉnh.    2. Phát hành phim sau khi có quyết định cấm phổ biến, tạm đình chỉ, đình chỉ, thu hồi, tịch thu, tiêu huỷ.    3. Phát hành băng \\
+BM25+\allowbreak{}BGE-M3+\allowbreak{}E5 & Luật Điện ảnh & 50 & Hành vi vi phạm trong phát hành phim    1. Phát hành phim khi chưa có giấy phép phổ biến của cơ quan quản lý nhà nước có thẩm quyền về điện ảnh hoặc chưa có quyết định phát sóng của Tổng giám đốc Đài truyền hình Việt Nam, Giám đốc đài phát thanh - truyền hình cấp tỉnh.    2. Phát hành phim sau khi có quyết định cấm phổ biến, tạm đình chỉ, đình chỉ, thu hồi, tịch thu, tiêu huỷ.    3. Phát hành băng \\
+\end{longtable}
+\endgroup
+
+The excerpt is provided for traceability, not as an expert judgment of legal applicability. A different top article alone does not identify the semantic cause of the target-rank change.
+
+\section{Zalo A — \texttt{80ec0771\allowbreak{}776b8428\allowbreak{}0dad0c0e\allowbreak{}0dcb1a36}}
+
+\textbf{Query (original Vietnamese):} Nguyên tắc lựa chọn, phân công người, tổ chức thực hiện giám định tư pháp trong lĩnh vực tài chính được quy định như thế nào?
+
+\textbf{Recorded targets:} \texttt{138/2013\allowbreak{}/tt-btc:\allowbreak{}4}. \textbf{Fold:} 3. \textbf{Outcome:} Recovered at ten. The first matching rank is outside ten in two-way and 10 in three-way.
+
+\begingroup
+\small
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.18}
+\begin{longtable}{>{\raggedright\arraybackslash}p{2.012cm}>{\raggedright\arraybackslash}p{2.083cm}>{\raggedright\arraybackslash}p{1.882cm}>{\raggedright\arraybackslash}p{9.143cm}}
+\toprule
+\textbf{System} & \textbf{Top-ranked law} & \textbf{Article} & \textbf{Stored text excerpt} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{System} & \textbf{Top-ranked law} & \textbf{Article} & \textbf{Stored text excerpt} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{4}{r}{\footnotesize Continued on next page}\\
+\endfoot
+\bottomrule
+\endlastfoot
+BM25+\allowbreak{}BGE-M3 & 138/\allowbreak{}2013/\allowbreak{}tt-btc & 7 & 1. Tổ chức giám định tư pháp theo vụ việc trong lĩnh vực tài chính gồm tổ chức, doanh nghiệp hoạt động trong lĩnh vực kế toán, kiểm toán, thẩm định giá và lĩnh vực khác đáp ứng các điều kiện quy định tại Điều 6 Thông tư này. 2. Việc lập, công bố danh sách tổ chức giám định tư pháp theo vụ việc trong lĩnh vực tài chính quy định tại Điều 20 Luật Giám định tư pháp được thực hiện theo các quy định tại \\
+BM25+\allowbreak{}BGE-M3+\allowbreak{}E5 & 138/\allowbreak{}2013/\allowbreak{}tt-btc & 7 & 1. Tổ chức giám định tư pháp theo vụ việc trong lĩnh vực tài chính gồm tổ chức, doanh nghiệp hoạt động trong lĩnh vực kế toán, kiểm toán, thẩm định giá và lĩnh vực khác đáp ứng các điều kiện quy định tại Điều 6 Thông tư này. 2. Việc lập, công bố danh sách tổ chức giám định tư pháp theo vụ việc trong lĩnh vực tài chính quy định tại Điều 20 Luật Giám định tư pháp được thực hiện theo các quy định tại \\
+\end{longtable}
+\endgroup
+
+The excerpt is provided for traceability, not as an expert judgment of legal applicability. A different top article alone does not identify the semantic cause of the target-rank change.
+
+\section{Zalo A — \texttt{1c06a80f\allowbreak{}4ea9f55a\allowbreak{}15371bcc\allowbreak{}9f9c4b71}}
+
+\textbf{Query (original Vietnamese):} Mức phạt khi điều khiển xe ô tô lạng lách
+
+\textbf{Recorded targets:} \texttt{100/2019\allowbreak{}/nđ-cp:5}. \textbf{Fold:} 0. \textbf{Outcome:} Lost at ten. The first matching rank is 10 in two-way and outside ten in three-way.
+
+\begingroup
+\small
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.18}
+\begin{longtable}{>{\raggedright\arraybackslash}p{2.022cm}>{\raggedright\arraybackslash}p{2.022cm}>{\raggedright\arraybackslash}p{1.891cm}>{\raggedright\arraybackslash}p{9.185cm}}
+\toprule
+\textbf{System} & \textbf{Top-ranked law} & \textbf{Article} & \textbf{Stored text excerpt} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{System} & \textbf{Top-ranked law} & \textbf{Article} & \textbf{Stored text excerpt} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{4}{r}{\footnotesize Continued on next page}\\
+\endfoot
+\bottomrule
+\endlastfoot
+BM25+\allowbreak{}BGE-M3 & 100/\allowbreak{}2019/\allowbreak{}nđ-cp & 34 & 1. Phạt tiền từ 1.000.000 đồng đến 2.000.000 đồng đối với một trong các hành vi vi phạm sau đây: a) Tụ tập để cổ vũ, kích động hành vi điều khiển xe chạy quá tốc độ quy định, lạng lách, đánh võng, đuổi nhau trên đường hoặc đua xe trái phép; b) Đua xe đạp, đua xe đạp máy, đua xe xích lô, đua xe súc vật kéo, cưỡi súc vật chạy đua trái phép trên đường giao thông. 2. Phạt tiền từ 7.000.000 đồng đến 8. \\
+BM25+\allowbreak{}BGE-M3+\allowbreak{}E5 & 100/\allowbreak{}2019/\allowbreak{}nđ-cp & 34 & 1. Phạt tiền từ 1.000.000 đồng đến 2.000.000 đồng đối với một trong các hành vi vi phạm sau đây: a) Tụ tập để cổ vũ, kích động hành vi điều khiển xe chạy quá tốc độ quy định, lạng lách, đánh võng, đuổi nhau trên đường hoặc đua xe trái phép; b) Đua xe đạp, đua xe đạp máy, đua xe xích lô, đua xe súc vật kéo, cưỡi súc vật chạy đua trái phép trên đường giao thông. 2. Phạt tiền từ 7.000.000 đồng đến 8. \\
+\end{longtable}
+\endgroup
+
+The excerpt is provided for traceability, not as an expert judgment of legal applicability. A different top article alone does not identify the semantic cause of the target-rank change.
+
+\section{Zalo A — \texttt{0637bf82\allowbreak{}c8b290c7\allowbreak{}875c5bfd\allowbreak{}dbf91df5}}
+
+\textbf{Query (original Vietnamese):} Công an xã xử phạt lỗi không mang bằng lái xe có đúng không?
+
+\textbf{Recorded targets:} \texttt{47/2011/\allowbreak{}tt-bca:7}. \textbf{Fold:} 3. \textbf{Outcome:} Persistent top-ten miss. The first matching rank is outside ten in two-way and outside ten in three-way.
+
+\begingroup
+\small
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.18}
+\begin{longtable}{>{\raggedright\arraybackslash}p{2.022cm}>{\raggedright\arraybackslash}p{2.022cm}>{\raggedright\arraybackslash}p{1.891cm}>{\raggedright\arraybackslash}p{9.185cm}}
+\toprule
+\textbf{System} & \textbf{Top-ranked law} & \textbf{Article} & \textbf{Stored text excerpt} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{System} & \textbf{Top-ranked law} & \textbf{Article} & \textbf{Stored text excerpt} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{4}{r}{\footnotesize Continued on next page}\\
+\endfoot
+\bottomrule
+\endlastfoot
+BM25+\allowbreak{}BGE-M3 & 100/\allowbreak{}2019/\allowbreak{}nđ-cp & 37 & 1. Phạt tiền từ 600.000 đồng đến 800.000 đồng đối với giáo viên dạy lái xe thực hiện một trong các hành vi vi phạm sau đây: a) Giáo viên dạy thực hành để học viên không có phù hiệu “Học viên tập lái xe” lái xe tập lái hoặc có phù hiệu nhưng không đeo khi lái xe tập lái; b) Giáo viên dạy thực hành chở người, hàng trên xe tập lái trái quy định; c) Giáo viên dạy thực hành chạy sai tuyến đường trong G \\
+BM25+\allowbreak{}BGE-M3+\allowbreak{}E5 & 100/\allowbreak{}2019/\allowbreak{}nđ-cp & 37 & 1. Phạt tiền từ 600.000 đồng đến 800.000 đồng đối với giáo viên dạy lái xe thực hiện một trong các hành vi vi phạm sau đây: a) Giáo viên dạy thực hành để học viên không có phù hiệu “Học viên tập lái xe” lái xe tập lái hoặc có phù hiệu nhưng không đeo khi lái xe tập lái; b) Giáo viên dạy thực hành chở người, hàng trên xe tập lái trái quy định; c) Giáo viên dạy thực hành chạy sai tuyến đường trong G \\
+\end{longtable}
+\endgroup
+
+The excerpt is provided for traceability, not as an expert judgment of legal applicability. A different top article alone does not identify the semantic cause of the target-rank change.
+
+\section{Zalo B — \texttt{22c0eb51\allowbreak{}96962485\allowbreak{}00086ea3\allowbreak{}3857f814}}
+
+\textbf{Query (original Vietnamese):} Giao nộp kết quả đề tài, dự án sản xuất thử nghiệm cấp Bộ Y tế được quy định như thế nào?
+
+\textbf{Recorded targets:} \texttt{37/2010/\allowbreak{}tt-byt:2\allowbreak{}3}. \textbf{Fold:} 3. \textbf{Outcome:} Recovered at ten. The first matching rank is outside ten in two-way and 9 in three-way.
+
+\begingroup
+\small
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.18}
+\begin{longtable}{>{\raggedright\arraybackslash}p{2.022cm}>{\raggedright\arraybackslash}p{2.022cm}>{\raggedright\arraybackslash}p{1.891cm}>{\raggedright\arraybackslash}p{9.185cm}}
+\toprule
+\textbf{System} & \textbf{Top-ranked law} & \textbf{Article} & \textbf{Stored text excerpt} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{System} & \textbf{Top-ranked law} & \textbf{Article} & \textbf{Stored text excerpt} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{4}{r}{\footnotesize Continued on next page}\\
+\endfoot
+\bottomrule
+\endlastfoot
+BM25+\allowbreak{}BGE-M3 & 37/\allowbreak{}2010/\allowbreak{}tt-byt & 3 & Nguyên tắc xác định đề tài, dự án SXTN     1. Các đề tài, dự án sản xuất thử nghiệm được xác định dựa trên:     a) Chiến lược, Chương trình mục tiêu quốc gia, Chương trình hành động và kế hoạch phát triển ngành y tế;     b) Được đề xuất từ hoạt động nghiên cứu khoa học, sản xuất, dịch vụ, quản lý của các tổ chức và cá nhân; từ chương trình phối hợp giữa Bộ Y tế và Bộ, ngành khác hoặc từ các hoạt đ \\
+BM25+\allowbreak{}BGE-M3+\allowbreak{}E5 & 37/\allowbreak{}2010/\allowbreak{}tt-byt & 3 & Nguyên tắc xác định đề tài, dự án SXTN     1. Các đề tài, dự án sản xuất thử nghiệm được xác định dựa trên:     a) Chiến lược, Chương trình mục tiêu quốc gia, Chương trình hành động và kế hoạch phát triển ngành y tế;     b) Được đề xuất từ hoạt động nghiên cứu khoa học, sản xuất, dịch vụ, quản lý của các tổ chức và cá nhân; từ chương trình phối hợp giữa Bộ Y tế và Bộ, ngành khác hoặc từ các hoạt đ \\
+\end{longtable}
+\endgroup
+
+The excerpt is provided for traceability, not as an expert judgment of legal applicability. A different top article alone does not identify the semantic cause of the target-rank change.
+
+\section{Zalo B — \texttt{efd68907\allowbreak{}f30729e7\allowbreak{}37ed39a3\allowbreak{}8fdc171c}}
+
+\textbf{Query (original Vietnamese):} Quy định về thời hạn thông báo kết quả lựa chọn nhà đầu tư được quy định như thế nào?
+
+\textbf{Recorded targets:} \texttt{25/2020/\allowbreak{}nđ-cp:6}. \textbf{Fold:} 1. \textbf{Outcome:} Lost at ten. The first matching rank is 10 in two-way and outside ten in three-way.
+
+\begingroup
+\small
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.18}
+\begin{longtable}{>{\raggedright\arraybackslash}p{2.022cm}>{\raggedright\arraybackslash}p{2.022cm}>{\raggedright\arraybackslash}p{1.891cm}>{\raggedright\arraybackslash}p{9.185cm}}
+\toprule
+\textbf{System} & \textbf{Top-ranked law} & \textbf{Article} & \textbf{Stored text excerpt} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{System} & \textbf{Top-ranked law} & \textbf{Article} & \textbf{Stored text excerpt} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{4}{r}{\footnotesize Continued on next page}\\
+\endfoot
+\bottomrule
+\endlastfoot
+BM25+\allowbreak{}BGE-M3 & 25/\allowbreak{}2020/\allowbreak{}nđ-cp & 43 & Trình, thẩm định, phê duyệt và công khai kết quả lựa chọn nhà đầu tư    1. Trên cơ sở báo cáo kết quả đánh giá hồ sơ dự thầu, bên mời thầu trình kết quả lựa chọn nhà đầu tư, trong đó nêu rõ ý kiến của bên mời thầu về các nội dung đánh giá của tổ chuyên gia.    2. Kết quả lựa chọn nhà đầu tư phải được thẩm định theo quy định tại Khoản 4 Điều 76 Nghị định này trước khi phê duyệt.    3. Kết quả lựa c \\
+BM25+\allowbreak{}BGE-M3+\allowbreak{}E5 & 25/\allowbreak{}2020/\allowbreak{}nđ-cp & 43 & Trình, thẩm định, phê duyệt và công khai kết quả lựa chọn nhà đầu tư    1. Trên cơ sở báo cáo kết quả đánh giá hồ sơ dự thầu, bên mời thầu trình kết quả lựa chọn nhà đầu tư, trong đó nêu rõ ý kiến của bên mời thầu về các nội dung đánh giá của tổ chuyên gia.    2. Kết quả lựa chọn nhà đầu tư phải được thẩm định theo quy định tại Khoản 4 Điều 76 Nghị định này trước khi phê duyệt.    3. Kết quả lựa c \\
+\end{longtable}
+\endgroup
+
+The excerpt is provided for traceability, not as an expert judgment of legal applicability. A different top article alone does not identify the semantic cause of the target-rank change.
+
+\section{Zalo B — \texttt{0637bf82\allowbreak{}c8b290c7\allowbreak{}875c5bfd\allowbreak{}dbf91df5}}
+
+\textbf{Query (original Vietnamese):} Công an xã xử phạt lỗi không mang bằng lái xe có đúng không?
+
+\textbf{Recorded targets:} \texttt{47/2011/\allowbreak{}tt-bca:7}. \textbf{Fold:} 3. \textbf{Outcome:} Persistent top-ten miss. The first matching rank is outside ten in two-way and outside ten in three-way.
+
+\begingroup
+\small
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.18}
+\begin{longtable}{>{\raggedright\arraybackslash}p{2.022cm}>{\raggedright\arraybackslash}p{2.022cm}>{\raggedright\arraybackslash}p{1.891cm}>{\raggedright\arraybackslash}p{9.185cm}}
+\toprule
+\textbf{System} & \textbf{Top-ranked law} & \textbf{Article} & \textbf{Stored text excerpt} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{System} & \textbf{Top-ranked law} & \textbf{Article} & \textbf{Stored text excerpt} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{4}{r}{\footnotesize Continued on next page}\\
+\endfoot
+\bottomrule
+\endlastfoot
+BM25+\allowbreak{}BGE-M3 & 100/\allowbreak{}2019/\allowbreak{}nđ-cp & 37 & Xử phạt các hành vi vi phạm quy định về đào tạo, sát hạch lái xe    1. Phạt tiền từ 600.000 đồng đến 800.000 đồng đối với giáo viên dạy lái xe thực hiện một trong các hành vi vi phạm sau đây:    a) Giáo viên dạy thực hành để học viên không có phù hiệu “Học viên tập lái xe” lái xe tập lái hoặc có phù hiệu nhưng không đeo khi lái xe tập lái;    b) Giáo viên dạy thực hành chở người, hàng trên xe tập \\
+BM25+\allowbreak{}BGE-M3+\allowbreak{}E5 & 100/\allowbreak{}2019/\allowbreak{}nđ-cp & 37 & Xử phạt các hành vi vi phạm quy định về đào tạo, sát hạch lái xe    1. Phạt tiền từ 600.000 đồng đến 800.000 đồng đối với giáo viên dạy lái xe thực hiện một trong các hành vi vi phạm sau đây:    a) Giáo viên dạy thực hành để học viên không có phù hiệu “Học viên tập lái xe” lái xe tập lái hoặc có phù hiệu nhưng không đeo khi lái xe tập lái;    b) Giáo viên dạy thực hành chở người, hàng trên xe tập \\
+\end{longtable}
+\endgroup
+
+The excerpt is provided for traceability, not as an expert judgment of legal applicability. A different top article alone does not identify the semantic cause of the target-rank change.
+

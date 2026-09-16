@@ -1,0 +1,33 @@
+\begin{figure}[p]
+\centering
+\begin{tikzpicture}[>=Latex,node distance=0.48cm,
+ stage/.style={draw=black!65,rounded corners=2pt,fill=black!3,
+ text width=13.5cm,align=center,minimum height=1.05cm,font=\small}]
+\node[stage] (question) {\textbf{Research question and pretrained baseline comparison}\\
+BM25+BGE-M3 versus BM25+BGE-M3+E5};
+\node[stage,below=of question] (selection) {\textbf{Comparable score fusion}\\
+Per-query normalization; weights selected on fitting queries; evaluation on held-out queries};
+\node[stage,below=of selection] (collections) {\textbf{Collection-level evidence}\\
+ALQAC and Zalo reported by representation; BCA evaluated with its component structure};
+\node[stage,below=of collections] (components) {\textbf{BCA dependence analysis}\\
+Giant-component holdout; grouped smaller components; combined descriptive summary};
+\node[stage,below=of components] (failures) {\textbf{Failure diagnosis before intervention}\\
+Target absence; incomplete coverage; missed retrieval; low rank of an available target};
+\node[stage,below=of failures] (adaptation) {\textbf{Supervised intervention and controlled replacement}\\
+Train BGE on permitted training folds; select the recipe on development data;\\
+replace pretrained BGE under fixed fusion weights and evaluate on the designated Zalo fold};
+\node[stage,below=of adaptation] (results) {\textbf{Evidence and conclusions}\\
+Report three seeds separately; summarize supported findings and limitations};
+\node[stage,below=of results] (limits) {\textbf{Interpretation boundaries}\\
+Use corrected outputs; disclose prior test access; distinguish unfinished extensions};
+\draw[->] (question)--(selection);
+\draw[->] (selection)--(collections);
+\draw[->] (collections)--(components);
+\draw[->] (components)--(failures);
+\draw[->] (failures)--(adaptation);
+\draw[->] (adaptation)--(results);
+\draw[->] (results)--(limits);
+\end{tikzpicture}
+\caption[Research investigation overview from the updated source. Related branches are grouped for readability; the BCA component analysis applies only to BCA. Development data select the adaptation recipe rather than replacing the protected training/evaluation split.]{Research investigation overview from the updated source. Related branches are grouped for readability; the BCA component analysis applies only to BCA. Development data select the adaptation recipe rather than replacing the protected training/evaluation split.}
+\label{fig:research-overview}
+\end{figure}

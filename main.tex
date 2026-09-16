@@ -1,0 +1,111 @@
+\documentclass[a4paper,12pt]{report}
+
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[utf8]{inputenc}
+  \usepackage[T1,T5]{fontenc}
+  \usepackage{lmodern}
+\else
+  \usepackage{fontspec}
+  \setmainfont{Noto Serif}
+  \setsansfont{Noto Sans}
+  \setmonofont{Noto Sans Mono}
+\fi
+\usepackage[english]{babel}
+\usepackage[margin=2.5cm,headheight=17pt]{geometry}
+\usepackage{amsmath,amssymb,bm}
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{booktabs,longtable,array}
+\usepackage{pdflscape}
+\usepackage{float}
+\usepackage{setspace}
+\usepackage{fvextra}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc}
+\usepackage{fancyhdr}
+\usepackage[unicode,hidelinks,bookmarksnumbered,hypertexnames=false]{hyperref}
+\usepackage{xurl}
+
+\hypersetup{
+  pdftitle={Hybrid Retrieval and Legal-Domain Adaptation for Vietnamese Legal Information Retrieval},
+  pdfauthor={Nghiem Phan Thanh Tuan},
+  pdfsubject={Master's thesis manuscript based on the supplied research account}
+}
+\urlstyle{same}
+\renewcommand{\bibname}{Bibliography}
+\setstretch{1.25}
+\setcounter{tocdepth}{1}
+\setcounter{secnumdepth}{2}
+\setlength{\emergencystretch}{3em}
+\setlength{\parskip}{0.2em}
+\setlength{\LTcapwidth}{\textwidth}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small FPT School of Business \& Technology}
+\fancyfoot[C]{\thepage}
+\fancyfoot[R]{\small MSE13189}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0.5pt}
+\fancypagestyle{plain}{
+  \fancyhf{}
+  \fancyfoot[C]{\thepage}
+  \fancyfoot[R]{\small MSE13189}
+  \renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0.5pt}
+}
+
+\begin{document}
+\hypersetup{pageanchor=false}
+\begin{titlepage}
+  \centering
+  \IfFileExists{metadata/fpt.png}{\includegraphics[width=5cm]{metadata/fpt.png}\par}{}
+  \vspace{1cm}
+  {\large FPT UNIVERSITY\par}
+  \vspace{1.2cm}
+  {\Large\bfseries MASTER THESIS ON SOFTWARE ENGINEERING\par}
+  \vspace{1cm}
+  \rule{\textwidth}{1pt}\par
+  \vspace{0.35cm}
+  {\LARGE\bfseries Hybrid Retrieval and Legal-Domain Adaptation for Vietnamese Legal Information Retrieval\par}
+  \vspace{0.35cm}
+  \rule{\textwidth}{1pt}\par
+  \vspace{1.4cm}
+  \begin{tabular}{@{}ll@{}}
+    Master's student: & NGHIEM PHAN THANH TUAN \\
+    Student ID: & MSE13189 \\
+    Supervisor: & Dr. Doan Nhat Quang
+  \end{tabular}
+  \vfill
+  % {\large Research manuscript\par}
+  \vspace{0.4cm}
+  {\large \today\par}
+\end{titlepage}
+
+\pagenumbering{roman}
+\hypersetup{pageanchor=true}
+\tableofcontents
+\clearpage
+\input{chapters/frontmatter}
+\listoffigures
+\listoftables
+\clearpage
+
+\pagenumbering{arabic}
+\input{chapters/chapter_1}
+\input{chapters/chapter_2}
+\input{chapters/chapter_3}
+\input{chapters/chapter_4}
+\input{chapters/chapter_5}
+\input{chapters/chapter_6}
+
+\input{ref/references}
+\appendix
+% \input{appendices/appendix_a}
+% \input{appendices/appendix_b}
+% \input{appendices/appendix_c}
+% \input{appendices/appendix_d}
+% \input{appendices/appendix_e}
+% \input{appendices/appendix_f}
+% \input{appendices/appendix_g}
+\end{document}

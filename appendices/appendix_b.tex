@@ -1,0 +1,62 @@
+\chapter{Full Hyperparameter Search Space}
+
+The search grids and selected fold weights are reported project configurations, not new searches performed during writing.
+\section{Baseline fusion grid}
+
+The two-way grid is the set of eleven points \texttt{(i/10, 1\allowbreak{}-i/10, 0\allowbreak{})} for integer \texttt{i} from zero through ten. The three-way grid is the set \texttt{(i/10, j\allowbreak{}/10, 1-i\allowbreak{}/10-j/10\allowbreak{})} for nonnegative integers \texttt{i,j} with \texttt{i+j <= 1\allowbreak{}0}, containing 66 points. Floating-point serialization may display a value close to 0.3 or 0.2 with additional digits. Such display artifacts are not a different intended grid spacing. Selection uses training-side mean NDCG@10 and preserves the first enumerated candidate under an exact objective tie. No continuous optimum is claimed.
+
+\begingroup
+\small
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.18}
+\begin{longtable}{>{\raggedright\arraybackslash}p{5.005cm}>{\raggedright\arraybackslash}p{3.372cm}>{\raggedright\arraybackslash}p{3.372cm}>{\raggedright\arraybackslash}p{3.372cm}}
+\caption[Selected canonical fold weights, ordered BM25 /\allowbreak{} BGE-M3 /\allowbreak{} E5.]{Selected canonical fold weights, ordered BM25 /\allowbreak{} BGE-M3 /\allowbreak{} E5.}\label{tab:B.1}\\
+\toprule
+\textbf{Condition /\allowbreak{} protocol} & \textbf{Fold} & \textbf{Two-way} & \textbf{Three-way} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Condition /\allowbreak{} protocol} & \textbf{Fold} & \textbf{Two-way} & \textbf{Three-way} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{4}{r}{\footnotesize Continued on next page}\\
+\endfoot
+\bottomrule
+\endlastfoot
+ALQAC A & 0 & 0.4/\allowbreak{}0.6/\allowbreak{}0.0 & 0.2/\allowbreak{}0.6/\allowbreak{}0.2 \\
+ALQAC A & 1 & 0.4/\allowbreak{}0.6/\allowbreak{}0.0 & 0.4/\allowbreak{}0.5/\allowbreak{}0.1 \\
+ALQAC A & 2 & 0.4/\allowbreak{}0.6/\allowbreak{}0.0 & 0.4/\allowbreak{}0.5/\allowbreak{}0.1 \\
+ALQAC A & 3 & 0.4/\allowbreak{}0.6/\allowbreak{}0.0 & 0.2/\allowbreak{}0.6/\allowbreak{}0.2 \\
+ALQAC A & 4 & 0.3/\allowbreak{}0.7/\allowbreak{}0.0 & 0.2/\allowbreak{}0.6/\allowbreak{}0.2 \\
+ALQAC B & 0 & 0.4/\allowbreak{}0.6/\allowbreak{}0.0 & 0.4/\allowbreak{}0.5/\allowbreak{}0.1 \\
+ALQAC B & 1 & 0.4/\allowbreak{}0.6/\allowbreak{}0.0 & 0.4/\allowbreak{}0.4/\allowbreak{}0.2 \\
+ALQAC B & 2 & 0.4/\allowbreak{}0.6/\allowbreak{}0.0 & 0.4/\allowbreak{}0.3/\allowbreak{}0.3 \\
+ALQAC B & 3 & 0.4/\allowbreak{}0.6/\allowbreak{}0.0 & 0.4/\allowbreak{}0.5/\allowbreak{}0.1 \\
+ALQAC B & 4 & 0.4/\allowbreak{}0.6/\allowbreak{}0.0 & 0.3/\allowbreak{}0.4/\allowbreak{}0.3 \\
+Zalo A & 0 & 0.2/\allowbreak{}0.8/\allowbreak{}0.0 & 0.2/\allowbreak{}0.6/\allowbreak{}0.2 \\
+Zalo A & 1 & 0.3/\allowbreak{}0.7/\allowbreak{}0.0 & 0.3/\allowbreak{}0.6/\allowbreak{}0.1 \\
+Zalo A & 2 & 0.3/\allowbreak{}0.7/\allowbreak{}0.0 & 0.3/\allowbreak{}0.6/\allowbreak{}0.1 \\
+Zalo A & 3 & 0.3/\allowbreak{}0.7/\allowbreak{}0.0 & 0.3/\allowbreak{}0.6/\allowbreak{}0.1 \\
+Zalo A & 4 & 0.3/\allowbreak{}0.7/\allowbreak{}0.0 & 0.3/\allowbreak{}0.6/\allowbreak{}0.1 \\
+Zalo B & 0 & 0.2/\allowbreak{}0.8/\allowbreak{}0.0 & 0.2/\allowbreak{}0.6/\allowbreak{}0.2 \\
+Zalo B & 1 & 0.3/\allowbreak{}0.7/\allowbreak{}0.0 & 0.2/\allowbreak{}0.6/\allowbreak{}0.2 \\
+Zalo B & 2 & 0.3/\allowbreak{}0.7/\allowbreak{}0.0 & 0.2/\allowbreak{}0.6/\allowbreak{}0.2 \\
+Zalo B & 3 & 0.3/\allowbreak{}0.7/\allowbreak{}0.0 & 0.2/\allowbreak{}0.6/\allowbreak{}0.2 \\
+Zalo B & 4 & 0.3/\allowbreak{}0.7/\allowbreak{}0.0 & 0.2/\allowbreak{}0.6/\allowbreak{}0.2 \\
+BCA giant\_co\allowbreak{}mponent\_\allowbreak{}holdout & 0 & 0.4/\allowbreak{}0.6/\allowbreak{}0.0 & 0.2/\allowbreak{}0.4/\allowbreak{}0.4 \\
+BCA small\_co\allowbreak{}mponent\_\allowbreak{}oof & 1 & 0.3/\allowbreak{}0.7/\allowbreak{}0.0 & 0.3/\allowbreak{}0.6/\allowbreak{}0.1 \\
+BCA small\_co\allowbreak{}mponent\_\allowbreak{}oof & 2 & 0.3/\allowbreak{}0.7/\allowbreak{}0.0 & 0.3/\allowbreak{}0.5/\allowbreak{}0.2 \\
+BCA small\_co\allowbreak{}mponent\_\allowbreak{}oof & 3 & 0.3/\allowbreak{}0.7/\allowbreak{}0.0 & 0.3/\allowbreak{}0.6/\allowbreak{}0.1 \\
+BCA small\_co\allowbreak{}mponent\_\allowbreak{}oof & 4 & 0.3/\allowbreak{}0.7/\allowbreak{}0.0 & 0.3/\allowbreak{}0.5/\allowbreak{}0.2 \\
+\end{longtable}
+\endgroup
+
+These selected points define the stored held-out predictions. Their average is not a separately evaluated deployment configuration. BCA's fold zero represents its giant-component holdout and folds one through four its small-component procedure. Sources: \texttt{selected\allowbreak{}\_weights\allowbreak{}\_per\_fol\allowbreak{}d} in the canonical baseline results and \texttt{split\_di\allowbreak{}agnostic\allowbreak{}s} in BCA v2.
+
+\section{Fine-tuning selection space}
+
+The completed hybrid pilot compares learning rates 5e-6, 1e-5, and 2e-5 at epochs one, two, and three, followed by the recorded query-batch ablation. The latter compares query batches one, two, and four with accumulation 32, 16, and eight respectively. The final decision uses epoch two and passage length 512. Table 5.7 preserves absolute scores from the corrected candidate selection; Table 5.8 uses the separate coherent final batch decision. Because their internally recorded baselines are not identical, a reader must not splice their derived deltas together.
+
+The later dense follow-up has a completed 36-checkpoint screening artifact and a locked Zalo-only candidate. Its four-fold screening and Recall@100 guardrail are separate from the earlier hybrid pilot. Section 5.12 summarizes the completed stage; the source artifact retains all candidate settings. No result is assigned to the subsequent skipped data stages. Source: \href{../experiments/LEGAL_BGE_DENSE_BENCH_20260830T054623Z_6a8c7b00/cv_results/zalo_only_screening_cv.json}{complete dense screening}.
+

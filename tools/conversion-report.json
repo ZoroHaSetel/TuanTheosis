@@ -1,0 +1,38 @@
+{
+  "source": "source/thesisproposalTuan.md",
+  "synchronized_on": "2026-09-16",
+  "source_sha256": "cf1324f10c64eab942720bca5f96f34d498ce4d1f81e3b9034cce101f5f08649",
+  "generated_chapters_and_appendices": [
+    "chapters/chapter_1.tex",
+    "chapters/chapter_2.tex",
+    "chapters/chapter_3.tex",
+    "chapters/chapter_4.tex",
+    "chapters/chapter_5.tex",
+    "chapters/chapter_6.tex",
+    "appendices/appendix_a.tex",
+    "appendices/appendix_b.tex",
+    "appendices/appendix_c.tex",
+    "appendices/appendix_d.tex",
+    "appendices/appendix_e.tex",
+    "appendices/appendix_f.tex",
+    "appendices/appendix_g.tex"
+  ],
+  "preserved_content_counts": {
+    "references": 18,
+    "tables": 42,
+    "table_cells": 1659,
+    "headings": 157,
+    "figures": 6,
+    "math_expressions": 129,
+    "code_blocks": 5
+  },
+  "scope": "Document conversion only; no experiments rerun or external reference audit performed.",
+  "editorial_repairs": [
+    "Restored corrupted control characters and mathematical delimiters in the supplied multi-positive loss equation and its variable definitions.",
+    "Split the AP/MAP display across lines without changing its expressions.",
+    "Normalized Appendix E heading levels to preserve E.1 through E.12 numbering.",
+    "Omitted duplicate empty headings and an editorial instruction from the updated source.",
+    "Rendered the added research workflow as a grouped native TikZ overview.",
+    "Clarified development selection versus training folds consistently with the unchanged training protocol."
+  ]
+}
