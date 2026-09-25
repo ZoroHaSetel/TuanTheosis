@@ -31,7 +31,7 @@
     "Restored corrupted control characters and mathematical delimiters in the supplied multi-positive loss equation and its variable definitions.",
     "Split the AP/MAP display across lines without changing its expressions.",
     "Normalized Appendix E heading levels to preserve E.1 through E.12 numbering.",
-    "Omitted duplicate empty headings and an editorial instruction from the updated source.",
+    "Omitted duplicate empty headings and an editorial instruction from the source manuscript.",
     "Rendered the added research workflow as a grouped native TikZ overview.",
     "Clarified development selection versus training folds consistently with the unchanged training protocol."
   ]

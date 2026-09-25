@@ -42,7 +42,7 @@ A single document vector summarizes information for many possible queries. Token
 
 \subsection{BGE-M3}
 
-BGE-M3 supports multilingual dense, sparse, and multi-vector retrieval, with inputs up to 8,192 tokens~\cite{chen2024}. This thesis uses its dense representation. Combining BM25 with that representation is distinct from combining BGE-M3's own retrieval modes, and the model's supported input length does not establish the length used to generate an experimental cache.
+BGE-M3 supports multilingual dense, sparse, and multi-vector retrieval, with inputs up to 8,192 tokens~\cite{chen2024}. This thesis uses its dense representation. Combining BM25 with that representation is distinct from combining BGE-M3's own retrieval modes, and the model's supported input length should not be confused with the input length selected for a particular experiment.
 
 BGE-M3 provides a multilingual semantic channel whose effectiveness and complementarity with BM25 must be measured on the target collections rather than inferred from model capabilities.
 

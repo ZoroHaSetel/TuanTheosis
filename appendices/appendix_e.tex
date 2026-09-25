@@ -2,7 +2,7 @@
 
 The quoted questions, targets, and retrieved excerpts below are reproduced from the baseline case audit described in the supplied manuscript. They are dataset examples, not independently verified statements of current law.
 
-The following cases expand Table 5.6 using query text and top-result excerpts preserved by the read-only cache audit. Their selection is deterministic and purposive: first stored recovered, lost, and persistent top-ten outcomes in each condition. The category describes the effect of adding E5 to the selected baseline hybrid. It is not an expert annotation of the legal reasoning error. Corrected fine-tuning cases use their separately stored full ranks in Table 5.14 and are not merged into these baseline OOF examples.
+The following cases support the failure-analysis discussion in Section 5.5 by preserving query text and top-result excerpts for recovered, lost, and persistent top-ten outcomes. Their selection is deterministic and purposive: the first stored example of each outcome type in each condition. The category describes the effect of adding E5 to the selected baseline hybrid. It is not an expert annotation of the legal reasoning error. Fine-tuning query-level counts are summarized separately in Table~\ref{tab:5.14}.
 
 \section{ALQAC A — \texttt{train\_al\allowbreak{}qac25\_38\allowbreak{}8}}
 
@@ -11,9 +11,9 @@ The following cases expand Table 5.6 using query text and top-result excerpts pr
 \textbf{Recorded targets:} \texttt{hiến phá\allowbreak{}p:31}. \textbf{Fold:} 2. \textbf{Outcome:} Recovered at ten. The first matching rank is outside ten in two-way and 9 in three-way.
 
 \begingroup
-\small
-\setlength{\tabcolsep}{3pt}
-\renewcommand{\arraystretch}{1.18}
+\scriptsize
+\setlength{\tabcolsep}{2pt}
+\renewcommand{\arraystretch}{1.0}
 \begin{longtable}{>{\raggedright\arraybackslash}p{1.935cm}>{\raggedright\arraybackslash}p{2.585cm}>{\raggedright\arraybackslash}p{1.810cm}>{\raggedright\arraybackslash}p{8.790cm}}
 \toprule
 \textbf{System} & \textbf{Top-ranked law} & \textbf{Article} & \textbf{Stored text excerpt} \\
@@ -42,9 +42,9 @@ The excerpt is provided for traceability, not as an expert judgment of legal app
 \textbf{Recorded targets:} \texttt{luật tố \allowbreak{}tụng hàn\allowbreak{}h chính:\allowbreak{}233}. \textbf{Fold:} 0. \textbf{Outcome:} Lost at ten. The first matching rank is 10 in two-way and outside ten in three-way.
 
 \begingroup
-\small
-\setlength{\tabcolsep}{3pt}
-\renewcommand{\arraystretch}{1.18}
+\scriptsize
+\setlength{\tabcolsep}{2pt}
+\renewcommand{\arraystretch}{1.0}
 \begin{longtable}{>{\raggedright\arraybackslash}p{1.948cm}>{\raggedright\arraybackslash}p{2.497cm}>{\raggedright\arraybackslash}p{1.822cm}>{\raggedright\arraybackslash}p{8.852cm}}
 \toprule
 \textbf{System} & \textbf{Top-ranked law} & \textbf{Article} & \textbf{Stored text excerpt} \\
@@ -73,9 +73,9 @@ The excerpt is provided for traceability, not as an expert judgment of legal app
 \textbf{Recorded targets:} \texttt{luật hôn\allowbreak{} nhân và\allowbreak{} gia đìn\allowbreak{}h:5}. \textbf{Fold:} 4. \textbf{Outcome:} Persistent top-ten miss. The first matching rank is outside ten in two-way and outside ten in three-way.
 
 \begingroup
-\small
-\setlength{\tabcolsep}{3pt}
-\renewcommand{\arraystretch}{1.18}
+\scriptsize
+\setlength{\tabcolsep}{2pt}
+\renewcommand{\arraystretch}{1.0}
 \begin{longtable}{>{\raggedright\arraybackslash}p{1.866cm}>{\raggedright\arraybackslash}p{3.033cm}>{\raggedright\arraybackslash}p{1.745cm}>{\raggedright\arraybackslash}p{8.476cm}}
 \toprule
 \textbf{System} & \textbf{Top-ranked law} & \textbf{Article} & \textbf{Stored text excerpt} \\
@@ -104,9 +104,9 @@ The excerpt is provided for traceability, not as an expert judgment of legal app
 \textbf{Recorded targets:} \texttt{hiến phá\allowbreak{}p:31}. \textbf{Fold:} 2. \textbf{Outcome:} Recovered at ten. The first matching rank is outside ten in two-way and 5 in three-way.
 
 \begingroup
-\small
-\setlength{\tabcolsep}{3pt}
-\renewcommand{\arraystretch}{1.18}
+\scriptsize
+\setlength{\tabcolsep}{2pt}
+\renewcommand{\arraystretch}{1.0}
 \begin{longtable}{>{\raggedright\arraybackslash}p{1.935cm}>{\raggedright\arraybackslash}p{2.585cm}>{\raggedright\arraybackslash}p{1.810cm}>{\raggedright\arraybackslash}p{8.790cm}}
 \toprule
 \textbf{System} & \textbf{Top-ranked law} & \textbf{Article} & \textbf{Stored text excerpt} \\
@@ -135,9 +135,9 @@ The excerpt is provided for traceability, not as an expert judgment of legal app
 \textbf{Recorded targets:} \texttt{luật tiế\allowbreak{}p cận th\allowbreak{}ông tin:\allowbreak{}2}. \textbf{Fold:} 3. \textbf{Outcome:} Lost at ten. The first matching rank is 9 in two-way and outside ten in three-way.
 
 \begingroup
-\small
-\setlength{\tabcolsep}{3pt}
-\renewcommand{\arraystretch}{1.18}
+\scriptsize
+\setlength{\tabcolsep}{2pt}
+\renewcommand{\arraystretch}{1.0}
 \begin{longtable}{>{\raggedright\arraybackslash}p{1.948cm}>{\raggedright\arraybackslash}p{2.497cm}>{\raggedright\arraybackslash}p{1.822cm}>{\raggedright\arraybackslash}p{8.852cm}}
 \toprule
 \textbf{System} & \textbf{Top-ranked law} & \textbf{Article} & \textbf{Stored text excerpt} \\
@@ -166,9 +166,9 @@ The excerpt is provided for traceability, not as an expert judgment of legal app
 \textbf{Recorded targets:} \texttt{luật điệ\allowbreak{}n ảnh:15}. \textbf{Fold:} 4. \textbf{Outcome:} Persistent top-ten miss. The first matching rank is outside ten in two-way and outside ten in three-way.
 
 \begingroup
-\small
-\setlength{\tabcolsep}{3pt}
-\renewcommand{\arraystretch}{1.18}
+\scriptsize
+\setlength{\tabcolsep}{2pt}
+\renewcommand{\arraystretch}{1.0}
 \begin{longtable}{>{\raggedright\arraybackslash}p{2.022cm}>{\raggedright\arraybackslash}p{2.022cm}>{\raggedright\arraybackslash}p{1.891cm}>{\raggedright\arraybackslash}p{9.185cm}}
 \toprule
 \textbf{System} & \textbf{Top-ranked law} & \textbf{Article} & \textbf{Stored text excerpt} \\
@@ -197,9 +197,9 @@ The excerpt is provided for traceability, not as an expert judgment of legal app
 \textbf{Recorded targets:} \texttt{138/2013\allowbreak{}/tt-btc:\allowbreak{}4}. \textbf{Fold:} 3. \textbf{Outcome:} Recovered at ten. The first matching rank is outside ten in two-way and 10 in three-way.
 
 \begingroup
-\small
-\setlength{\tabcolsep}{3pt}
-\renewcommand{\arraystretch}{1.18}
+\scriptsize
+\setlength{\tabcolsep}{2pt}
+\renewcommand{\arraystretch}{1.0}
 \begin{longtable}{>{\raggedright\arraybackslash}p{2.012cm}>{\raggedright\arraybackslash}p{2.083cm}>{\raggedright\arraybackslash}p{1.882cm}>{\raggedright\arraybackslash}p{9.143cm}}
 \toprule
 \textbf{System} & \textbf{Top-ranked law} & \textbf{Article} & \textbf{Stored text excerpt} \\
@@ -228,9 +228,9 @@ The excerpt is provided for traceability, not as an expert judgment of legal app
 \textbf{Recorded targets:} \texttt{100/2019\allowbreak{}/nđ-cp:5}. \textbf{Fold:} 0. \textbf{Outcome:} Lost at ten. The first matching rank is 10 in two-way and outside ten in three-way.
 
 \begingroup
-\small
-\setlength{\tabcolsep}{3pt}
-\renewcommand{\arraystretch}{1.18}
+\scriptsize
+\setlength{\tabcolsep}{2pt}
+\renewcommand{\arraystretch}{1.0}
 \begin{longtable}{>{\raggedright\arraybackslash}p{2.022cm}>{\raggedright\arraybackslash}p{2.022cm}>{\raggedright\arraybackslash}p{1.891cm}>{\raggedright\arraybackslash}p{9.185cm}}
 \toprule
 \textbf{System} & \textbf{Top-ranked law} & \textbf{Article} & \textbf{Stored text excerpt} \\
@@ -259,9 +259,9 @@ The excerpt is provided for traceability, not as an expert judgment of legal app
 \textbf{Recorded targets:} \texttt{47/2011/\allowbreak{}tt-bca:7}. \textbf{Fold:} 3. \textbf{Outcome:} Persistent top-ten miss. The first matching rank is outside ten in two-way and outside ten in three-way.
 
 \begingroup
-\small
-\setlength{\tabcolsep}{3pt}
-\renewcommand{\arraystretch}{1.18}
+\scriptsize
+\setlength{\tabcolsep}{2pt}
+\renewcommand{\arraystretch}{1.0}
 \begin{longtable}{>{\raggedright\arraybackslash}p{2.022cm}>{\raggedright\arraybackslash}p{2.022cm}>{\raggedright\arraybackslash}p{1.891cm}>{\raggedright\arraybackslash}p{9.185cm}}
 \toprule
 \textbf{System} & \textbf{Top-ranked law} & \textbf{Article} & \textbf{Stored text excerpt} \\
@@ -290,9 +290,9 @@ The excerpt is provided for traceability, not as an expert judgment of legal app
 \textbf{Recorded targets:} \texttt{37/2010/\allowbreak{}tt-byt:2\allowbreak{}3}. \textbf{Fold:} 3. \textbf{Outcome:} Recovered at ten. The first matching rank is outside ten in two-way and 9 in three-way.
 
 \begingroup
-\small
-\setlength{\tabcolsep}{3pt}
-\renewcommand{\arraystretch}{1.18}
+\scriptsize
+\setlength{\tabcolsep}{2pt}
+\renewcommand{\arraystretch}{1.0}
 \begin{longtable}{>{\raggedright\arraybackslash}p{2.022cm}>{\raggedright\arraybackslash}p{2.022cm}>{\raggedright\arraybackslash}p{1.891cm}>{\raggedright\arraybackslash}p{9.185cm}}
 \toprule
 \textbf{System} & \textbf{Top-ranked law} & \textbf{Article} & \textbf{Stored text excerpt} \\
@@ -321,9 +321,9 @@ The excerpt is provided for traceability, not as an expert judgment of legal app
 \textbf{Recorded targets:} \texttt{25/2020/\allowbreak{}nđ-cp:6}. \textbf{Fold:} 1. \textbf{Outcome:} Lost at ten. The first matching rank is 10 in two-way and outside ten in three-way.
 
 \begingroup
-\small
-\setlength{\tabcolsep}{3pt}
-\renewcommand{\arraystretch}{1.18}
+\scriptsize
+\setlength{\tabcolsep}{2pt}
+\renewcommand{\arraystretch}{1.0}
 \begin{longtable}{>{\raggedright\arraybackslash}p{2.022cm}>{\raggedright\arraybackslash}p{2.022cm}>{\raggedright\arraybackslash}p{1.891cm}>{\raggedright\arraybackslash}p{9.185cm}}
 \toprule
 \textbf{System} & \textbf{Top-ranked law} & \textbf{Article} & \textbf{Stored text excerpt} \\
@@ -352,9 +352,9 @@ The excerpt is provided for traceability, not as an expert judgment of legal app
 \textbf{Recorded targets:} \texttt{47/2011/\allowbreak{}tt-bca:7}. \textbf{Fold:} 3. \textbf{Outcome:} Persistent top-ten miss. The first matching rank is outside ten in two-way and outside ten in three-way.
 
 \begingroup
-\small
-\setlength{\tabcolsep}{3pt}
-\renewcommand{\arraystretch}{1.18}
+\scriptsize
+\setlength{\tabcolsep}{2pt}
+\renewcommand{\arraystretch}{1.0}
 \begin{longtable}{>{\raggedright\arraybackslash}p{2.022cm}>{\raggedright\arraybackslash}p{2.022cm}>{\raggedright\arraybackslash}p{1.891cm}>{\raggedright\arraybackslash}p{9.185cm}}
 \toprule
 \textbf{System} & \textbf{Top-ranked law} & \textbf{Article} & \textbf{Stored text excerpt} \\
@@ -375,4 +375,3 @@ BM25+\allowbreak{}BGE-M3+\allowbreak{}E5 & 100/\allowbreak{}2019/\allowbreak{}n�
 \endgroup
 
 The excerpt is provided for traceability, not as an expert judgment of legal applicability. A different top article alone does not identify the semantic cause of the target-rank change.
-

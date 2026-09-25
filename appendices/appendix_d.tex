@@ -1,6 +1,6 @@
 \chapter{Fine-Tuning Configurations}
 
-The configuration and execution details below belong to the earlier corrected adaptation study.
+The configuration and execution details below belong to Study A: Hybrid-Oriented Adaptation.
 \section{Actual completed execution contract}
 
 The following configuration is reproduced from the final seed-42 child-run JSON. Seeds 43 and 44 instantiate the same selected recipe with their respective seed value. Local and remote path strings in the original configuration identify the historical execution location, not a promise that the model binaries are available at that location on the reader's machine. The base revision and trained checkpoint identity must both be preserved.
@@ -37,9 +37,11 @@ The following configuration is reproduced from the final seed-42 child-run JSON.
   "runner_source_sha256": "50b97c0148c9dbfbc4804900c652d2d0b4a79b4d2d14aece0bf5c0d2ad6667c9"
 }
 \end{Verbatim}
-\section{Distinguishing the later dense recipe}
 
-The later dense study specifies five explicit negatives, temperature 0.05, BF16 precision, a cosine schedule, and warmup ratio 0.05. It asks for a true contrastive batch minimum of 32 and preference of 64, all-positive treatment, and B-parsed-only supervision in its initial stage. These specifications differ from the completed hybrid run's seven negatives, temperature 0.02, FP16, and selected forward-pass batch four. The later design must not be used to explain how the earlier checkpoints were trained.
+The Study A final fine-tuning seeds were run on a single CUDA GPU runtime whose seed-level environment files record an NVIDIA L4 GPU. The final seed environment records do not retain final-run VRAM, CPU, RAM, or driver fields. The study bootstrap preflight records Linux-6.6.122+-x86\_64-with-glibc2.35, Python 3.12.13, CUDA 12.8, and a Tesla T4 with 15,637,086,208 bytes of GPU memory. The final seed records report PyTorch 2.11.0+cu128, Transformers 5.15.0, NumPy 2.1.3, and FP16 precision. Training used query batch 4, gradient accumulation 8, and an effective optimizer batch of 32 query groups. These details document the execution environment only; the thesis does not make claims about training efficiency or serving cost.
+
+\section{Distinguishing the Study B dense recipe}
+
+Study B: Dense-Oriented Adaptation specifies five explicit negatives, temperature 0.05, BF16 precision, a cosine schedule, and warmup ratio 0.05. It asks for a true contrastive batch minimum of 32 and preference of 64, all-positive treatment, and B-parsed-only supervision in its initial stage. These specifications differ from Study A's seven negatives, temperature 0.02, FP16, and selected forward-pass batch four. Study B must not be used to explain how the Study A checkpoints were trained.
 
 The candidate lock now identifies Zalo-only as the first passing data stage. VNLAWQC, general replay, and VNSYNLAWQC stages were consequently skipped by the declared rule; they are not failed training experiments. The screened candidate uses learning rate 2e-5 and step 60, followed by final seeds 42, 43, and 44. Sources: \href{../experiments/LEGAL_BGE_DENSE_BENCH_20260830T054623Z_6a8c7b00/candidate_lock.json}{candidate lock} and \href{../experiments/LEGAL_BGE_DENSE_BENCH_20260830T054623Z_6a8c7b00/cv_results/zalo_only_screening_cv.json}{screening results}.
-

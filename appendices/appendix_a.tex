@@ -3,9 +3,9 @@
 Dataset identities and coverage records in this appendix are transcribed from the canonical project evidence.
 \section{Evaluation identity and relevance records}
 
-The manuscript uses the counts in Table 4.1 as counts of evaluated queries and retrieval units. It does not substitute numbers of source laws, crawled pages, training groups, or citation strings. ALQAC's original question partitions are combined only for the canonical grouped baseline procedure. The corrected hybrid adaptation uses a separate Zalo fold partition; the later dense follow-up has its own eligibility rule. A matching name such as “Zalo test” is insufficient to identify one of these populations.
+The manuscript uses the counts in Table 4.1 as counts of evaluated queries and retrieval units. It does not substitute numbers of source laws, crawled pages, training groups, or citation strings. ALQAC's original question partitions are combined only for the canonical grouped baseline procedure. Study A uses a separate Zalo fold partition; Study B has its own eligibility rule. A matching name such as “Zalo test” is insufficient to identify one of these populations.
 
-The following table preserves the canonical cache identity fields. The corpus hash covers ordered document identities under the producer's serialization, and the query hash covers its ordered query input. These hashes are not interchangeable with a hash of a JSON file or with the input validator's differently named query-ID hash. The precise hash construction remains in the source implementation. Retaining the field name prevents a later audit from comparing unlike hashes and incorrectly diagnosing corruption.
+The following table preserves the canonical cache identity fields. The corpus hash covers ordered document identities under the producer's serialization, and the query hash covers its ordered query input. These hashes are not interchangeable with a hash of a JSON file or with the input validator's differently named query-ID hash. The precise hash construction remains in the source implementation. Retaining the field name prevents a future audit from comparing unlike hashes and incorrectly diagnosing corruption.
 
 \begingroup
 \small
@@ -39,8 +39,4 @@ BCA's 440 answerable queries include its 229 partial-target queries. The 106 una
 
 The manuscript does not claim that citation strings constitute an independently adjudicated exhaustive relevance set. Normalization, article matching, and whole-law wildcard rules are part of the evaluated operational definition. A future annotation revision would create a new relevance version, whose results should be reported alongside, rather than silently substituted for, this version.
 
-\begin{quote}
-
-\textbf{TODO — Evidence required:} Verified aggregate relevanc\allowbreak{}e-judgme\allowbreak{}nt counts and tokenize\allowbreak{}r-specif\allowbreak{}ic query/\allowbreak{}document length distributions are not included in the current canonical aggregate tables. They must be derived with a declared deduplication and tokenization policy before adding dataset statistics of that type.
-
-\end{quote}
+Verified aggregate relevance-judgment counts and tokenizer-specific query/document length distributions were not available in the current aggregate tables. These statistics should be derived in future dataset documentation with a declared deduplication and tokenization policy before being used as formal dataset descriptors.
