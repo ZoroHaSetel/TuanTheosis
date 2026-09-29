@@ -1,42 +1,18 @@
-\section*{Acknowledgements and Declaration of Authorship}
-\addcontentsline{toc}{section}{Acknowledgements and Declaration of Authorship}
-\thispagestyle{plain}
-
-\subsection*{Acknowledgements}
-
-I would like to express my sincere gratitude to my thesis supervisor, Dr. Doan Nhat Quang, for his invaluable guidance, constructive feedback, and continuous support throughout this research. His academic advice and technical insights played an important role in shaping the direction of the study and refining the proposed framework.
-
-I am also grateful to the faculty and staff of the FPT School of Business \& Technology (FSB) for providing a supportive and well-structured academic environment, as well as for the knowledge and experience shared throughout the Master's programme. I would also like to thank my colleagues and peers for their valuable discussions, suggestions, and feedback during the research process.
-
-Finally, I would like to express my heartfelt appreciation to my family for their patience, encouragement, and continued support throughout my graduate studies.
-
-\subsection*{Declaration of Authorship}
-
-I declare that this thesis is my own work and has been prepared in accordance with accepted standards of academic integrity. All sources and materials used in this research have been appropriately acknowledged and cited.
-
-The work presented in this thesis has not been submitted, either in whole or in part, for any other degree or academic qualification at this or any other institution.
-
-I take full responsibility for the content, accuracy, and academic integrity of this thesis.
-
-Nghiem Phan Thanh Tuan -- 2026
-
 \chapter*{Abstract}
-\addcontentsline{toc}{chapter}{Abstract}
 
-Vietnamese legal question answering depends on retrieving the specific provisions that support an answer. This thesis studies that retrieval problem under fixed legal corpora, recorded relevance judgments, and article-level evaluation. It asks whether sparse--dense hybrid retrieval improves a lexical BM25 reference, whether adding multilingual-E5-base provides incremental value beyond BM25+BGE-M3, and whether legal-domain adaptation of BGE-M3 transfers from development selection to complete hybrid retrieval.
+Vietnamese legal question answering depends on retrieving the specific provisions that support an answer. This thesis studies that retrieval problem under fixed legal corpora, recorded relevance judgments, and article-level evaluation. It asks whether lexical–semantic hybrid retrieval improves a lexical BM25 reference, whether adding multilingual-E5-base provides incremental value beyond BM25+BGE-M3, and whether legal-domain adaptation of BGE-M3 transfers from development selection to complete hybrid retrieval.
 
 The study evaluates ALQAC and Zalo under clean and parsed corpus representations, and introduces a Bộ Công an (BCA) question-answer collection derived from published public-service questions and answer citations. The method compares BM25, pretrained BGE-M3, pretrained E5, two-way BM25+BGE-M3 fusion, and three-way BM25+BGE-M3+E5 fusion using NDCG@10 as the primary ranking metric. BCA is evaluated with explicit coverage analysis and a component-aware protocol because many questions share legal targets.
 
 The results show that hybrid retrieval improves the fixed BM25 reference across the reported benchmark conditions. However, the incremental value of E5 is condition-dependent: the clearest positive gain appears on parsed Zalo, while ALQAC shows small negative differences and BCA does not establish a reliable small-component advantage. The BCA analysis also shows that corpus coverage is a substantive limitation: some targets are absent or only partially represented, so ranking improvements alone cannot solve every retrieval failure.
 
-Legal-domain adaptation gives the thesis's most important negative result. Study A: Hybrid-Oriented Adaptation shows substantial development-selection gains, but its corrected held-out hybrid evaluation shows mean NDCG@10 decreases of 0.0520 and 0.0249 for the two-way and three-way hybrids. Study B: Dense-Oriented Adaptation shows that fine-tuning can improve the dense encoder itself, increasing mean NDCG@10 by 0.0189, but this improvement largely disappears after integration into the full hybrids. The implication is that improving a dense retriever does not necessarily improve a complete sparse--dense legal retrieval system.
+Legal-domain adaptation gives the thesis's most important negative result. Study A: Hybrid-Oriented Adaptation shows substantial development-selection gains, but its corrected hybrid evaluation on data unseen during training and selection shows mean NDCG@10 decreases of 0.0520 and 0.0249 for the two-way and three-way hybrids. This evaluation is post-hoc because a preliminary analysis had already exposed the evaluation fold. Study B: Dense-Oriented Adaptation shows that fine-tuning can improve the dense encoder itself, increasing mean NDCG@10 by 0.0189, but this improvement largely disappears after integration into the full hybrids. The implication is that improving a dense retriever does not necessarily improve a complete lexical–semantic legal retrieval system.
 
 \textbf{Keywords:} Vietnamese legal retrieval; BM25; BGE-M3; multilingual-E5; hybrid retrieval; contrastive fine-tuning; NDCG; legal-domain adaptation.
 
 
 
 \chapter*{List of Abbreviations}
-\addcontentsline{toc}{chapter}{List of Abbreviations}
 
 Terminology follows the retrieval literature and the task definitions introduced in Chapters 3--4~\cite{manning2008,chen2024,wang2024,lewis2020}.
 

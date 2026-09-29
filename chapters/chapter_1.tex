@@ -14,7 +14,7 @@ The central problem is not whether neural retrieval is generally promising. The 
 
 Prior work establishes the usefulness of lexical baselines, dense retrieval, hybrid fusion, and legal-domain adaptation, but it does not determine their behavior on the Vietnamese legal collections studied here. The empirical gap is therefore local and methodological: the thesis needs controlled comparisons between BM25, BGE-M3, E5, two-way fusion, three-way fusion, and legal-domain adaptation under consistent evaluation boundaries.
 
-The study uses three evaluation families. First, ALQAC and Zalo are evaluated under clean and parsed corpus representations. These paired conditions make it possible to observe how retrieval conclusions change when the indexed text representation changes, without reducing the comparison to a single pooled score. Second, the BCA collection is constructed from published Bộ Công an questions and answers and evaluated with explicit target-coverage and component-aware analysis. Third, BGE-M3 adaptation is evaluated at both the dense-retriever level and the complete-hybrid level, preserving the distinction between development selection and held-out evaluation.
+The study uses three evaluation families. First, ALQAC and Zalo are evaluated under clean and parsed corpus representations. These paired conditions make it possible to observe how retrieval conclusions change when the indexed text representation changes, without reducing the comparison to a single pooled score. Second, the BCA collection is constructed from published Bộ Công an questions and answers and evaluated with explicit target-coverage and component-aware analysis. Third, BGE-M3 adaptation is evaluated at both the dense-retriever level and the complete-hybrid level, preserving the distinction between development selection and evaluation on unseen data.
 
 The experimental narrative follows a scientific sequence: define the retrieval problem, evaluate pretrained lexical and dense components, measure the incremental value of E5, diagnose coverage and ranking failures, test legal-domain adaptation, and interpret the results within their limits. Low-level reproduction details are retained in the appendices, while the main chapters focus on method, results, and interpretation.
 
@@ -22,15 +22,15 @@ The experimental narrative follows a scientific sequence: define the retrieval p
 
 \section{Research Objectives}
 
-The main objective is to determine the effectiveness and limits of sparse--dense hybrid retrieval and legal-domain BGE-M3 adaptation for Vietnamese legal information retrieval. This objective is divided into four operational aims.
+The main objective is to determine the effectiveness and limits of lexical–semantic hybrid retrieval and legal-domain BGE-M3 adaptation for Vietnamese legal information retrieval. This objective is divided into four operational aims.
 
-First, the thesis compares lexical retrieval, dense retrieval, and sparse--dense fusion using the same query populations and relevance judgments. Second, it measures whether E5 adds value beyond a BM25+BGE-M3 hybrid. Third, it evaluates whether legal-domain fine-tuning selected on development data improves held-out retrieval, both as a dense encoder and as part of the complete hybrid system. Fourth, it constructs and evaluates the BCA collection with explicit attention to corpus coverage, citation mapping, and query dependence.
+First, the thesis compares lexical retrieval, dense retrieval, and lexical–semantic fusion using the same query populations and relevance judgments. Second, it measures whether E5 adds value beyond a BM25+BGE-M3 hybrid. Third, it evaluates whether legal-domain fine-tuning selected on development data improves retrieval on unseen data, both as a dense encoder and as part of the complete hybrid system. Fourth, it constructs and evaluates the BCA collection with explicit attention to corpus coverage, citation mapping, and query dependence.
 
 The primary ranking endpoint is NDCG@10. Secondary metrics, including Hit@10, MRR@10, and MAP@10, are used to interpret changes in first-hit behavior and multiple-target ranking. No objective assumes a favorable result. Negative, condition-dependent, or non-transfer findings are treated as valid outcomes when they follow from the evaluation.
 
 \section{Research Questions}
 
-\textbf{RQ1. What improvement over lexical retrieval is supported by sparse--dense hybrid retrieval on the evaluated Vietnamese legal collections?}
+\textbf{RQ1. What improvement over lexical retrieval is supported by lexical–semantic hybrid retrieval on the evaluated Vietnamese legal collections?}
 
 This question compares BM25 with pretrained dense retrievers and hybrid systems. It asks whether hybrid retrieval improves the fixed lexical reference under the evaluated collection and corpus conditions, without assuming that every hybrid must dominate every standalone retriever.
 
@@ -38,15 +38,15 @@ This question compares BM25 with pretrained dense retrievers and hybrid systems.
 
 This question isolates the incremental value of the second dense retriever. The appropriate comparator is the two-way BM25+BGE-M3 hybrid, not BM25 alone. The answer is reported by collection and corpus representation because a gain in one condition does not establish a general three-way advantage.
 
-\textbf{RQ3. Do development improvements from legal-domain BGE-M3 fine-tuning transfer to held-out retrieval and to the complete hybrid system?}
+\textbf{RQ3. Do development improvements from legal-domain BGE-M3 fine-tuning transfer to retrieval on unseen data and to the complete hybrid system?}
 
-This question separates three levels of evidence: development selection and corrected held-out hybrid evaluation in Study A: Hybrid-Oriented Adaptation, followed by dense-only and hybrid-transfer evidence in Study B: Dense-Oriented Adaptation. It asks whether fine-tuning improves the model in isolation and whether any dense improvement remains useful after integration with BM25 and E5.
+This question separates three levels of evidence: development selection and corrected hybrid evaluation on unseen data in Study A: Hybrid-Oriented Adaptation, followed by dense-only and hybrid-transfer evidence in Study B: Dense-Oriented Adaptation. It asks whether fine-tuning improves the model in isolation and whether any dense improvement remains useful after integration with BM25 and E5.
 
 \section{Research Contributions}
 
-The first contribution is a controlled empirical evaluation of sparse--dense hybrid retrieval for Vietnamese legal information retrieval. The thesis compares BM25, BGE-M3, E5, BM25+BGE-M3, and BM25+BGE-M3+E5 across ALQAC, Zalo, and BCA conditions. It shows that hybrid retrieval improves the fixed BM25 reference in the evaluated settings, while E5 provides condition-dependent incremental value, with the clearest gain on parsed Zalo.
+The first contribution is a controlled empirical evaluation of lexical–semantic hybrid retrieval for Vietnamese legal information retrieval. The thesis compares BM25, BGE-M3, E5, BM25+BGE-M3, and BM25+BGE-M3+E5 across ALQAC, Zalo, and BCA conditions. It shows that hybrid retrieval improves the fixed BM25 reference in the evaluated settings, while E5 provides condition-dependent incremental value, with the clearest gain on parsed Zalo.
 
-The second contribution is an evaluation of legal-domain BGE-M3 adaptation at both dense-retriever and complete-hybrid levels. The thesis preserves a central negative result: Study A's development gains do not persist in corrected held-out hybrid evaluation, and Study B's dense-only improvement largely disappears after fusion. This provides evidence that improving a dense encoder does not necessarily improve a complete hybrid retrieval system.
+The second contribution is an evaluation of legal-domain BGE-M3 adaptation at both dense-retriever and complete-hybrid levels. The thesis preserves a central negative result: Study A's development gains do not persist in corrected hybrid evaluation on unseen data, and Study B's dense-only improvement largely disappears after fusion. This provides evidence that improving a dense encoder does not necessarily improve a complete hybrid retrieval system.
 
 The third contribution is a dataset and evaluation contribution centered on the BCA collection. The thesis constructs a retrieval collection from published public-service questions and answer citations, analyzes target coverage, applies component-aware evaluation, and reports limitations caused by unavailable or partially available evidence. The contribution lies in the dataset construction, evaluation design, and reproducible comparison boundaries, not in presenting routine provenance records as algorithmic novelty.
 
@@ -62,4 +62,4 @@ Legal relevance is operationalized through the available annotations and extract
 
 Chapter 2 reviews related work on legal retrieval, lexical baselines, dense retrieval, hybrid fusion, fine-tuning, and evaluation design. Chapter 3 defines the theoretical background and metrics used throughout the thesis. Chapter 4 describes the retrieval pipeline, corpus construction, fusion selection, BCA construction, and adaptation methods.
 
-Chapter 5 presents the experimental evaluation. It answers the three research questions, analyzes BCA coverage and component structure, summarizes failure modes, and develops the full adaptation narrative from development gains to held-out regressions and dense-to-hybrid transfer. Chapter 6 synthesizes the findings, states the contributions, discusses limitations, and identifies future work. The appendices preserve detailed search spaces, metric tables, failure cases, configurations, and reproduction information.
+Chapter 5 presents the experimental evaluation. It answers the three research questions, analyzes BCA coverage and component structure, summarizes failure modes, and develops the full adaptation narrative from development gains to regressions on unseen data and dense-to-hybrid transfer. Chapter 6 synthesizes the findings, states the contributions, discusses limitations, and identifies future work. The appendices preserve detailed search spaces, metric tables, failure cases, configurations, and reproduction information.

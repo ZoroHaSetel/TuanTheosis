@@ -8,7 +8,6 @@ The baseline tables come from the canonical cache reaggregation; the seed tables
 \setstretch{1.0}
 \setlength{\tabcolsep}{3pt}
 \renewcommand{\arraystretch}{0.98}
-\caption[Full ALQAC/\allowbreak{}Zalo standalone and hybrid metrics.]{Full ALQAC/\allowbreak{}Zalo standalone and hybrid metrics.}\label{tab:C.1}
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{@{}llrrrrrr@{}}
 \toprule
@@ -36,6 +35,7 @@ Zalo B & BM25+BGE & 0.721422 & 0.676682 & 0.670464 & 0.565707 & 0.826345 & 0.878
 Zalo B & BM25+BGE+E5 & 0.734431 & 0.691256 & 0.684547 & 0.583855 & 0.840426 & 0.888924 \\
 \bottomrule
 \end{tabular}}
+\caption[Full ALQAC/\allowbreak{}Zalo standalone and hybrid metrics.]{Full ALQAC/\allowbreak{}Zalo standalone and hybrid metrics.}\label{tab:C.1}
 \end{table}
 
 These are the same populations and score sources as Table 5.2. Extra cutoffs do not constitute independent experiments.
@@ -47,7 +47,6 @@ These are the same populations and score sources as Table 5.2. Extra cutoffs do 
 \setstretch{1.0}
 \setlength{\tabcolsep}{3pt}
 \renewcommand{\arraystretch}{0.98}
-\caption[Seed-specific corrected held-out metrics.]{Seed-specific corrected held-out metrics.}\label{tab:C.2}
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{@{}llrrrrrr@{}}
 \toprule
@@ -67,6 +66,7 @@ These are the same populations and score sources as Table 5.2. Extra cutoffs do 
 44 & Fine-tuned 3w & 0.737797 & 0.679404 & 0.677125 & 0.554688 & 0.842187 & 0.928125 \\
 \bottomrule
 \end{tabular}}
+\caption[Seed-specific corrected metrics on unseen data.]{Seed-specific corrected metrics on unseen data.}\label{tab:C.2}
 \end{table}
 
 Repeated pretrained rows are identical references, not independent pretrained runs. Source: \href{../experiments/LEGAL_BGE_FT_20260815T150627Z_686566d5/confirmatory_evaluation_corrected/statistics.json}{corrected \texttt{seed\_met\allowbreak{}rics}}.
@@ -76,7 +76,6 @@ Repeated pretrained rows are identical references, not independent pretrained ru
 \setlength{\tabcolsep}{3pt}
 \renewcommand{\arraystretch}{1.18}
 \begin{longtable}{>{\raggedright\arraybackslash}p{3.351cm}>{\raggedright\arraybackslash}p{2.560cm}>{\raggedright\arraybackslash}p{3.870cm}>{\raggedright\arraybackslash}p{2.560cm}>{\raggedright\arraybackslash}p{2.560cm}}
-\caption[Fine-tuned seed variation in NDCG@10.]{Fine-tuned seed variation in NDCG@10.}\label{tab:C.3}\\
 \toprule
 \textbf{System} & \textbf{Mean} & \textbf{Sample SD across three seeds} & \textbf{Minimum} & \textbf{Maximum} \\
 \midrule
@@ -89,6 +88,7 @@ Repeated pretrained rows are identical references, not independent pretrained ru
 \multicolumn{5}{r}{\footnotesize Continued on next page}\\
 \endfoot
 \bottomrule
+\caption[Fine-tuned seed variation in NDCG@10.]{Fine-tuned seed variation in NDCG@10.}\label{tab:C.3}\\
 \endlastfoot
 bm25\_bge\allowbreak{}\_finetun\allowbreak{}ed & 0.699549 & 0.001634 & 0.697662 & 0.700507 \\
 bm25\_bge\allowbreak{}\_finetun\allowbreak{}ed\_e5 & 0.734617 & 0.002923 & 0.732046 & 0.737797 \\

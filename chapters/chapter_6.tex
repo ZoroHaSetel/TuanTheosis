@@ -2,23 +2,23 @@
 
 This chapter synthesizes the experimental findings rather than repeating the numerical analysis from Chapter 5. The conclusions distinguish improvement over BM25, incremental value beyond an existing hybrid, and transfer from dense adaptation into a complete retrieval system.
 
-\section{Answers to Research Questions}
+\section{Summary of Findings}
 
-\textbf{RQ1. What improvement over lexical retrieval is supported by sparse--dense hybrid retrieval on the evaluated Vietnamese legal collections?}
+\subsection{Hybrid Retrieval over the Lexical Baseline}
 
-The experiments support the value of sparse--dense hybrid retrieval over the fixed BM25 reference in the evaluated conditions. Both the BM25+BGE-M3 hybrid and the BM25+BGE-M3+E5 hybrid improve NDCG@10 over BM25 across the reported ALQAC and Zalo conditions, and BCA shows the same direction in its combined descriptive view. The result is strongest as an empirical finding about these collections and corpus representations. It does not imply that a single weight setting, corpus construction policy, or hybrid architecture will transfer unchanged to other legal corpora.
+The experiments support the value of lexical–semantic hybrid retrieval over the fixed BM25 reference in the evaluated conditions. Both the BM25+BGE-M3 hybrid and the BM25+BGE-M3+E5 hybrid improve NDCG@10 over BM25 across the reported ALQAC and Zalo conditions, and BCA shows the same direction in its combined descriptive view. The result is strongest as an empirical finding about these collections and corpus representations. It does not imply that a single weight setting, corpus construction policy, or hybrid architecture will transfer unchanged to other legal corpora.
 
-\textbf{RQ2. Does adding pretrained multilingual-E5-base improve BM25+BGE-M3 across legal collections and corpus conditions?}
+\subsection{Incremental Contribution of E5}
 
 The incremental value of E5 is condition-dependent. The clearest positive result occurs on parsed Zalo, where adding E5 increases NDCG@10 by approximately 0.0130. ALQAC shows small negative differences, clean Zalo shows only a small positive difference, and BCA does not establish a reliable small-component advantage. Therefore, the thesis does not support a universal claim that three-way retrieval is better than two-way retrieval. The value of the additional dense retriever must be evaluated against a strong two-way reference in the target corpus condition.
 
-\textbf{RQ3. Do development improvements from legal-domain BGE-M3 fine-tuning transfer to held-out retrieval and to the complete hybrid system?}
+\subsection{Effect of Legal-Domain Adaptation}
 
-The answer is mixed and is one of the main findings of the thesis. Study A: Hybrid-Oriented Adaptation shows substantial development-selection gains, but its corrected held-out hybrid evaluation shows mean NDCG@10 decreases of 0.0520 for the two-way hybrid and 0.0249 for the three-way hybrid. Study B: Dense-Oriented Adaptation shows that fine-tuning can improve BGE-M3 as a dense retriever, increasing mean NDCG@10 by 0.0189. However, that improvement largely disappears after the adapted encoder is integrated into locked-weight hybrids. Thus, dense adaptation can improve an encoder without improving the complete sparse--dense retrieval system by a meaningful amount.
+The answer is mixed and is one of the main findings of the thesis. Study A: Hybrid-Oriented Adaptation shows substantial development-selection gains, but its corrected hybrid evaluation on data unseen during training and selection shows mean NDCG@10 decreases of 0.0520 for the two-way hybrid and 0.0249 for the three-way hybrid. Study B: Dense-Oriented Adaptation shows that fine-tuning can improve BGE-M3 as a dense retriever, increasing mean NDCG@10 by 0.0189. However, that improvement largely disappears after the adapted encoder is integrated into locked-weight hybrids. Thus, dense adaptation can improve an encoder without improving the complete lexical–semantic retrieval system by a meaningful amount.
 
 \section{Research Contributions}
 
-The first contribution is a controlled empirical evaluation of sparse--dense hybrid retrieval for Vietnamese legal information retrieval. The thesis compares BM25, BGE-M3, E5, two-way fusion, and three-way fusion across multiple legal collections and corpus representations. It separates improvement over a lexical baseline from incremental improvement over an already strong hybrid.
+The first contribution is a controlled empirical evaluation of lexical–semantic hybrid retrieval for Vietnamese legal information retrieval. The thesis compares BM25, BGE-M3, E5, two-way fusion, and three-way fusion across multiple legal collections and corpus representations. It separates improvement over a lexical baseline from incremental improvement over an already strong hybrid.
 
 The second contribution is an evaluation of legal-domain BGE-M3 adaptation at both dense-retriever and complete-hybrid levels. The work preserves negative and non-transfer results rather than treating them as failed experiments. The distinction between dense-only improvement and hybrid-system improvement is practically important for legal retrieval systems, where the deployed system is usually a pipeline rather than a single encoder.
 
@@ -30,13 +30,13 @@ The experiments show that hybrid retrieval is useful, but they also show why ret
 
 The E5 result illustrates the limits of model-count reasoning. Adding another dense retriever increases representational diversity and expands the fusion search space, but the measured benefit depends on the collection and corpus representation. Parsed Zalo benefits most clearly; ALQAC does not. This finding supports local validation rather than a generic architectural rule.
 
-The adaptation results illustrate the limits of development selection. Study A's fine-tuning recipe performs well on development queries but regresses in corrected held-out hybrid evaluation. Study B shows that this is not simply because legal-domain fine-tuning is incapable of improving dense retrieval. Instead, the complete hybrid can absorb, dilute, or counteract dense improvements because fusion weights, lexical evidence, and score calibration all interact. The present experiments do not isolate which mechanism dominates.
+The adaptation results illustrate the limits of development selection. Study A's fine-tuning recipe performs well on development queries but regresses in corrected hybrid evaluation on unseen data. Study B shows that this is not simply because legal-domain fine-tuning is incapable of improving dense retrieval. Instead, the complete hybrid can absorb, dilute, or counteract dense improvements because fusion weights, lexical evidence, and score calibration all interact. The present experiments do not isolate which mechanism dominates.
 
 The publicly available Vietnamese legal data suitable for supervised retrieval adaptation remain limited in the present setting. Additional diverse and carefully validated query--article training pairs may improve the fine-tuning process, particularly by providing broader coverage of legal topics and relevance relations. However, the study did not evaluate this intervention; it is therefore a hypothesis for future work rather than an empirical conclusion.
 
 BCA exposes dataset limitations that are not model limitations. Some targets are absent from the indexed corpus, and some answerable queries are only partially covered. A ranking model cannot retrieve evidence that is not present. Therefore, end-to-end scores should be interpreted as measuring the whole retrieval pipeline, including corpus construction and target mapping, not only scoring quality.
 
-Several validity limits remain. The evaluation is restricted to Vietnamese legal collections and recorded relevance judgments. It does not establish multilingual generalization, cross-jurisdiction transfer, downstream legal-answer correctness, current legal validity, user satisfaction, latency, throughput, or deployment cost. Study A's corrected held-out adaptation evaluation is post-hoc because it follows a flawed preliminary held-out analysis. Study B also uses a fixed-corpus benchmark with prior test observation, so it should not be described as a pristine prospective confirmation.
+Several validity limits remain. The evaluation is restricted to Vietnamese legal collections and recorded relevance judgments. It does not establish multilingual generalization, cross-jurisdiction transfer, downstream legal-answer correctness, current legal validity, user satisfaction, latency, throughput, or deployment cost. Study A's corrected adaptation evaluation on data unseen during training and selection is post-hoc because it follows a flawed preliminary analysis of that same evaluation fold. Study B also uses a fixed-corpus benchmark with prior test observation, so it should not be described as a pristine prospective confirmation.
 
 Statistical conclusions are also bounded. Non-significant intervals do not prove equivalence, and detectable differences do not automatically imply practical importance. The thesis therefore distinguishes observed mean changes, practical improvement thresholds, and statistical uncertainty.
 
@@ -50,4 +50,4 @@ Future work should further extend the evaluation from retrieval performance to t
 
 \section{Closing Remarks}
 
-This thesis shows that Vietnamese legal retrieval benefits from sparse--dense hybridization, but also that more components or better dense-only scores do not automatically produce a better complete system. The most important lesson is methodological: legal retrieval claims must be tied to the exact corpus, target coverage, selection boundary, and system level being evaluated. A disciplined negative result can be as informative as a positive result when it prevents an unsupported deployment claim.
+This thesis shows that Vietnamese legal retrieval benefits from lexical–semantic hybridization, but also that more components or better dense-only scores do not automatically produce a better complete system. The most important lesson is methodological: legal retrieval claims must be tied to the exact corpus, target coverage, selection boundary, and system level being evaluated. A disciplined negative result can be as informative as a positive result when it prevents an unsupported deployment claim.

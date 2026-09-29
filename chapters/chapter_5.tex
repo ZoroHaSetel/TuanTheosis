@@ -13,7 +13,6 @@ NDCG@10 is the primary endpoint. Hit@10, MRR@10, and MAP@10 are reported to dist
 \setlength{\tabcolsep}{3pt}
 \renewcommand{\arraystretch}{1.18}
 \begin{longtable}{>{\raggedright\arraybackslash}p{2.938cm}>{\raggedright\arraybackslash}p{6.569cm}>{\raggedright\arraybackslash}p{5.833cm}}
-\caption[System identities and comparison boundaries.]{System identities and comparison boundaries.}\label{tab:5.1}\\
 \toprule
 \textbf{Configuration} & \textbf{Baseline role} & \textbf{Adaptation role} \\
 \midrule
@@ -26,27 +25,27 @@ NDCG@10 is the primary endpoint. Hit@10, MRR@10, and MAP@10 are reported to dist
 \multicolumn{3}{r}{\footnotesize Continued on next page}\\
 \endfoot
 \bottomrule
+\caption[System identities and comparison boundaries.]{System identities and comparison boundaries.}\label{tab:5.1}\\
 \endlastfoot
 BM25 & Fixed lexical reference & Unchanged lexical component \\
 BGE-M3 dense & Pretrained dense retriever & Adapted in the legal-domain fine-tuning studies \\
 E5 dense & Additional pretrained dense retriever & Frozen throughout the thesis \\
-BM25+\allowbreak{}BGE-M3 & Two-way sparse--dense hybrid & Evaluated with pretrained and adapted BGE-M3 \\
+BM25+\allowbreak{}BGE-M3 & Two-way lexical–semantic hybrid & Evaluated with pretrained and adapted BGE-M3 \\
 BM25+\allowbreak{}BGE-M3+\allowbreak{}E5 & Three-way hybrid & Evaluated with pretrained and adapted BGE-M3 while E5 remains fixed \\
 \end{longtable}
 \endgroup
 
 The experiments compare methods within their own query populations and selection boundaries. Results from different folds, corpora, or adaptation recipes are not pooled into a single cross-protocol score.
 
-\section{RQ1 -- Lexical and Hybrid Retrieval}
+\section{Lexical and Hybrid Retrieval}
 
-RQ1 asks whether sparse--dense hybrid retrieval improves the fixed lexical reference. Table~\ref{tab:5.2} reports BM25, pretrained dense retrievers, and hybrid systems for ALQAC and Zalo. Table~\ref{tab:5.3} summarizes the hybrid changes relative to BM25 and includes BCA's combined descriptive view.
+This section compares lexical–semantic hybrid retrieval with the fixed BM25 reference. Table~\ref{tab:5.2} reports BM25, pretrained dense retrievers, and hybrid systems for ALQAC and Zalo. Table~\ref{tab:5.3} summarizes the hybrid changes relative to BM25 and includes BCA's combined descriptive view.
 
 \begingroup
 \footnotesize
 \setlength{\tabcolsep}{3pt}
 \renewcommand{\arraystretch}{1.18}
 \begin{longtable}{>{\raggedright\arraybackslash}p{2.363cm}>{\raggedright\arraybackslash}p{2.865cm}>{\raggedright\arraybackslash}p{2.363cm}>{\raggedright\arraybackslash}p{2.363cm}>{\raggedright\arraybackslash}p{2.363cm}>{\raggedright\arraybackslash}p{2.363cm}}
-\caption[Pretrained standalone and hybrid results, query-macro OOF population.]{Pretrained standalone and hybrid results, query-macro OOF population.}\label{tab:5.2}\\
 \toprule
 \textbf{Condition} & \textbf{Method} & \textbf{NDCG@10} & \textbf{MRR@10} & \textbf{MAP@10} & \textbf{Hit@10} \\
 \midrule
@@ -59,6 +58,7 @@ RQ1 asks whether sparse--dense hybrid retrieval improves the fixed lexical refer
 \multicolumn{6}{r}{\footnotesize Continued on next page}\\
 \endfoot
 \bottomrule
+\caption[Pretrained standalone and hybrid results, query-macro OOF population.]{Pretrained standalone and hybrid results, query-macro OOF population.}\label{tab:5.2}\\
 \endlastfoot
 ALQAC A & BM25 & 0.798559 & 0.764812 & 0.762140 & 0.911221 \\
 ALQAC A & BGE-M3 pretrained & 0.843673 & 0.813447 & 0.810847 & 0.943280 \\
@@ -83,14 +83,13 @@ Zalo B & BM25+\allowbreak{}BGE-M3+\allowbreak{}E5 & 0.734431 & 0.691256 & 0.6845
 \end{longtable}
 \endgroup
 
-BGE-M3 is the strongest individual retriever by NDCG@10 in all four ALQAC/Zalo conditions. Both hybrids exceed BM25, and both also exceed the strongest individual component in these conditions. The result supports sparse--dense complementarity at the system level, although it does not identify the linguistic mechanism behind each gain.
+BGE-M3 is the strongest individual retriever by NDCG@10 in all four ALQAC/Zalo conditions. Both hybrids exceed BM25, and both also exceed the strongest individual component in these conditions. The result supports lexical–semantic complementarity at the system level, although it does not identify the linguistic mechanism behind each gain.
 
 \begingroup
 \footnotesize
 \setlength{\tabcolsep}{3pt}
 \renewcommand{\arraystretch}{1.18}
 \begin{longtable}{>{\raggedright\arraybackslash}p{3.075cm}>{\raggedright\arraybackslash}p{2.349cm}>{\raggedright\arraybackslash}p{2.197cm}>{\raggedright\arraybackslash}p{2.197cm}>{\raggedright\arraybackslash}p{2.431cm}>{\raggedright\arraybackslash}p{2.431cm}}
-\caption[Hybrid NDCG@10 changes relative to fixed BM25.]{Hybrid NDCG@10 changes relative to fixed BM25.}\label{tab:5.3}\\
 \toprule
 \textbf{Condition} & \textbf{Hybrid} & \textbf{BM25} & \textbf{Hybrid score} & \textbf{Absolute change} & \textbf{Relative change} \\
 \midrule
@@ -103,6 +102,7 @@ BGE-M3 is the strongest individual retriever by NDCG@10 in all four ALQAC/Zalo c
 \multicolumn{6}{r}{\footnotesize Continued on next page}\\
 \endfoot
 \bottomrule
+\caption[Hybrid NDCG@10 changes relative to fixed BM25.]{Hybrid NDCG@10 changes relative to fixed BM25.}\label{tab:5.3}\\
 \endlastfoot
 ALQAC A & BM25+\allowbreak{}BGE-M3 & 0.798559 & 0.880484 & +\allowbreak{}0.081925 & +\allowbreak{}10.259\% \\
 ALQAC A & BM25+\allowbreak{}BGE-M3+\allowbreak{}E5 & 0.798559 & 0.878391 & +\allowbreak{}0.079832 & +\allowbreak{}9.997\% \\
@@ -117,18 +117,17 @@ BCA combined descriptive & BM25+\allowbreak{}BGE-M3+\allowbreak{}E5 & 0.168652 &
 \end{longtable}
 \endgroup
 
-The hybrid gains over BM25 are large in Zalo and smaller but still positive in ALQAC. BCA also shows a positive descriptive difference from BM25, but its lower absolute scores must be interpreted with coverage limits and component dependence. The answer to RQ1 is therefore positive within the evaluated conditions: sparse--dense hybrids improve the fixed BM25 reference. The result should not be generalized into a claim that one hybrid configuration will transfer unchanged to every legal corpus.
+The hybrid gains over BM25 are large in Zalo and smaller but still positive in ALQAC. BCA also shows a positive descriptive difference from BM25, but its lower absolute scores must be interpreted with coverage limits and component dependence. The answer to RQ1 is therefore positive within the evaluated conditions: lexical–semantic hybrids improve the fixed BM25 reference. The result should not be generalized into a claim that one hybrid configuration will transfer unchanged to every legal corpus.
 
-\section{RQ2 -- Incremental Value of E5}
+\section{Incremental Contribution of E5}
 
-RQ2 asks whether E5 adds value beyond BM25+BGE-M3. This is a stricter question than asking whether E5 is a competent standalone retriever. The relevant comparison is the two-way hybrid against the three-way hybrid.
+This section tests whether E5 adds value beyond BM25+BGE-M3. This is a stricter question than asking whether E5 is a competent standalone retriever. The relevant comparison is the two-way hybrid against the three-way hybrid.
 
 \begingroup
 \footnotesize
 \setlength{\tabcolsep}{3pt}
 \renewcommand{\arraystretch}{1.18}
 \begin{longtable}{>{\raggedright\arraybackslash}p{2.272cm}>{\raggedright\arraybackslash}p{2.272cm}>{\raggedright\arraybackslash}p{2.429cm}>{\raggedright\arraybackslash}p{2.515cm}>{\raggedright\arraybackslash}p{2.515cm}>{\raggedright\arraybackslash}p{2.677cm}}
-\caption[Incremental E5 contribution on the canonical ALQAC and Zalo populations.]{Incremental E5 contribution on the canonical ALQAC and Zalo populations.}\label{tab:5.4}\\
 \toprule
 \textbf{Condition} & \textbf{Two-way NDCG} & \textbf{Three-way NDCG} & \textbf{Absolute change} & \textbf{Relative change} & \textbf{Stored Wilcoxon p} \\
 \midrule
@@ -141,6 +140,7 @@ RQ2 asks whether E5 adds value beyond BM25+BGE-M3. This is a stricter question t
 \multicolumn{6}{r}{\footnotesize Continued on next page}\\
 \endfoot
 \bottomrule
+\caption[Incremental E5 contribution on the canonical ALQAC and Zalo populations.]{Incremental E5 contribution on the canonical ALQAC and Zalo populations.}\label{tab:5.4}\\
 \endlastfoot
 ALQAC A & 0.880484 & 0.878391 & -0.002093 & -0.238\% & 0.44981077 \\
 ALQAC B & 0.706676 & 0.705522 & -0.001154 & -0.163\% & 0.74490996 \\
@@ -153,7 +153,7 @@ The incremental E5 result is condition-dependent. ALQAC shows small negative NDC
 
 The A/B corpus comparison also resists a simple parser narrative. ALQAC has substantially lower hybrid scores in the parsed condition than in the clean condition. Zalo, in contrast, has higher scores in the parsed-with-fallback condition than in the clean condition. This does not imply that parsing is inherently harmful for ALQAC and inherently beneficial for Zalo. The two collections differ in construction, target mapping, fallback behavior, and article universe. A matched no-fallback ablation was not available, so the independent effect of fallback remains unmeasured.
 
-The answer to RQ2 is therefore not a general yes. E5 provides useful incremental value in the parsed Zalo condition, negligible or unsupported value in clean Zalo, and no observed improvement in ALQAC. This is one of the thesis's main practical findings: adding a dense retriever expands the search space, but it does not guarantee better held-out ranking.
+The answer to RQ2 is therefore not a general yes. E5 provides useful incremental value in the parsed Zalo condition, negligible or unsupported value in clean Zalo, and no observed improvement in ALQAC. This is one of the thesis's main practical findings: adding a dense retriever expands the search space, but it does not guarantee better ranking on unseen data.
 
 \section{BCA Coverage and Component-Aware Evaluation}
 
@@ -165,7 +165,6 @@ BCA serves two purposes. It extends the evaluation beyond ALQAC and Zalo, and it
 \setstretch{1.0}
 \setlength{\tabcolsep}{3pt}
 \renewcommand{\arraystretch}{0.93}
-\caption[Compact BCA protocol and coverage views.]{Compact BCA protocol and coverage views. All metrics are at cutoff 10; OOF denotes out-of-fold.}\label{tab:5.5}
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{@{}lllrrrrr@{}}
 \toprule
@@ -199,6 +198,7 @@ Combined OOF & Answerable & BM25+BGE & 440 & 0.283329 & 0.416735 & 0.199275 & 0.
 Combined OOF & Answerable & BM25+BGE+E5 & 440 & 0.284991 & 0.415404 & 0.197165 & 0.681818 \\
 \bottomrule
 \end{tabular}}
+\caption[Compact BCA protocol and coverage views.]{Compact BCA protocol and coverage views. All metrics are at cutoff 10; OOF denotes out-of-fold.}\label{tab:5.5}
 \end{table}
 
 The BCA reference graph contains one giant component with 484 of 546 queries and 49 smaller components containing the remaining 62 queries. This structure affects statistical interpretation. The combined descriptive view shows the three-way hybrid slightly above the two-way hybrid in NDCG@10, but the small-component out-of-fold view shows a negative NDCG@10 difference for the three-way system. The corresponding component-aware inference does not establish an E5 advantage.
@@ -217,9 +217,9 @@ For ALQAC and Zalo, top-ten boundary cases show that E5 can both recover and los
 
 The analysis remains an information-retrieval analysis. It identifies target absence, top-ten transitions, within-law article demotion, and persistent misses. It does not assign legal-reasoning causes such as misunderstanding exceptions or temporal validity. A legally adjudicated error taxonomy would require a sampling plan, full text review, annotation rules, and reviewer agreement. That study was not performed here.
 
-\section{RQ3 -- Legal-Domain Adaptation}
+\section{Legal-Domain Adaptation}
 
-RQ3 evaluates whether legal-domain BGE-M3 adaptation improves retrieval beyond development selection. The narrative has six parts: Study A development selection, Study A corrected held-out hybrid evaluation, Study B dense-only adaptation, transfer of dense improvements into hybrid retrieval, query-level analysis, and overall interpretation.
+This section examines whether legal-domain BGE-M3 adaptation improves retrieval beyond development selection. The narrative has six parts: Study A development selection, Study A corrected hybrid evaluation on unseen data, Study B dense-only adaptation, transfer of dense improvements into hybrid retrieval, query-level analysis, and overall interpretation.
 
 \subsection{Development Selection}
 
@@ -230,7 +230,6 @@ Study A: Hybrid-Oriented Adaptation selects a BGE-M3 training recipe on developm
 \setlength{\tabcolsep}{3pt}
 \renewcommand{\arraystretch}{1.18}
 \begin{longtable}{>{\raggedright\arraybackslash}p{3.672cm}>{\raggedright\arraybackslash}p{3.564cm}>{\raggedright\arraybackslash}p{3.810cm}>{\raggedright\arraybackslash}p{4.073cm}}
-\caption[Passage-512 learning-rate and epoch pilot: development NDCG@10.]{Passage-512 learning-rate and epoch pilot: development NDCG@10.}\label{tab:5.7}\\
 \toprule
 \textbf{Learning rate} & \textbf{Epoch} & \textbf{Two-way hybrid} & \textbf{Three-way hybrid} \\
 \midrule
@@ -243,6 +242,7 @@ Study A: Hybrid-Oriented Adaptation selects a BGE-M3 training recipe on developm
 \multicolumn{4}{r}{\footnotesize Continued on next page}\\
 \endfoot
 \bottomrule
+\caption[Passage-512 learning-rate and epoch pilot: development NDCG@10.]{Passage-512 learning-rate and epoch pilot: development NDCG@10.}\label{tab:5.7}\\
 \endlastfoot
 0.000005 & 1 & 0.746975 & 0.768454 \\
 0.000005 & 2 & 0.760312 & 0.778519 \\
@@ -264,7 +264,6 @@ The pilot shows development improvements across several candidate settings. The 
 \setstretch{1.0}
 \setlength{\tabcolsep}{6pt}
 \renewcommand{\arraystretch}{1.05}
-\caption[Batch ablation at the selected learning rate and epoch.]{Batch ablation at the selected learning rate and epoch; scores are development NDCG@10.}\label{tab:5.8}
 \begin{tabular}{@{}lrrrr@{}}
 \toprule
 \textbf{Batch/accum.} & \textbf{Two-way} & \textbf{$\Delta$} & \textbf{Three-way} & \textbf{$\Delta$} \\
@@ -275,15 +274,16 @@ Pretrained baseline & 0.717155 & -- & 0.724468 & -- \\
 4 / 8 & 0.778100 & +0.060945 & 0.793350 & +0.068882 \\
 \bottomrule
 \end{tabular}
+\caption[Batch ablation at the selected learning rate and epoch.]{Batch ablation at the selected learning rate and epoch; scores are development NDCG@10.}\label{tab:5.8}
 \end{table}
 
-The selected development configuration improves two-way NDCG@10 by 0.060945 and three-way NDCG@10 by 0.068882. This justifies a held-out test of the intervention. It does not establish generalization, because the development queries are part of model selection.
+The selected development configuration improves two-way NDCG@10 by 0.060945 and three-way NDCG@10 by 0.068882. This justifies testing the intervention on unseen data. It does not establish generalization, because the development queries are part of model selection.
 
-\subsection{Corrected Held-Out Hybrid Evaluation}
+\subsection{Corrected Hybrid Evaluation on Unseen Data}
 
-The corrected held-out comparison evaluates Zalo parsed fold 0 with 640 queries. Fusion weights are fitted on the permitted training-side folds using pretrained BGE-M3 and then held fixed when BGE-M3 is replaced by its adapted version. This design measures encoder replacement within a specified hybrid rather than unrestricted retuning of the whole system.
+The corrected comparison on unseen data evaluates Zalo parsed fold 0 with 640 queries. Fusion weights are fitted on the permitted training-side folds using pretrained BGE-M3 and then held fixed when BGE-M3 is replaced by its adapted version. This design measures encoder replacement within a specified hybrid rather than unrestricted retuning of the whole system.
 
-The corrected two-way weights are BM25/BGE/E5 = 0.2/0.8/0.0. The corrected three-way weights are 0.2/0.5/0.3. Because a flawed preliminary held-out analysis had already exposed the same fold, the corrected comparison is interpreted as a post-hoc corrected held-out evaluation, not as a pristine first-use test.
+The corrected two-way weights are BM25/BGE/E5 = 0.2/0.8/0.0. The corrected three-way weights are 0.2/0.5/0.3. Because a flawed preliminary analysis had already exposed the same fold, the corrected comparison is interpreted as a post-hoc evaluation on data unseen during training and selection, not as a pristine first-use test.
 
 \begin{table}[H]
 \centering
@@ -291,7 +291,6 @@ The corrected two-way weights are BM25/BGE/E5 = 0.2/0.8/0.0. The corrected three
 \setstretch{1.0}
 \setlength{\tabcolsep}{5pt}
 \renewcommand{\arraystretch}{1.05}
-\caption[Corrected Zalo fold-0 two-way hybrid evaluation.]{Corrected Zalo fold-0 two-way hybrid evaluation; all metrics are at cutoff 10.}\label{tab:5.9}
 \begin{tabular}{@{}llrrrrr@{}}
 \toprule
 \textbf{BGE state} & \textbf{Seed} & \textbf{NDCG} & \textbf{$\Delta$} & \textbf{MRR} & \textbf{MAP} & \textbf{Hit} \\
@@ -303,6 +302,7 @@ Fine-tuned & 44 & 0.697662 & \ensuremath{-}0.053932 & 0.639828 & 0.637406 & 0.88
 Fine-tuned & Mean & 0.699549 & \ensuremath{-}0.052045 & 0.645265 & 0.643049 & 0.876563 \\
 \bottomrule
 \end{tabular}
+\caption[Corrected Zalo fold-0 two-way hybrid evaluation.]{Corrected Zalo fold-0 two-way hybrid evaluation; all metrics are at cutoff 10.}\label{tab:5.9}
 \end{table}
 
 All three two-way seeds score below the pretrained two-way baseline. The mean NDCG@10 change is -0.052045, and MRR@10, MAP@10, and Hit@10 are also lower. The result therefore cannot be rescued by choosing a different seed from the three reported runs.
@@ -313,7 +313,6 @@ All three two-way seeds score below the pretrained two-way baseline. The mean ND
 \setstretch{1.0}
 \setlength{\tabcolsep}{5pt}
 \renewcommand{\arraystretch}{1.05}
-\caption[Corrected Zalo fold-0 three-way hybrid evaluation.]{Corrected Zalo fold-0 three-way hybrid evaluation; all metrics are at cutoff 10.}\label{tab:5.10}
 \begin{tabular}{@{}llrrrrr@{}}
 \toprule
 \textbf{BGE state} & \textbf{Seed} & \textbf{NDCG} & \textbf{$\Delta$} & \textbf{MRR} & \textbf{MAP} & \textbf{Hit} \\
@@ -325,6 +324,7 @@ Fine-tuned & 44 & 0.737797 & \ensuremath{-}0.021711 & 0.679404 & 0.677125 & 0.92
 Fine-tuned & Mean & 0.734617 & \ensuremath{-}0.024891 & 0.677867 & 0.675384 & 0.920833 \\
 \bottomrule
 \end{tabular}
+\caption[Corrected Zalo fold-0 three-way hybrid evaluation.]{Corrected Zalo fold-0 three-way hybrid evaluation; all metrics are at cutoff 10.}\label{tab:5.10}
 \end{table}
 
 The three-way hybrid also has lower mean NDCG@10 after fine-tuning. The regression is smaller than in the two-way system, but it remains a regression against the matched pretrained three-way comparator. Seed 44 slightly improves Hit@10 while reducing NDCG@10 and MRR@10, showing why the primary rank-sensitive metric must remain central.
@@ -335,7 +335,6 @@ The three-way hybrid also has lower mean NDCG@10 after fine-tuning. The regressi
 \setstretch{1.0}
 \setlength{\tabcolsep}{4pt}
 \renewcommand{\arraystretch}{1.05}
-\caption[Corrected paired statistics for NDCG@10.]{Corrected paired statistics for NDCG@10.}\label{tab:5.11}
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{@{}lrrrrrr@{}}
 \toprule
@@ -345,9 +344,10 @@ Fine-tuned minus pretrained, two-way & 640 & 106 & \ensuremath{-}0.052045 & [\en
 Fine-tuned minus pretrained, three-way & 640 & 106 & \ensuremath{-}0.024891 & [\ensuremath{-}0.054163, +\allowbreak{}0.093751] & 0.748 & 1.000 \\
 \bottomrule
 \end{tabular}}
+\caption[Corrected paired statistics for NDCG@10.]{Corrected paired statistics for NDCG@10.}\label{tab:5.11}
 \end{table}
 
-The intervals in Table~\ref{tab:5.11} include zero, so the observed regressions are not described as statistically established population-level harm. However, non-significance is not equivalence, and the practical improvement threshold of +0.01 NDCG@10 is not met. The correct conclusion is that the selected adaptation recipe failed to demonstrate held-out hybrid improvement under this protocol.
+The intervals in Table~\ref{tab:5.11} include zero, so the observed regressions are not described as statistically established population-level harm. However, non-significance is not equivalence, and the practical improvement threshold of +0.01 NDCG@10 is not met. The correct conclusion is that the selected adaptation recipe failed to demonstrate hybrid improvement on unseen data under this protocol.
 
 \subsection{Study B: Dense-Oriented Adaptation}
 
@@ -358,7 +358,6 @@ Study A does not by itself determine whether adaptation failed at the dense-retr
 \setlength{\tabcolsep}{3pt}
 \renewcommand{\arraystretch}{1.18}
 \begin{longtable}{>{\raggedright\arraybackslash}p{3.587cm}>{\raggedright\arraybackslash}p{2.807cm}>{\raggedright\arraybackslash}p{2.892cm}>{\raggedright\arraybackslash}p{2.807cm}>{\raggedright\arraybackslash}p{2.807cm}}
-\caption[Study B post-hoc dense benchmark on 640 official queries.]{Study B post-hoc dense benchmark on 640 official queries.}\label{tab:5.12}\\
 \toprule
 \textbf{System} & \textbf{NDCG@10} & \textbf{Delta NDCG@10} & \textbf{MRR@10} & \textbf{Recall@100} \\
 \midrule
@@ -371,6 +370,7 @@ Study A does not by itself determine whether adaptation failed at the dense-retr
 \multicolumn{5}{r}{\footnotesize Continued on next page}\\
 \endfoot
 \bottomrule
+\caption[Study B post-hoc dense benchmark on 640 official queries.]{Study B post-hoc dense benchmark on 640 official queries.}\label{tab:5.12}\\
 \endlastfoot
 Pretrained & 0.673963 & 0.000000 & 0.621319 & 0.961719 \\
 Fine-tuned seed 42 & 0.693162 & 0.019199 & 0.644759 & 0.953125 \\
@@ -392,7 +392,6 @@ The crucial question is whether the dense improvement remains useful inside the 
 \setstretch{1.0}
 \setlength{\tabcolsep}{4pt}
 \renewcommand{\arraystretch}{1.05}
-\caption[Study B primary fusion outcomes under pretrained-locked weights.]{Study B primary fusion outcomes under pretrained-locked weights.}\label{tab:5.13}
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{@{}lrrrrrrl@{}}
 \toprule
@@ -402,6 +401,7 @@ Two-way & 0.752557 & 0.748263 & -0.004295 & -0.570668\% & -0.005729 & 0/\allowbr
 Three-way & 0.746672 & 0.747571 & 0.000898 & 0.120332\% & -0.003125 & 2/\allowbreak{}3 & Fail \\
 \bottomrule
 \end{tabular}}
+\caption[Study B primary fusion outcomes under pretrained-locked weights.]{Study B primary fusion outcomes under pretrained-locked weights.}\label{tab:5.13}
 \end{table}
 
 The dense-only gain does not transfer into a practically useful hybrid gain. The two-way hybrid decreases by 0.004295 NDCG@10. The three-way hybrid increases by only 0.000898 NDCG@10, far below the +0.01 improvement threshold. Thus, Study B sharpens the main RQ3 finding: adaptation can improve standalone dense ranking while failing to improve the complete hybrid retrieval system by a meaningful amount.
@@ -417,7 +417,6 @@ Aggregate means can hide mixtures of repaired and introduced failures. Table~\re
 \setlength{\tabcolsep}{3pt}
 \renewcommand{\arraystretch}{1.18}
 \begin{longtable}{>{\raggedright\arraybackslash}p{6.897cm}>{\raggedright\arraybackslash}p{4.080cm}>{\raggedright\arraybackslash}p{4.362cm}}
-\caption[Query-level changes after fine-tuning, corrected seed 42.]{Query-level changes after fine-tuning, corrected seed 42.}\label{tab:5.14}\\
 \toprule
 \textbf{Outcome} & \textbf{Two-way hybrid} & \textbf{Three-way hybrid} \\
 \midrule
@@ -430,6 +429,7 @@ Aggregate means can hide mixtures of repaired and introduced failures. Table~\re
 \multicolumn{3}{r}{\footnotesize Continued on next page}\\
 \endfoot
 \bottomrule
+\caption[Query-level changes after fine-tuning, corrected seed 42.]{Query-level changes after fine-tuning, corrected seed 42.}\label{tab:5.14}\\
 \endlastfoot
 Higher NDCG@10 & 102 & 102 \\
 Lower NDCG@10 & 210 & 163 \\
@@ -447,7 +447,6 @@ The two-way system repairs some top-ten misses, but introduces more than twice a
 \setlength{\tabcolsep}{3pt}
 \renewcommand{\arraystretch}{1.18}
 \begin{longtable}{>{\raggedright\arraybackslash}p{3.780cm}>{\raggedright\arraybackslash}p{3.780cm}>{\raggedright\arraybackslash}p{3.780cm}>{\raggedright\arraybackslash}p{3.780cm}}
-\caption[Study B NDCG changes by query, using mean fine-tuned seed metric minus pretrained.]{Study B NDCG changes by query, using mean fine-tuned seed metric minus pretrained.}\label{tab:5.15}\\
 \toprule
 \textbf{Comparison} & \textbf{Improved} & \textbf{Worse} & \textbf{Tied} \\
 \midrule
@@ -460,6 +459,7 @@ The two-way system repairs some top-ten misses, but introduces more than twice a
 \multicolumn{4}{r}{\footnotesize Continued on next page}\\
 \endfoot
 \bottomrule
+\caption[Study B NDCG changes by query, using mean fine-tuned seed metric minus pretrained.]{Study B NDCG changes by query, using mean fine-tuned seed metric minus pretrained.}\label{tab:5.15}\\
 \endlastfoot
 Dense & 127 & 96 & 417 \\
 Two-way & 81 & 93 & 466 \\
@@ -471,9 +471,9 @@ Study B's dense-only comparison has more improved than worsened queries, while t
 
 \subsection{Overall Interpretation}
 
-The RQ3 evidence has a clear sequence. First, Study A's development selection shows large gains and justifies testing the adaptation. Second, Study A's corrected held-out hybrid evaluation shows regressions for both two-way and three-way hybrids. Third, Study B shows that legal fine-tuning can improve dense BGE-M3 ranking. Fourth, that dense gain largely fails to transfer into locked-weight hybrid retrieval.
+The RQ3 evidence has a clear sequence. First, Study A's development selection shows large gains and justifies testing the adaptation. Second, Study A's corrected hybrid evaluation on unseen data shows regressions for both two-way and three-way hybrids. Third, Study B shows that legal fine-tuning can improve dense BGE-M3 ranking. Fourth, that dense gain largely fails to transfer into locked-weight hybrid retrieval.
 
-This sequence supports a stronger and more nuanced conclusion than either ``fine-tuning works'' or ``fine-tuning fails.'' It works at the dense-retriever level in Study B, but it does not necessarily improve the complete sparse--dense system. The complete system must therefore be evaluated directly. Development scores and dense-only scores are insufficient substitutes for end-to-end hybrid evaluation.
+This sequence supports a stronger and more nuanced conclusion than either ``fine-tuning works'' or ``fine-tuning fails.'' It works at the dense-retriever level in Study B, but it does not necessarily improve the complete lexical–semantic system. The complete system must therefore be evaluated directly. Development scores and dense-only scores are insufficient substitutes for end-to-end hybrid evaluation.
 
 Several boundaries remain. Cross-collection adaptation to ALQAC and BCA was not established. Secondary retuned-weight hybrid results were not available, so the thesis does not claim that the adapted encoder could not be made useful under a different fusion policy. A fresh untouched cohort would be required for a cleaner confirmatory test. These limitations narrow the conclusion without weakening the observed negative transfer result.
 

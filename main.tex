@@ -19,6 +19,8 @@
 \usepackage{booktabs,longtable,array}
 \usepackage{pdflscape}
 \usepackage{float}
+\usepackage[chapter]{algorithm}
+\usepackage{algpseudocode}
 \usepackage{setspace}
 \usepackage{fvextra}
 \usepackage{tikz}
@@ -27,6 +29,13 @@
 \usepackage{fancyhdr}
 \usepackage[unicode,hidelinks,bookmarksnumbered,hypertexnames=false]{hyperref}
 \usepackage{xurl}
+\usepackage{etoolbox}
+
+% Keep the report class's chapter typography, but start every chapter at the text margin.
+\makeatletter
+\patchcmd{\@makechapterhead}{\vspace*{50\p@}}{}{}{\PackageError{thesis}{Could not adjust numbered chapter spacing}{}}
+\patchcmd{\@makeschapterhead}{\vspace*{50\p@}}{}{}{\PackageError{thesis}{Could not adjust unnumbered chapter spacing}{}}
+\makeatother
 
 \newcommand{\TitlePageFrame}{%
   \AddToShipoutPictureBG*{%
@@ -44,17 +53,17 @@
 }
 
 \hypersetup{
-  pdftitle={Hybrid Retrieval and Legal-Domain Adaptation for Vietnamese Legal Information Retrieval},
+pdftitle={HYBRID RETRIEVAL AND LEGAL-DOMAIN ADAPTATION FOR VIETNAMESE LEGAL INFORMATION RETRIEVAL},
   pdfauthor={Nghiem Phan Thanh Tuan},
   pdfsubject={Master's thesis manuscript based on the supplied research account}
 }
 \urlstyle{same}
-\renewcommand{\bibname}{Bibliography}
 \setstretch{1.25}
 \setcounter{tocdepth}{1}
 \setcounter{secnumdepth}{2}
 \setlength{\emergencystretch}{3em}
 \setlength{\parskip}{0.2em}
+\setlength{\parindent}{0pt}
 \setlength{\LTcapwidth}{\textwidth}
 \pagestyle{fancy}
 \fancyhf{}
@@ -77,13 +86,11 @@
   \TitlePageFrame
   \centering
   \IfFileExists{metadata/fpt.png}{\includegraphics[width=5cm]{metadata/fpt.png}\par}{}
-  \vspace{1cm}
-  {\large FPT UNIVERSITY\par}
-  \vspace{1.2cm}
-  {\Large\bfseries MASTER THESIS ON SOFTWARE ENGINEERING\par}
-  \vspace{1cm}
-  {\LARGE\bfseries Hybrid Retrieval and Legal-Domain Adaptation for Vietnamese Legal Information Retrieval\par}
-  \vspace{1.4cm}
+  \vspace{2.2cm}
+  {\large\bfseries MASTER THESIS ON SOFTWARE ENGINEERING\par}
+  \vspace{4cm}
+  {\large\bfseries HYBRID RETRIEVAL AND LEGAL-DOMAIN ADAPTATION FOR VIETNAMESE LEGAL INFORMATION RETRIEVAL\par}
+  \vspace{6cm}
   \begin{tabular}{@{}ll@{}}
     Master's student: & NGHIEM PHAN THANH TUAN \\
     Student ID: & MSE13189 \\
@@ -92,11 +99,14 @@
   \vfill
   % {\large Research manuscript\par}
   \vspace{0.4cm}
-  {\large \today\par}
+  {\large Ha Noi, 2026\par}
 \end{titlepage}
 
 \pagenumbering{roman}
 \hypersetup{pageanchor=true}
+\input{chapters/acknowledgements}
+\clearpage
+\renewcommand{\contentsname}{Table of Contents}
 \tableofcontents
 \clearpage
 \input{chapters/frontmatter}
@@ -112,13 +122,14 @@
 \input{chapters/chapter_5}
 \input{chapters/chapter_6}
 
+\renewcommand{\bibname}{References}
 \input{ref/references}
-\appendix
-\input{appendices/appendix_a}
-\input{appendices/appendix_b}
-\input{appendices/appendix_c}
-\input{appendices/appendix_d}
-\input{appendices/appendix_e}
-\input{appendices/appendix_f}
-\input{appendices/appendix_g}
+% \appendix
+% \input{appendices/appendix_a}
+% \input{appendices/appendix_b}
+% \input{appendices/appendix_c}
+% \input{appendices/appendix_d}
+% \input{appendices/appendix_e}
+% \input{appendices/appendix_f}
+% \input{appendices/appendix_g}
 \end{document}

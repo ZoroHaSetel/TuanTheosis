@@ -22,7 +22,7 @@ This formulation makes two limitations explicit. First, a target absent from the
 
 The baseline architecture compares individual retrievers and weighted hybrids. BM25 provides the lexical score. BGE-M3 and multilingual-E5-base provide dense vector scores. The two-way hybrid combines BM25 and BGE-M3; the three-way hybrid combines BM25, BGE-M3, and E5.
 
-Each component scores the same ordered corpus. Scores are normalized per query and combined by weighted addition. The resulting top-ten rankings are evaluated against the recorded targets. The system does not use a cross-encoder reranker, query router, query expansion module, approximate nearest-neighbor filter, or answer-generation stage. This restriction keeps the experiment focused on first-stage sparse--dense retrieval.
+Each component scores the same ordered corpus. Scores are normalized per query and combined by weighted addition. The resulting top-ten rankings are evaluated against the recorded targets. The system does not use a cross-encoder reranker, query router, query expansion module, approximate nearest-neighbor filter, or answer-generation stage. This restriction keeps the experiment focused on first-stage lexical–semantic retrieval.
 
 Figure~\ref{fig:4.1} summarizes the baseline scoring and evaluation architecture.
 
@@ -38,7 +38,7 @@ Figure~\ref{fig:4.1} summarizes the baseline scoring and evaluation architecture
 \node (G) at (2.52,-1.55) {Reference-law connected components};
 \node (H) at (0.00,-6.20) {Training-side fusion selection};
 \node (I) at (0.00,-7.75) {Locked fold weights};
-\node (J) at (0.00,-9.30) {Held-out top-ten rankings};
+\node (J) at (0.00,-9.30) {Top-ten rankings on unseen data};
 \node (K) at (0.00,-10.85) {Query-level metrics and paired comparisons};
 \draw[->] (A.south) -- (B.north);
 \draw[->] (B.south) -- (C.north);
@@ -68,7 +68,6 @@ The evaluation covers ALQAC, Zalo, and BCA. ALQAC and Zalo are each evaluated in
 \setlength{\tabcolsep}{3pt}
 \renewcommand{\arraystretch}{1.18}
 \begin{longtable}{>{\raggedright\arraybackslash}p{3.808cm}>{\raggedright\arraybackslash}p{2.519cm}>{\raggedright\arraybackslash}p{2.519cm}>{\raggedright\arraybackslash}p{6.274cm}}
-\caption[Canonical baseline evaluation conditions.]{Canonical baseline evaluation conditions.}\label{tab:4.1}\\
 \toprule
 \textbf{Condition} & \textbf{Queries} & \textbf{Articles} & \textbf{Evaluation boundary} \\
 \midrule
@@ -81,6 +80,7 @@ The evaluation covers ALQAC, Zalo, and BCA. ALQAC and Zalo are each evaluated in
 \multicolumn{4}{r}{\footnotesize Continued on next page}\\
 \endfoot
 \bottomrule
+\caption[Canonical baseline evaluation conditions.]{Canonical baseline evaluation conditions.}\label{tab:4.1}\\
 \endlastfoot
 ALQAC A, clean & 811 & 3,363 & Law-component grouped out-of-fold evaluation over the clean reference representation \\
 ALQAC B, parsed & 811 & 3,381 & Same ordered queries with separately constructed parsed articles \\
@@ -134,7 +134,6 @@ Table~\ref{tab:4.2} illustrates how one public question becomes a retrieval inst
 \setlength{\tabcolsep}{3pt}
 \renewcommand{\arraystretch}{1.18}
 \begin{longtable}{>{\raggedright\arraybackslash}p{3.429cm}>{\raggedright\arraybackslash}p{5.828cm}>{\raggedright\arraybackslash}p{6.084cm}}
-\caption[Worked BCA question-to-target transformation.]{Worked BCA question-to-target transformation.}\label{tab:4.2}\\
 \toprule
 \textbf{Stage} & \textbf{Representation} & \textbf{Interpretation} \\
 \midrule
@@ -147,6 +146,7 @@ Table~\ref{tab:4.2} illustrates how one public question becomes a retrieval inst
 \multicolumn{3}{r}{\footnotesize Continued on next page}\\
 \endfoot
 \bottomrule
+\caption[Worked BCA question-to-target transformation.]{Worked BCA question-to-target transformation.}\label{tab:4.2}\\
 \endlastfoot
 Stored query & Vietnamese question about mandatory fire-prevention equipment for apartment buildings & Query text supplies the retrieval input \\
 Extracted answer references & A cited decree with whole-law and article-level mentions & Published answer citations provide target candidates \\
@@ -172,7 +172,6 @@ s_{\mathrm{dense}}(q,d)=\frac{\mathbf{u}_q^\top\mathbf{v}_d}{\max(\lVert\mathbf{
 \setlength{\tabcolsep}{3pt}
 \renewcommand{\arraystretch}{1.18}
 \begin{longtable}{>{\raggedright\arraybackslash}p{5.072cm}>{\raggedright\arraybackslash}p{5.134cm}>{\raggedright\arraybackslash}p{5.134cm}}
-\caption[Baseline dense-model identity.]{Baseline dense-model identity.}\label{tab:4.3}\\
 \toprule
 \textbf{Property} & \textbf{BGE-M3} & \textbf{Multilingual-E5-base} \\
 \midrule
@@ -185,6 +184,7 @@ s_{\mathrm{dense}}(q,d)=\frac{\mathbf{u}_q^\top\mathbf{v}_d}{\max(\lVert\mathbf{
 \multicolumn{3}{r}{\footnotesize Continued on next page}\\
 \endfoot
 \bottomrule
+\caption[Baseline dense-model identity.]{Baseline dense-model identity.}\label{tab:4.3}\\
 \endlastfoot
 Model family & BGE-M3 multilingual embedding model & E5 multilingual text-embedding model \\
 Embedding dimension & 1,024 & 768 \\
@@ -214,38 +214,47 @@ S_3(q,d)=w_b\widetilde{s}_{b}(q,d)+w_g\widetilde{s}_{g}(q,d)+w_e\widetilde{s}_{e
 \]
 where \(e\) denotes E5. Weights are nonnegative. The evaluated grid uses increments of 0.1. Thus, the two-way grid contains 11 candidate settings and the three-way simplex contains 66 candidate settings, including zero-weight boundaries.
 
-For each split, training-side mean NDCG@10 selects the fusion weights, which are then fixed for held-out evaluation. Because the three-way grid contains the two-way boundary, a higher training-side fit does not by itself prove a held-out benefit. The held-out two-way versus three-way comparison in Chapter 5 is therefore the relevant evidence for E5's incremental value.
+For each split, training-side mean NDCG@10 selects the fusion weights, which are then fixed for evaluation on unseen data. Because the three-way grid contains the two-way boundary, a higher training-side fit does not by itself prove a benefit on unseen data. The two-way versus three-way comparison on unseen data in Chapter 5 is therefore the relevant evidence for E5's incremental value.
 
 \section{Evaluation Design}
 
-The baseline evaluation uses law-component grouping to reduce leakage from shared reference laws. Query groups are assigned to folds so that reference-law components are not split between training-side fusion selection and held-out evaluation. The resulting out-of-fold predictions measure a selection procedure rather than one universal global weight vector.
+The baseline evaluation uses law-component grouping to reduce leakage from shared reference laws. Query groups are assigned to folds so that reference-law components are not split between training-side fusion selection and evaluation on unseen data. The resulting out-of-fold predictions measure a selection procedure rather than one universal global weight vector.
 
-\textbf{Algorithm 4.1. Grouped selection of fusion weights and out-of-fold evaluation.}
+\begin{algorithm}[H]
+\caption{Grouped selection of fusion weights and out-of-fold evaluation}
+\label{alg:grouped-fusion-selection}
+\footnotesize
+\begin{algorithmic}[1]
+\Require Ordered queries $Q$, corpus $D$, aligned score matrices, grouped folds, candidate weight grid $W$
+\Ensure Selected weights per fold and query metrics on unseen data
+\For{each fold $f$}
+    \State Let $T$ be the training-side query indices and $V$ the unseen-data indices
+    \For{each candidate weight vector $w\in W$}
+        \State Rank $D$ for every query in $T$ using the weighted score sum
+        \State Compute mean query NDCG@10
+    \EndFor
+    \State Select the first candidate with the highest training-side mean
+    \State Rank all queries in $V$ using the selected weights
+    \State Store query-level metrics on unseen data
+\EndFor
+\State Aggregate unseen-data query rows across folds
+\end{algorithmic}
+\end{algorithm}
 
-\begin{Verbatim}[fontsize=\footnotesize,breaklines=true,breakanywhere=true]
-Input: ordered queries Q, corpus D, aligned score matrices,
-       grouped folds, candidate weight grid W
-Output: selected weights per fold and held-out query metrics
-For each fold f:
-    Let T be the training-side query indices and V the held-out indices
-    For each candidate weight vector w in W:
-        Rank D for every query in T using the weighted score sum
-        Compute mean query NDCG@10
-    Select the first candidate with the highest training-side mean
-    Rank all queries in V using the selected weights
-    Store query-level held-out metrics
-Aggregate held-out query rows across folds
-\end{Verbatim}
-
-\textbf{Algorithm 4.2. Article ranking with a locked hybrid configuration.}
-
-\begin{Verbatim}[fontsize=\footnotesize,breaklines=true,breakanywhere=true]
-Input: query q, corpus D, retriever scores, locked fusion weights w
-Normalize each retriever's scores over the full corpus for q
-For each article d:
-    combined[d] = sum_r w[r] * normalized_score[r, d]
-Return the ten articles with highest combined score
-\end{Verbatim}
+\begin{algorithm}[H]
+\caption{Article ranking with a locked hybrid configuration}
+\label{alg:locked-hybrid-ranking}
+\footnotesize
+\begin{algorithmic}[1]
+\Require Query $q$, corpus $D$, retriever scores, locked fusion weights $w$
+\Ensure Ten highest-ranked articles
+\State Normalize each retriever's scores over the full corpus for $q$
+\For{each article $d\in D$}
+    \State $\mathrm{combined}[d]\gets\sum_r w_r\,\mathrm{normalized\_score}[r,d]$
+\EndFor
+\State \Return the ten articles with highest combined score
+\end{algorithmic}
+\end{algorithm}
 
 For BCA, ordinary query-level evaluation would overstate reliability because many questions are connected through shared legal targets. The corrected protocol distinguishes a giant-component holdout, small-component out-of-fold evaluation, and a combined descriptive view. Chapter 5 reports all three because they answer different questions: performance on the dominant connected component, performance across smaller components, and descriptive behavior over the entire retained BCA collection.
 
@@ -255,7 +264,7 @@ Fine-tuning tests whether legal-domain supervision improves BGE-M3. The adaptati
 
 \subsection{Training Pairs and Negatives}
 
-Study A: Hybrid-Oriented Adaptation uses Zalo query--article pairs. For each eligible query, the training builder selects a known relevant article available in both clean and parsed views, creating paired training examples from the two corpus representations. Negative passages are mined from lexical and dense rankings after excluding known positives, duplicates, unavailable documents, and protected held-out laws.
+Study A: Hybrid-Oriented Adaptation uses Zalo query--article pairs. For each eligible query, the training builder selects a known relevant article available in both clean and parsed views, creating paired training examples from the two corpus representations. Negative passages are mined from lexical and dense rankings after excluding known positives, duplicates, unavailable documents, and laws reserved for evaluation on unseen data.
 
 \begin{table}[H]
 \centering
@@ -263,7 +272,6 @@ Study A: Hybrid-Oriented Adaptation uses Zalo query--article pairs. For each eli
 \setstretch{1.0}
 \setlength{\tabcolsep}{4pt}
 \renewcommand{\arraystretch}{1.05}
-\caption[Training groups and protected folds in the completed hybrid fine-tuning study.]{Training groups and protected folds in the completed hybrid fine-tuning study.}\label{tab:4.4}
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{@{}lrrrrrr@{}}
 \toprule
@@ -273,9 +281,10 @@ Pilot & 2, 3, 4 & 1,917 & 3,834 & 0, 1 & 258 & 0 \\
 Final training & 1, 2, 3, 4 & 2,556 & 5,112 & 0 & 110 & 0 \\
 \bottomrule
 \end{tabular}}
+\caption[Training groups and protected folds in the completed hybrid fine-tuning study.]{Training groups and protected folds in the completed hybrid fine-tuning study.}\label{tab:4.4}
 \end{table}
 
-The zero-overlap checks protect the held-out law identifiers in the constructed training groups. They do not prove absence of shared legal concepts or similar language, and they do not make the final evaluation a test on unseen legal systems.
+The zero-overlap checks protect the law identifiers reserved for evaluation on unseen data from appearing in the constructed training groups. They do not prove absence of shared legal concepts or similar language, and they do not make the final evaluation a test on unseen legal systems.
 
 \subsection{Training Objective and Configuration}
 
@@ -291,7 +300,6 @@ Study A trains BGE-M3 with a single-positive in-batch contrastive objective. Eac
 \setlength{\tabcolsep}{3pt}
 \renewcommand{\arraystretch}{1.18}
 \begin{longtable}{>{\raggedright\arraybackslash}p{6.306cm}>{\raggedright\arraybackslash}p{9.254cm}}
-\caption[Locked configuration for the completed final-training runs.]{Locked configuration for the completed final-training runs.}\label{tab:4.5}\\
 \toprule
 \textbf{Parameter} & \textbf{Verified value} \\
 \midrule
@@ -304,6 +312,7 @@ Study A trains BGE-M3 with a single-positive in-batch contrastive objective. Eac
 \multicolumn{2}{r}{\footnotesize Continued on next page}\\
 \endfoot
 \bottomrule
+\caption[Locked configuration for the completed final-training runs.]{Locked configuration for the completed final-training runs.}\label{tab:4.5}\\
 \endlastfoot
 Base encoder & BGE-M3 \\
 Adaptation & Full dense encoder \\
@@ -321,7 +330,7 @@ Frozen E5 component & Multilingual-E5-base, unchanged throughout adaptation \\
 \end{longtable}
 \endgroup
 
-Pilot training uses folds 2--4; fold 1 selects the learning rate, epoch, and contrastive batch setting by hybrid NDCG@10. After the recipe is locked, final models are retrained on folds 1--4 using three seeds. Fold 0 is reserved for Study A's corrected held-out hybrid comparison. Because a flawed preliminary held-out analysis had already exposed fold 0, the corrected result is treated as a post-hoc corrected held-out evaluation rather than as a pristine first-use test.
+Pilot training uses folds 2--4; fold 1 selects the learning rate, epoch, and contrastive batch setting by hybrid NDCG@10. After the recipe is locked, final models are retrained on folds 1--4 using three seeds. Fold 0 is reserved for Study A's corrected hybrid comparison on data unseen during training and selection. Because a flawed preliminary analysis had already exposed fold 0, the corrected result is treated as a post-hoc evaluation on unseen data, not as a pristine first-use test.
 
 Figure~\ref{fig:4.3} summarizes the selection and evaluation sequence.
 

@@ -26,7 +26,7 @@ This thesis retains BM25 as the fixed lexical reference. It does not introduce w
 
 \section{Multilingual Neural Retrieval}
 
-The neural family replaces explicit vocabulary coordinates with learned representations. Sentence-BERT and DPR provide influential approaches to separate query/\allowbreak{}document encoding and supervised retrieval \cite{reimers2019,karpukhin2020}. Their methodological relevance is that document representations can be prepared before a query arrives. Their evaluation tasks do not independently establish effectiveness on the legal collections studied here.
+The neural family replaces explicit vocabulary coordinates with learned representations. Sentence-BERT and Dense Passage Retrieval provide influential approaches to separate query/\allowbreak{}document encoding and supervised retrieval \cite{reimers2019,karpukhin2020}. Their methodological relevance is that document representations can be prepared before a query arrives. Their evaluation tasks do not independently establish effectiveness on the legal collections studied here.
 
 BGE-M3 and multilingual E5 extend the motivation to multilingual retrieval \cite{chen2024,wang2024}. The BGE-M3 paper describes multiple retrieval functions, while the E5 technical report describes a model family with distinct checkpoints and training configurations. The present study uses BGE-M3 dense vectors and E5-base as separately identified channels. This restriction matters: a result for one dense configuration cannot support a conclusion about all model modes or all members of a model family.
 
@@ -34,19 +34,19 @@ A single-vector representation supplies an efficient separation between document
 
 These studies justify testing multilingual representations while leaving two local questions unresolved: whether their rankings improve on the lexical reference, and whether their disagreements are useful after fusion. The latter cannot be answered by a standalone leaderboard position. It requires comparing the complete hybrid against the hybrid it extends.
 
-\section{Sparse–Dense and Multi-Retriever Fusion}
+\section{Lexical–Semantic and Multi-Retriever Fusion}
 
 Fusion studies address how heterogeneous rankings or scores can be combined. Cormack et al.~\cite{cormack2009} introduce reciprocal rank fusion, while Bruch et al.~\cite{bruch2022} analyze lexical–semantic fusion including convex score combination. The distinction is substantive: rank fusion uses positions, whereas weighted score fusion retains information about score distances after a specified normalization. Their behavior depends on candidate policy and parameter selection; the literature does not justify a universal ordering independent of those settings.
 
-The hypothesis behind sparse–dense fusion is complementarity. Lexical evidence and learned similarity may recover different relevant items or order the same items differently. Adding a second dense retriever poses a stricter question: it must contribute beyond a system that already combines lexical and semantic information. Strong standalone performance is insufficient if the added channel repeats evidence already supplied by the other components~\cite{bruch2022}.
+The hypothesis behind lexical–semantic fusion is complementarity. Lexical evidence and learned similarity may recover different relevant items or order the same items differently. Adding a second dense retriever poses a stricter question: it must contribute beyond a system that already combines lexical and semantic information. Strong standalone performance is insufficient if the added channel repeats evidence already supplied by the other components~\cite{bruch2022}.
 
-The project tests that stricter question by comparing BM25+\allowbreak{}BGE-M3 with a search space that additionally permits E5-base. Because the larger weight simplex includes zero-weight boundaries, selection can ignore the new channel. An improved selection score could reflect a wider search rather than stable additional evidence. The evaluation must therefore inspect held-out rankings and conditio\allowbreak{}n-specif\allowbreak{}ic changes, not only selected weights.
+The project tests that stricter question by comparing BM25+\allowbreak{}BGE-M3 with a search space that additionally permits E5-base. Because the larger weight simplex includes zero-weight boundaries, selection can ignore the new channel. An improved selection score could reflect a wider search rather than stable additional evidence. The evaluation must therefore inspect rankings on unseen data and conditio\allowbreak{}n-specif\allowbreak{}ic changes, not only selected weights.
 
-This reasoning motivates RQ1 and RQ2 while defining their limits. The thesis evaluates the implemented score fusion; RRF, alternative normalization, and candidate-depth changes remain related approaches unless matched experimental outputs support a comparison.
+This reasoning motivates RQ1 and RQ2 while defining their limits. The thesis evaluates the implemented score fusion; Reciprocal Rank Fusion, alternative normalization, and candidate-depth changes remain related approaches unless matched experimental outputs support a comparison.
 
 \section{Legal-Domain Adaptation and Hard Negatives}
 
-Domain adaptation can concern language modeling or retrieval supervision. LEGAL-BERT studies legal language representations, whereas DPR trains query–passage matching \cite{chalkidis2020,karpukhin2020}. Legal text exposure alone therefore does not identify the retrieval objective optimized by a model. For this thesis, the intervention is supervised contrastive adaptation of a dense encoder using query–article groups.
+Domain adaptation can concern language modeling or retrieval supervision. LEGAL-BERT studies legal language representations, whereas Dense Passage Retrieval trains query–passage matching \cite{chalkidis2020,karpukhin2020}. Legal text exposure alone therefore does not identify the retrieval objective optimized by a model. For this thesis, the intervention is supervised contrastive adaptation of a dense encoder using query–article groups.
 
 Hard-negative research examines how informative competitors affect retrieval training. Zhan et al.~\cite{zhan2021} investigate training strategies that change the source or refresh of difficult examples. This makes the mining procedure a substantive part of the experiment: the source retriever, corpus, and filtering rules determine the distinctions the learner is asked to acquire. In legal collections, excluding known positive identifiers is necessary but does not establish that every remaining competitor is legally irrelevant.
 
@@ -63,7 +63,6 @@ The literature supplies several kinds of evidence, each answering a different qu
 \setlength{\tabcolsep}{3pt}
 \renewcommand{\arraystretch}{1.18}
 \begin{longtable}{>{\raggedright\arraybackslash}p{2.003cm}>{\raggedright\arraybackslash}p{2.982cm}>{\raggedright\arraybackslash}p{3.097cm}>{\raggedright\arraybackslash}p{2.923cm}>{\raggedright\arraybackslash}p{3.895cm}}
-\caption{Prior research grouped by task, intervention, and evaluation role.}\label{tab:2.1}\\
 \toprule
 \textbf{Source} & \textbf{Task and language scope} & \textbf{Representation or intervention} & \textbf{Evaluation emphasis} & \textbf{Relevance and boundary for this thesis} \\
 \midrule
@@ -76,6 +75,7 @@ The literature supplies several kinds of evidence, each answering a different qu
 \multicolumn{5}{r}{\footnotesize Continued on next page}\\
 \endfoot
 \bottomrule
+\caption{Prior research grouped by task, intervention, and evaluation role.}\label{tab:2.1}\\
 \endlastfoot
 ALQAC Organizers~\cite{alqac2024} & Vietnamese statute articles retrieved for questions & Competition task definition & Identifying answer-supporting articles & Direct task motivation; project-specific corpus versions still require local provenance \\
 Goebel et al.~\cite{goebel2024} & Canadian case law and Japanese statute tasks & Multiple competition submissions & Task-specific retrieval and entailment evaluation & Defines legal task distinctions; jurisdiction and retrieval unit differ \\
@@ -83,7 +83,7 @@ Goebel et al.~\cite{goebel2024} & Canadian case law and Japanese statute tasks &
 Thakur et al.~\cite{thakur2021} & Heterogeneous general retrieval collections & Lexical, dense, sparse, reranking, and late interaction & Zero-shot transfer across tasks & Motivates reporting generalization separately from development gains \\
 Chen et al.~\cite{chen2024} & Multilingual and multiple\allowbreak{}-granula\allowbreak{}rity retrieval & M3-Embedding & Model benchmark evaluation & Establishes BGE-M3 capabilities; dense-only deployment is a restricted configuration \\
 Wang et al.~\cite{wang2024} & Multilingual embedding and retrieval tasks & E5 model family & Training recipe and benchmark evaluation & Supplies E5 context; base, large, and instruction-tuned variants remain separate \\
-\cite{bruch2022} & Lexical–semantic fusion experiments & Convex combination and RRF & Fusion behavior and tuning & Motivates explicit fusion specification; local gains need local evaluation \\
+\cite{bruch2022} & Lexical–semantic fusion experiments & Convex combination and Reciprocal Rank Fusion & Fusion behavior and tuning & Motivates explicit fusion specification; local gains need local evaluation \\
 \cite{zhan2021} & Dense retrieval training & Hard-negative strategies & Ranking optimization & Motivates careful negative construction; legal label validity remains a separate issue \\
 \end{longtable}
 \endgroup
@@ -104,7 +104,7 @@ Related architectures provide boundaries rather than promised solutions. A cross
 
 This thesis is positioned as a controlled empirical investigation of Vietnamese legal retrieval. Its purpose is not to introduce BM25, multilingual embeddings, contrastive learning, or linear fusion as new algorithms. The contribution lies in determining what these components accomplish under the studied legal collections, representation conditions, and evaluation constraints. The literature makes the comparisons worthwhile; the experiments determine which conclusions can be sustained.
 
-Three distinctions organize that investigation. First, lexical–dense combination is separated from the addition of another dense channel. Demonstrating that a hybrid improves on BM25 would not establish that every further retriever adds useful evidence. Second, dense adaptation is separated from hybrid adaptation. An improvement in the dense component would not by itself establish an improvement in the combined ranking. Third, development performance is separated from held-out and cross-dataset performance. A configuration selected using a particular collection cannot be described as unselected generalization evidence on that same collection.
+Three distinctions organize that investigation. First, lexical–semantic combination is separated from the addition of another dense channel. Demonstrating that a hybrid improves on BM25 would not establish that every further retriever adds useful evidence. Second, dense adaptation is separated from hybrid adaptation. An improvement in the dense component would not by itself establish an improvement in the combined ranking. Third, development performance is separated from performance on unseen data and across datasets. A configuration selected using a particular collection cannot be described as unselected generalization evidence on that same collection.
 
 Representation conditions are another substantive part of the study. The clean or parsed text supplied to a model is part of the experimental treatment, as are article boundaries and target mappings. Treating these merely as preprocessing details would obscure why a model gains or loses evidence. At the same time, the thesis should not attribute every score change to parser quality when candidate coverage, text content, and normalization populations may change together. The empirical analysis therefore distinguishes directly measured outcomes from explanations that require further intervention or manual inspection.
 
@@ -114,4 +114,4 @@ Chapter 4 translates the theoretical definitions into a concrete retrieval pipel
 
 \section{Chapter Summary}
 
-Prior work establishes relevant model families and evaluation principles, but it does not determine their incremental value on these particular Vietnamese legal collections. The thesis therefore asks three increasingly restrictive questions: whether fusion improves a lexical reference, whether another dense channel improves an existing hybrid, and whether developm\allowbreak{}ent-sele\allowbreak{}cted adaptation improves the held-out hybrid. Chapter 3 defines the concepts needed to formalize these comparisons.
+Prior work establishes relevant model families and evaluation principles, but it does not determine their incremental value on these particular Vietnamese legal collections. The thesis therefore asks three increasingly restrictive questions: whether fusion improves a lexical reference, whether another dense channel improves an existing hybrid, and whether developm\allowbreak{}ent-sele\allowbreak{}cted adaptation improves the hybrid on unseen data. Chapter 3 defines the concepts needed to formalize these comparisons.

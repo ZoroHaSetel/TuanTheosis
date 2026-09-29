@@ -6,7 +6,7 @@
 \node[stage] (question) {\textbf{Research question and pretrained baseline comparison}\\
 BM25+BGE-M3 versus BM25+BGE-M3+E5};
 \node[stage,below=of question] (selection) {\textbf{Comparable score fusion}\\
-Per-query normalization; weights selected on fitting queries; evaluation on held-out queries};
+Per-query normalization; weights selected on fitting queries; evaluation on unseen data};
 \node[stage,below=of selection] (collections) {\textbf{Collection-level evidence}\\
 ALQAC and Zalo reported by representation; BCA evaluated with its component structure};
 \node[stage,below=of collections] (components) {\textbf{BCA dependence analysis}\\

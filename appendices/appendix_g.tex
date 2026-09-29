@@ -22,14 +22,14 @@ The nodes summarize verified NDCG@10 directions for three-way minus two-way. Thi
 \caption[Direction of the incremental E5 result by evaluation condition.]{Direction of the incremental E5 result by evaluation condition.}
 \label{fig:G.1}
 \end{figure}
-The nodes compare the direction of fine-tuned minus pretrained NDCG@10 against each cohort's own baseline. No arrow represents a paired numerical subtraction between development and held-out cohorts. The diagram's purpose is to expose the reversal that would be hidden by reporting the selected pilot alone.
+The nodes compare the direction of fine-tuned minus pretrained NDCG@10 against each cohort's own baseline. No arrow represents a paired numerical subtraction between development and unseen-data cohorts. The diagram's purpose is to expose the reversal that would be hidden by reporting the selected pilot alone.
 
 \begin{figure}[p]
 \centering
 \begin{tikzpicture}[>=Latex, every node/.style={draw=black!65, rounded corners=2pt, fill=black!3, text width=4.35cm, minimum height=0.85cm, align=center, font=\small}, every path/.style={draw=black!60, thick}]
 \node (A) at (0.00,0.00) {Development selection: both hybrids improve};
 \node (B) at (0.00,-1.55) {Lock recipe and train three seeds};
-\node (C) at (0.00,-3.10) {Corrected held-out comparison};
+\node (C) at (0.00,-3.10) {Corrected comparison on unseen data};
 \node (D) at (-5.05,-4.65) {Two-way: all three NDCG differences negative};
 \node (E) at (0.00,-4.65) {Three-way: all three NDCG differences negative};
 \node (F) at (5.05,-4.65) {Cluster intervals span zero};
@@ -39,6 +39,6 @@ The nodes compare the direction of fine-tuned minus pretrained NDCG@10 against e
 \draw[->] (C.south) -- (E.north);
 \draw[->] (C.south) -- (F.north);
 \end{tikzpicture}
-\caption[Development and corrected held-out outcome of hybrid adaptation.]{Development and corrected held-out outcome of hybrid adaptation.}
+\caption[Development and corrected unseen-data outcome of hybrid adaptation.]{Development and corrected unseen-data outcome of hybrid adaptation.}
 \label{fig:G.2}
 \end{figure}

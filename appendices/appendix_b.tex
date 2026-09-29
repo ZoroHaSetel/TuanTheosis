@@ -11,7 +11,6 @@ The two-way grid is the set of eleven points \texttt{(i/10, 1\allowbreak{}-i/10,
 \setlength{\tabcolsep}{3pt}
 \renewcommand{\arraystretch}{0.98}
 \begin{longtable}{>{\raggedright\arraybackslash}p{5.005cm}>{\raggedright\arraybackslash}p{3.372cm}>{\raggedright\arraybackslash}p{3.372cm}>{\raggedright\arraybackslash}p{3.372cm}}
-\caption[Selected canonical fold weights, ordered BM25 /\allowbreak{} BGE-M3 /\allowbreak{} E5.]{Selected canonical fold weights, ordered BM25 /\allowbreak{} BGE-M3 /\allowbreak{} E5.}\label{tab:B.1}\\
 \toprule
 \textbf{Condition /\allowbreak{} protocol} & \textbf{Fold} & \textbf{Two-way} & \textbf{Three-way} \\
 \midrule
@@ -24,6 +23,7 @@ The two-way grid is the set of eleven points \texttt{(i/10, 1\allowbreak{}-i/10,
 \multicolumn{4}{r}{\footnotesize Continued on next page}\\
 \endfoot
 \bottomrule
+\caption[Selected canonical fold weights, ordered BM25 /\allowbreak{} BGE-M3 /\allowbreak{} E5.]{Selected canonical fold weights, ordered BM25 /\allowbreak{} BGE-M3 /\allowbreak{} E5.}\label{tab:B.1}\\
 \endlastfoot
 ALQAC A & 0 & 0.4/\allowbreak{}0.6/\allowbreak{}0.0 & 0.2/\allowbreak{}0.6/\allowbreak{}0.2 \\
 ALQAC A & 1 & 0.4/\allowbreak{}0.6/\allowbreak{}0.0 & 0.4/\allowbreak{}0.5/\allowbreak{}0.1 \\
@@ -53,7 +53,7 @@ BCA small\_co\allowbreak{}mponent\_\allowbreak{}oof & 4 & 0.3/\allowbreak{}0.7/\
 \end{longtable}
 \endgroup
 
-These selected points define the stored held-out predictions. Their average is not a separately evaluated deployment configuration. BCA's fold zero represents its giant-component holdout and folds one through four its small-component procedure. Sources: \texttt{selected\allowbreak{}\_weights\allowbreak{}\_per\_fol\allowbreak{}d} in the canonical baseline results and \texttt{split\_di\allowbreak{}agnostic\allowbreak{}s} in BCA v2.
+These selected points define the stored predictions on unseen data. Their average is not a separately evaluated deployment configuration. BCA's fold zero represents its giant-component holdout and folds one through four its small-component procedure. Sources: \texttt{selected\allowbreak{}\_weights\allowbreak{}\_per\_fol\allowbreak{}d} in the canonical baseline results and \texttt{split\_di\allowbreak{}agnostic\allowbreak{}s} in BCA v2.
 
 \section{Fine-tuning selection space}
 

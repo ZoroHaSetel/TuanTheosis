@@ -53,7 +53,7 @@ The multilingual E5 technical report describes contrastive pretraining followed 
 E5-base supplies a second dense signal. Its incremental value must be assessed against BM25+BGE-M3, since different encoders may make similar errors. Differences in tokenization and truncation can also change the evidence each encoder receives; score differences alone do not isolate semantic understanding.
 
 \section{Normalization and Fusion}
-\subsection{Sparse–Dense Hybrid Retrieval}
+\subsection{Lexical–Semantic Hybrid Retrieval}
 
 Hybrid retrieval combines lexical and semantic evidence. Its central hypothesis is that the combined ranking improves on its components, but effectiveness depends on the fusion configuration~\cite{bruch2022}.
 
@@ -66,7 +66,7 @@ For normalized BM25, BGE-M3, and E5-base scores \(\widetilde S_b\), \(\widetilde
 S(q,d)=w_b\widetilde S_b(q,d)+w_g\widetilde S_g(q,d)+w_e\widetilde S_e(q,d),
 \quad w_b,w_g,w_e\geq0,\quad w_b+w_g+w_e=1.
 \]
-Setting \(w_e=0\) recovers BM25+BGE-M3 when all other settings are unchanged. A search containing this boundary cannot have a lower optimal development score than its two-way subset, but held-out improvement is not guaranteed. A selected zero E5 weight indicates that the additional channel is unused.
+Setting \(w_e=0\) recovers BM25+BGE-M3 when all other settings are unchanged. A search containing this boundary cannot have a lower optimal development score than its two-way subset, but improvement on unseen data is not guaranteed. A selected zero E5 weight indicates that the additional channel is unused.
 
 Complementarity may affect early precision, first-hit position, or target recovery differently. Multiple ranking metrics are therefore needed; positive fusion weights alone do not establish useful complementary errors.
 
@@ -102,7 +102,7 @@ A single-positive InfoNCE-style loss encourages a relevant document to outscore 
 \[
 \mathcal L(q)=-\log\frac{\exp(s(q,d^+)/\tau)}{\exp(s(q,d^+)/\tau)+\sum_{d^-\in N(q)}\exp(s(q,d^-)/\tau)}.
 \]
-Here, \(d^+\) is a labeled positive, \(N(q)\) is the negative set, \(s\) is similarity, and \(\tau>0\) is temperature. Temperature changes the emphasis on score differences, while batch composition determines the competitors. Lower training loss does not guarantee better held-out retrieval.
+Here, \(d^+\) is a labeled positive, \(N(q)\) is the negative set, \(s\) is similarity, and \(\tau>0\) is temperature. Temperature changes the emphasis on score differences, while batch composition determines the competitors. Lower training loss does not guarantee better retrieval on unseen data.
 
 For multiple positives, a set-positive loss can sum positive exponentials in the numerator. Alternatively, positive-specific losses can be averaged while masking other known positives from negative positions. These objectives are not interchangeable; Chapter 4 states the loss and masking policy of each study.
 
