@@ -1,7 +1,7 @@
 \babel@toc {english}{}\relax 
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {2.1}{Prior research grouped by task, intervention, and evaluation role.}}{11}{table.2.1}%
+\contentsline {table}{\numberline {2.1}{Prior research grouped by task, intervention, and evaluation role.}}{10}{table.2.1}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \contentsline {table}{\numberline {4.1}{Canonical baseline evaluation conditions.}}{22}{table.4.1}%
@@ -10,18 +10,18 @@
 \contentsline {table}{\numberline {4.4}{\ignorespaces Training groups and protected folds in the completed hybrid fine-tuning study.}}{28}{table.61}%
 \contentsline {table}{\numberline {4.5}{Locked configuration for the completed final-training runs.}}{29}{table.4.5}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {5.1}{System identities and comparison boundaries.}}{33}{table.5.1}%
-\contentsline {table}{\numberline {5.2}{Pretrained standalone and hybrid results, query-macro OOF population.}}{35}{table.5.2}%
-\contentsline {table}{\numberline {5.3}{Hybrid NDCG@10 changes relative to fixed BM25.}}{35}{table.5.3}%
-\contentsline {table}{\numberline {5.4}{Incremental E5 contribution on the canonical ALQAC and Zalo populations.}}{36}{table.5.4}%
-\contentsline {table}{\numberline {5.5}{\ignorespaces Compact BCA protocol and coverage views.}}{37}{table.71}%
-\contentsline {table}{\numberline {5.6}{Passage-512 learning-rate and epoch pilot: development NDCG@10.}}{39}{table.5.6}%
-\contentsline {table}{\numberline {5.7}{\ignorespaces Batch ablation at the selected learning rate and epoch.}}{39}{table.75}%
-\contentsline {table}{\numberline {5.8}{\ignorespaces Corrected Zalo fold-0 two-way hybrid evaluation.}}{40}{table.77}%
-\contentsline {table}{\numberline {5.9}{\ignorespaces Corrected Zalo fold-0 three-way hybrid evaluation.}}{40}{table.78}%
+\contentsline {table}{\numberline {5.1}{System identities and comparison boundaries.}}{32}{table.5.1}%
+\contentsline {table}{\numberline {5.2}{Pretrained standalone and hybrid results, query-macro OOF population.}}{33}{table.5.2}%
+\contentsline {table}{\numberline {5.3}{Hybrid NDCG@10 changes relative to fixed BM25.}}{34}{table.5.3}%
+\contentsline {table}{\numberline {5.4}{Incremental E5 contribution on the canonical ALQAC and Zalo populations.}}{35}{table.5.4}%
+\contentsline {table}{\numberline {5.5}{\ignorespaces Compact BCA protocol and coverage views.}}{36}{table.71}%
+\contentsline {table}{\numberline {5.6}{Passage-512 learning-rate and epoch pilot: development NDCG@10.}}{38}{table.5.6}%
+\contentsline {table}{\numberline {5.7}{\ignorespaces Batch ablation at the selected learning rate and epoch.}}{38}{table.75}%
+\contentsline {table}{\numberline {5.8}{\ignorespaces Corrected Zalo fold-0 two-way hybrid evaluation.}}{39}{table.77}%
+\contentsline {table}{\numberline {5.9}{\ignorespaces Corrected Zalo fold-0 three-way hybrid evaluation.}}{39}{table.78}%
 \contentsline {table}{\numberline {5.10}{\ignorespaces Corrected paired statistics for NDCG@10.}}{40}{table.79}%
-\contentsline {table}{\numberline {5.11}{Study B post-hoc dense benchmark on 640 official queries.}}{41}{table.5.11}%
+\contentsline {table}{\numberline {5.11}{Study B post-hoc dense benchmark on 640 official queries.}}{40}{table.5.11}%
 \contentsline {table}{\numberline {5.12}{\ignorespaces Study B primary fusion outcomes under pretrained-locked weights.}}{41}{table.82}%
-\contentsline {table}{\numberline {5.13}{Query-level changes after fine-tuning, corrected seed 42.}}{42}{table.5.13}%
+\contentsline {table}{\numberline {5.13}{Query-level changes after fine-tuning, corrected seed 42.}}{41}{table.5.13}%
 \contentsline {table}{\numberline {5.14}{Study B NDCG changes by query, using mean fine-tuned seed metric minus pretrained.}}{42}{table.5.14}%
 \addvspace {10\p@ }

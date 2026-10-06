@@ -8,34 +8,35 @@ The baseline tables come from the canonical cache reaggregation; the seed tables
 \setstretch{1.0}
 \setlength{\tabcolsep}{3pt}
 \renewcommand{\arraystretch}{0.98}
+\caption[Full ALQAC/\allowbreak{}Zalo standalone and hybrid metrics.]{Full ALQAC/\allowbreak{}Zalo standalone and hybrid metrics.}\label{tab:C.1}
+\vspace{6pt}
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{@{}llrrrrrr@{}}
 \toprule
 \textbf{Condition} & \textbf{Method} & \textbf{NDCG@10} & \textbf{MRR@10} & \textbf{MAP@10} & \textbf{Hit@1} & \textbf{Hit@5} & \textbf{Hit@10} \\
 \midrule
-ALQAC A & BM25 & 0.798559 & 0.764812 & 0.762140 & 0.688039 & 0.874229 & 0.911221 \\
-ALQAC A & BGE-M3 & 0.843673 & 0.813447 & 0.810847 & 0.737361 & 0.909988 & 0.943280 \\
-ALQAC A & E5 & 0.812562 & 0.772872 & 0.772214 & 0.679408 & 0.896424 & 0.937115 \\
-ALQAC A & BM25+BGE & 0.880484 & 0.853426 & 0.851555 & 0.786683 & 0.938348 & 0.969174 \\
-ALQAC A & BM25+BGE+E5 & 0.878391 & 0.851880 & 0.850394 & 0.785450 & 0.940814 & 0.963009 \\
-ALQAC B & BM25 & 0.647916 & 0.617497 & 0.615928 & 0.551171 & 0.710234 & 0.747226 \\
-ALQAC B & BGE-M3 & 0.668433 & 0.640095 & 0.638163 & 0.569667 & 0.728730 & 0.762022 \\
-ALQAC B & E5 & 0.651015 & 0.617673 & 0.616533 & 0.540074 & 0.722565 & 0.758323 \\
-ALQAC B & BM25+BGE & 0.706676 & 0.681161 & 0.679747 & 0.623921 & 0.755857 & 0.790382 \\
-ALQAC B & BM25+BGE+E5 & 0.705522 & 0.680490 & 0.679269 & 0.626387 & 0.754624 & 0.786683 \\
-Zalo A & BM25 & 0.526366 & 0.473117 & 0.468224 & 0.356383 & 0.626408 & 0.709950 \\
-Zalo A & BGE-M3 & 0.642396 & 0.591661 & 0.585000 & 0.477159 & 0.746871 & 0.823529 \\
-Zalo A & E5 & 0.563954 & 0.510354 & 0.504645 & 0.393930 & 0.669900 & 0.750939 \\
-Zalo A & BM25+BGE & 0.680464 & 0.629761 & 0.623545 & 0.510638 & 0.788173 & 0.858260 \\
-Zalo A & BM25+BGE+E5 & 0.681755 & 0.631688 & 0.625375 & 0.514393 & 0.792240 & 0.857635 \\
-Zalo B & BM25 & 0.561996 & 0.509871 & 0.504975 & 0.390488 & 0.672403 & 0.740613 \\
-Zalo B & BGE-M3 & 0.688891 & 0.643068 & 0.636596 & 0.533166 & 0.789737 & 0.852628 \\
-Zalo B & E5 & 0.625874 & 0.574792 & 0.568925 & 0.461514 & 0.727159 & 0.805382 \\
-Zalo B & BM25+BGE & 0.721422 & 0.676682 & 0.670464 & 0.565707 & 0.826345 & 0.878911 \\
-Zalo B & BM25+BGE+E5 & 0.734431 & 0.691256 & 0.684547 & 0.583855 & 0.840426 & 0.888924 \\
+ALQAC A & BM25 & 0.7986 & 0.7648 & 0.7621 & 0.6880 & 0.8742 & 0.9112 \\
+ALQAC A & BGE-M3 & 0.8437 & 0.8134 & 0.8108 & 0.7374 & 0.9100 & 0.9433 \\
+ALQAC A & E5 & 0.8126 & 0.7729 & 0.7722 & 0.6794 & 0.8964 & 0.9371 \\
+ALQAC A & BM25+BGE & 0.8805 & 0.8534 & 0.8516 & 0.7867 & 0.9383 & 0.9692 \\
+ALQAC A & BM25+BGE+E5 & 0.8784 & 0.8519 & 0.8504 & 0.7855 & 0.9408 & 0.9630 \\
+ALQAC B & BM25 & 0.6479 & 0.6175 & 0.6159 & 0.5512 & 0.7102 & 0.7472 \\
+ALQAC B & BGE-M3 & 0.6684 & 0.6401 & 0.6382 & 0.5697 & 0.7287 & 0.7620 \\
+ALQAC B & E5 & 0.6510 & 0.6177 & 0.6165 & 0.5401 & 0.7226 & 0.7583 \\
+ALQAC B & BM25+BGE & 0.7067 & 0.6812 & 0.6797 & 0.6239 & 0.7559 & 0.7904 \\
+ALQAC B & BM25+BGE+E5 & 0.7055 & 0.6805 & 0.6793 & 0.6264 & 0.7546 & 0.7867 \\
+Zalo A & BM25 & 0.5264 & 0.4731 & 0.4682 & 0.3564 & 0.6264 & 0.7100 \\
+Zalo A & BGE-M3 & 0.6424 & 0.5917 & 0.5850 & 0.4772 & 0.7469 & 0.8235 \\
+Zalo A & E5 & 0.5640 & 0.5104 & 0.5046 & 0.3939 & 0.6699 & 0.7509 \\
+Zalo A & BM25+BGE & 0.6805 & 0.6298 & 0.6235 & 0.5106 & 0.7882 & 0.8583 \\
+Zalo A & BM25+BGE+E5 & 0.6818 & 0.6317 & 0.6254 & 0.5144 & 0.7922 & 0.8576 \\
+Zalo B & BM25 & 0.5620 & 0.5099 & 0.5050 & 0.3905 & 0.6724 & 0.7406 \\
+Zalo B & BGE-M3 & 0.6889 & 0.6431 & 0.6366 & 0.5332 & 0.7897 & 0.8526 \\
+Zalo B & E5 & 0.6259 & 0.5748 & 0.5689 & 0.4615 & 0.7272 & 0.8054 \\
+Zalo B & BM25+BGE & 0.7214 & 0.6767 & 0.6705 & 0.5657 & 0.8263 & 0.8789 \\
+Zalo B & BM25+BGE+E5 & 0.7344 & 0.6913 & 0.6845 & 0.5839 & 0.8404 & 0.8889 \\
 \bottomrule
 \end{tabular}}
-\caption[Full ALQAC/\allowbreak{}Zalo standalone and hybrid metrics.]{Full ALQAC/\allowbreak{}Zalo standalone and hybrid metrics.}\label{tab:C.1}
 \end{table}
 
 These are the same populations and score sources as Table 5.2. Extra cutoffs do not constitute independent experiments.
@@ -47,26 +48,27 @@ These are the same populations and score sources as Table 5.2. Extra cutoffs do 
 \setstretch{1.0}
 \setlength{\tabcolsep}{3pt}
 \renewcommand{\arraystretch}{0.98}
+\caption[Seed-specific corrected metrics on unseen data.]{Seed-specific corrected metrics on unseen data.}\label{tab:C.2}
+\vspace{6pt}
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{@{}llrrrrrr@{}}
 \toprule
 \textbf{Seed} & \textbf{System} & \textbf{NDCG@10} & \textbf{MRR@10} & \textbf{MAP@10} & \textbf{Hit@1} & \textbf{Hit@5} & \textbf{Hit@10} \\
 \midrule
-42 & Pretrained 2w & 0.751594 & 0.701542 & 0.698460 & 0.581250 & 0.864062 & 0.914062 \\
-42 & Pretrained 3w & 0.759507 & 0.707702 & 0.704812 & 0.582812 & 0.879687 & 0.926562 \\
-42 & Fine-tuned 2w & 0.700507 & 0.647006 & 0.645072 & 0.537500 & 0.806250 & 0.875000 \\
-42 & Fine-tuned 3w & 0.732046 & 0.677108 & 0.674308 & 0.564063 & 0.832812 & 0.914062 \\
-43 & Pretrained 2w & 0.751594 & 0.701542 & 0.698460 & 0.581250 & 0.864062 & 0.914062 \\
-43 & Pretrained 3w & 0.759507 & 0.707702 & 0.704812 & 0.582812 & 0.879687 & 0.926562 \\
-43 & Fine-tuned 2w & 0.700478 & 0.648960 & 0.646669 & 0.540625 & 0.806250 & 0.868750 \\
-43 & Fine-tuned 3w & 0.734007 & 0.677089 & 0.674719 & 0.556250 & 0.842187 & 0.920312 \\
-44 & Pretrained 2w & 0.751594 & 0.701542 & 0.698460 & 0.581250 & 0.864062 & 0.914062 \\
-44 & Pretrained 3w & 0.759507 & 0.707702 & 0.704812 & 0.582812 & 0.879687 & 0.926562 \\
-44 & Fine-tuned 2w & 0.697662 & 0.639828 & 0.637406 & 0.517188 & 0.812500 & 0.885938 \\
-44 & Fine-tuned 3w & 0.737797 & 0.679404 & 0.677125 & 0.554688 & 0.842187 & 0.928125 \\
+42 & Pretrained 2w & 0.7516 & 0.7015 & 0.6985 & 0.5813 & 0.8641 & 0.9141 \\
+42 & Pretrained 3w & 0.7595 & 0.7077 & 0.7048 & 0.5828 & 0.8797 & 0.9266 \\
+42 & Fine-tuned 2w & 0.7005 & 0.6470 & 0.6451 & 0.5375 & 0.8063 & 0.8750 \\
+42 & Fine-tuned 3w & 0.7320 & 0.6771 & 0.6743 & 0.5641 & 0.8328 & 0.9141 \\
+43 & Pretrained 2w & 0.7516 & 0.7015 & 0.6985 & 0.5813 & 0.8641 & 0.9141 \\
+43 & Pretrained 3w & 0.7595 & 0.7077 & 0.7048 & 0.5828 & 0.8797 & 0.9266 \\
+43 & Fine-tuned 2w & 0.7005 & 0.6490 & 0.6467 & 0.5406 & 0.8063 & 0.8688 \\
+43 & Fine-tuned 3w & 0.7340 & 0.6771 & 0.6747 & 0.5563 & 0.8422 & 0.9203 \\
+44 & Pretrained 2w & 0.7516 & 0.7015 & 0.6985 & 0.5813 & 0.8641 & 0.9141 \\
+44 & Pretrained 3w & 0.7595 & 0.7077 & 0.7048 & 0.5828 & 0.8797 & 0.9266 \\
+44 & Fine-tuned 2w & 0.6977 & 0.6398 & 0.6374 & 0.5172 & 0.8125 & 0.8859 \\
+44 & Fine-tuned 3w & 0.7378 & 0.6794 & 0.6771 & 0.5547 & 0.8422 & 0.9281 \\
 \bottomrule
 \end{tabular}}
-\caption[Seed-specific corrected metrics on unseen data.]{Seed-specific corrected metrics on unseen data.}\label{tab:C.2}
 \end{table}
 
 Repeated pretrained rows are identical references, not independent pretrained runs. Source: \href{../experiments/LEGAL_BGE_FT_20260815T150627Z_686566d5/confirmatory_evaluation_corrected/statistics.json}{corrected \texttt{seed\_met\allowbreak{}rics}}.
@@ -76,6 +78,7 @@ Repeated pretrained rows are identical references, not independent pretrained ru
 \setlength{\tabcolsep}{3pt}
 \renewcommand{\arraystretch}{1.18}
 \begin{longtable}{>{\raggedright\arraybackslash}p{3.351cm}>{\raggedright\arraybackslash}p{2.560cm}>{\raggedright\arraybackslash}p{3.870cm}>{\raggedright\arraybackslash}p{2.560cm}>{\raggedright\arraybackslash}p{2.560cm}}
+\caption[Fine-tuned seed variation in NDCG@10.]{Fine-tuned seed variation in NDCG@10.}\label{tab:C.3}\\
 \toprule
 \textbf{System} & \textbf{Mean} & \textbf{Sample SD across three seeds} & \textbf{Minimum} & \textbf{Maximum} \\
 \midrule
@@ -88,10 +91,9 @@ Repeated pretrained rows are identical references, not independent pretrained ru
 \multicolumn{5}{r}{\footnotesize Continued on next page}\\
 \endfoot
 \bottomrule
-\caption[Fine-tuned seed variation in NDCG@10.]{Fine-tuned seed variation in NDCG@10.}\label{tab:C.3}\\
 \endlastfoot
-bm25\_bge\allowbreak{}\_finetun\allowbreak{}ed & 0.699549 & 0.001634 & 0.697662 & 0.700507 \\
-bm25\_bge\allowbreak{}\_finetun\allowbreak{}ed\_e5 & 0.734617 & 0.002923 & 0.732046 & 0.737797 \\
+bm25\_bge\allowbreak{}\_finetun\allowbreak{}ed & 0.6995 & 0.0016 & 0.6977 & 0.7005 \\
+bm25\_bge\allowbreak{}\_finetun\allowbreak{}ed\_e5 & 0.7346 & 0.0029 & 0.7320 & 0.7378 \\
 \end{longtable}
 \endgroup
 

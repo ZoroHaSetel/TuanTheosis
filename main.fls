@@ -538,6 +538,14 @@ INPUT /Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/tfm/public/lm/lmbsy7.tf
 INPUT /Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/tfm/public/lm/lmbsy5.tfm
 INPUT /Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/tfm/public/lm/t5-lmr7.tfm
 INPUT /Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/tfm/public/lm/t5-lmr5.tfm
+INPUT /Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/tfm/public/lm/rm-lmr10.tfm
+INPUT /Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/tfm/public/lm/lmmi10.tfm
+INPUT /Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/tfm/public/lm/lmsy10.tfm
+INPUT /Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam10.tfm
+INPUT /Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
+INPUT /Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/tfm/public/lm/rm-lmbx10.tfm
+INPUT /Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/tfm/public/lm/lmmib10.tfm
+INPUT /Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/tfm/public/lm/lmbsy10.tfm
 INPUT ./chapters/chapter_5.tex
 INPUT ./chapters/chapter_5.tex
 INPUT ./chapters/chapter_5.tex
@@ -571,10 +579,12 @@ INPUT /Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi8.p
 INPUT /Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb
 INPUT /Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb
 INPUT /Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr6.pfb
+INPUT /Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr7.pfb
 INPUT /Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr8.pfb
 INPUT /Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri12.pfb
 INPUT /Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy10.pfb
 INPUT /Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy6.pfb
+INPUT /Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy7.pfb
 INPUT /Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy8.pfb
 INPUT /Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb
 INPUT /Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt12.pfb

@@ -18,7 +18,7 @@ The candidate set \(\Theta\) contains tested fusion weights and, in the adaptati
 
 This formulation makes two limitations explicit. First, a target absent from the searchable corpus cannot be retrieved by any ranking model. Second, retrieval effectiveness is not the same as generated legal-answer correctness. The study therefore evaluates article ranking, not downstream legal advice.
 
-\section{System Architecture}
+\section{Retrieval and Evaluation Pipeline}
 
 The baseline architecture compares individual retrievers and weighted hybrids. BM25 provides the lexical score. BGE-M3 and multilingual-E5-base provide dense vector scores. The two-way hybrid combines BM25 and BGE-M3; the three-way hybrid combines BM25, BGE-M3, and E5.
 
@@ -68,6 +68,7 @@ The evaluation covers ALQAC, Zalo, and BCA. ALQAC and Zalo are each evaluated in
 \setlength{\tabcolsep}{3pt}
 \renewcommand{\arraystretch}{1.18}
 \begin{longtable}{>{\raggedright\arraybackslash}p{3.808cm}>{\raggedright\arraybackslash}p{2.519cm}>{\raggedright\arraybackslash}p{2.519cm}>{\raggedright\arraybackslash}p{6.274cm}}
+\caption[Canonical baseline evaluation conditions.]{Canonical baseline evaluation conditions.}\label{tab:4.1}\\
 \toprule
 \textbf{Condition} & \textbf{Queries} & \textbf{Articles} & \textbf{Evaluation boundary} \\
 \midrule
@@ -80,7 +81,6 @@ The evaluation covers ALQAC, Zalo, and BCA. ALQAC and Zalo are each evaluated in
 \multicolumn{4}{r}{\footnotesize Continued on next page}\\
 \endfoot
 \bottomrule
-\caption[Canonical baseline evaluation conditions.]{Canonical baseline evaluation conditions.}\label{tab:4.1}\\
 \endlastfoot
 ALQAC A, clean & 811 & 3,363 & Law-component grouped out-of-fold evaluation over the clean reference representation \\
 ALQAC B, parsed & 811 & 3,381 & Same ordered queries with separately constructed parsed articles \\
@@ -134,6 +134,7 @@ Table~\ref{tab:4.2} illustrates how one public question becomes a retrieval inst
 \setlength{\tabcolsep}{3pt}
 \renewcommand{\arraystretch}{1.18}
 \begin{longtable}{>{\raggedright\arraybackslash}p{3.429cm}>{\raggedright\arraybackslash}p{5.828cm}>{\raggedright\arraybackslash}p{6.084cm}}
+\caption[Worked BCA question-to-target transformation.]{Worked BCA question-to-target transformation.}\label{tab:4.2}\\
 \toprule
 \textbf{Stage} & \textbf{Representation} & \textbf{Interpretation} \\
 \midrule
@@ -146,7 +147,6 @@ Table~\ref{tab:4.2} illustrates how one public question becomes a retrieval inst
 \multicolumn{3}{r}{\footnotesize Continued on next page}\\
 \endfoot
 \bottomrule
-\caption[Worked BCA question-to-target transformation.]{Worked BCA question-to-target transformation.}\label{tab:4.2}\\
 \endlastfoot
 Stored query & Vietnamese question about mandatory fire-prevention equipment for apartment buildings & Query text supplies the retrieval input \\
 Extracted answer references & A cited decree with whole-law and article-level mentions & Published answer citations provide target candidates \\
@@ -172,6 +172,7 @@ s_{\mathrm{dense}}(q,d)=\frac{\mathbf{u}_q^\top\mathbf{v}_d}{\max(\lVert\mathbf{
 \setlength{\tabcolsep}{3pt}
 \renewcommand{\arraystretch}{1.18}
 \begin{longtable}{>{\raggedright\arraybackslash}p{5.072cm}>{\raggedright\arraybackslash}p{5.134cm}>{\raggedright\arraybackslash}p{5.134cm}}
+\caption[Baseline dense-model identity.]{Baseline dense-model identity.}\label{tab:4.3}\\
 \toprule
 \textbf{Property} & \textbf{BGE-M3} & \textbf{Multilingual-E5-base} \\
 \midrule
@@ -184,7 +185,6 @@ s_{\mathrm{dense}}(q,d)=\frac{\mathbf{u}_q^\top\mathbf{v}_d}{\max(\lVert\mathbf{
 \multicolumn{3}{r}{\footnotesize Continued on next page}\\
 \endfoot
 \bottomrule
-\caption[Baseline dense-model identity.]{Baseline dense-model identity.}\label{tab:4.3}\\
 \endlastfoot
 Model family & BGE-M3 multilingual embedding model & E5 multilingual text-embedding model \\
 Embedding dimension & 1,024 & 768 \\
@@ -272,6 +272,8 @@ Study A: Hybrid-Oriented Adaptation uses Zalo query--article pairs. For each eli
 \setstretch{1.0}
 \setlength{\tabcolsep}{4pt}
 \renewcommand{\arraystretch}{1.05}
+\caption[Training groups and protected folds in the completed hybrid fine-tuning study.]{Training groups and protected folds in the completed hybrid fine-tuning study.}\label{tab:4.4}
+\vspace{6pt}
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{@{}lrrrrrr@{}}
 \toprule
@@ -281,7 +283,6 @@ Pilot & 2, 3, 4 & 1,917 & 3,834 & 0, 1 & 258 & 0 \\
 Final training & 1, 2, 3, 4 & 2,556 & 5,112 & 0 & 110 & 0 \\
 \bottomrule
 \end{tabular}}
-\caption[Training groups and protected folds in the completed hybrid fine-tuning study.]{Training groups and protected folds in the completed hybrid fine-tuning study.}\label{tab:4.4}
 \end{table}
 
 The zero-overlap checks protect the law identifiers reserved for evaluation on unseen data from appearing in the constructed training groups. They do not prove absence of shared legal concepts or similar language, and they do not make the final evaluation a test on unseen legal systems.
@@ -300,6 +301,7 @@ Study A trains BGE-M3 with a single-positive in-batch contrastive objective. Eac
 \setlength{\tabcolsep}{3pt}
 \renewcommand{\arraystretch}{1.18}
 \begin{longtable}{>{\raggedright\arraybackslash}p{6.306cm}>{\raggedright\arraybackslash}p{9.254cm}}
+\caption[Locked configuration for the completed final-training runs.]{Locked configuration for the completed final-training runs.}\label{tab:4.5}\\
 \toprule
 \textbf{Parameter} & \textbf{Verified value} \\
 \midrule
@@ -312,18 +314,17 @@ Study A trains BGE-M3 with a single-positive in-batch contrastive objective. Eac
 \multicolumn{2}{r}{\footnotesize Continued on next page}\\
 \endfoot
 \bottomrule
-\caption[Locked configuration for the completed final-training runs.]{Locked configuration for the completed final-training runs.}\label{tab:4.5}\\
 \endlastfoot
 Base encoder & BGE-M3 \\
 Adaptation & Full dense encoder \\
 Epochs & 2 \\
-Learning rate & 0.00002 \\
+Learning rate & \(2.0000\times10^{-5}\) \\
 Contrastive query batch & 4 \\
 Gradient accumulation & 8 \\
 Optimizer effective batch & 32 query groups \\
 Passage group & 1 selected positive and 7 explicit negatives \\
 Query /\allowbreak{} passage maximum length & 256 /\allowbreak{} 512 tokens \\
-Temperature & 0.02 \\
+Temperature & 0.0200 \\
 Pooling /\allowbreak{} normalization & First-token hidden state /\allowbreak{} L2 normalization \\
 Seeds & 42, 43, 44 \\
 Frozen E5 component & Multilingual-E5-base, unchanged throughout adaptation \\

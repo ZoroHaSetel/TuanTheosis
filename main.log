@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.9.26)  29 SEP 2026 16:24
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.9.26)  1 OCT 2026 21:14
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1073,15 +1073,18 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <7> on input line 228.
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <5> on input line 228.
- [27] [28] [29]) (./chapters/chapter_5.tex [30] [31] [32]
+ [27]
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <10.95> on input line 321.
+ [28] [29] [30]) (./chapters/chapter_5.tex [31]
 Chapter 5.
-[33
+[32
 
-] [34] [35] [36] [37] [38] [39] [40] [41] [42]) (./chapters/chapter_6.tex [43] [44]
+] [33] [34] [35] [36] [37] [38] [39] [40] [41] [42]) (./chapters/chapter_6.tex [43]
 Chapter 6.
-[45
+[44
 
-] [46] [47]) (./ref/references.tex [48]
+] [45] [46]) (./ref/references.tex [47]
 Underfull \hbox (badness 5022) in paragraph at lines 9--10
 []\T5/lmr/m/n/12 (+20) J. Chen, S. Xiao, P. Zhang, K. Luo, D. Lian, and Z. Liu, ``M3-
  []
@@ -1121,7 +1124,7 @@ Underfull \hbox (badness 8170) in paragraph at lines 24--25
 \T5/lmr/m/it/12 (+20) JSAI-isAI 2024\T5/lmr/m/n/12 (+20) , LNAI 14741, pp. 109--124, 2024. [On-line]. Avail-able:
  []
 
-[49
+[48
 
 ]
 Underfull \hbox (badness 1173) in paragraph at lines 33--34
@@ -1138,7 +1141,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 54--55
 \T5/lmr/m/n/12 (+20) proceedings.neurips.cc/paper/2021/hash/65b9eea6e1cc6bb9f0cd2a47751a186f-
  []
 
-[50]
+[49]
 Underfull \hbox (badness 1648) in paragraph at lines 60--61
 []\T5/lmr/m/n/12 (+20) A. van den Oord, Y. Li, and O. Vinyals, ``Rep-re-sen-ta-tion learn-ing with
  []
@@ -1153,27 +1156,27 @@ Underfull \hbox (badness 1939) in paragraph at lines 63--64
 []\T5/lmr/m/n/12 (+20) American Sta-tis-ti-cal As-so-ci-a-tion, ``Amer-i-can Sta-tis-ti-cal As-so-ci-a-tion re-leases
  []
 
-) [51] (./main.aux)
+) [50] (./main.aux)
  ***********
 LaTeX2e <2026-06-01>
 L3 programming layer <2026-09-09>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: BAD5590F05E89D1F8398B6BF0ECBA792;10727.
+(rerunfilecheck)             Checksum: 5B3EF92C74D941CF19A8291348AD065B;10803.
  ) 
 Here is how much of TeX's memory you used:
- 29103 strings out of 469018
- 542279 string characters out of 5456138
- 984043 words of memory out of 5000000
- 57235 multiletter control sequences out of 15000+600000
- 775898 words of font info for 233 fonts, out of 8000000 for 9000
+ 29128 strings out of 469018
+ 542755 string characters out of 5456138
+ 988302 words of memory out of 5000000
+ 57253 multiletter control sequences out of 15000+600000
+ 783866 words of font info for 245 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  92i,13n,104p,1001b,837s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx8.pfb></Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmex10.pfb></Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi12.pfb></Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi6.pfb></Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi7.pfb></Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi8.pfb></Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb></Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb></Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr6.pfb></Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr8.pfb></Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri12.pfb></Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy6.pfb></Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy8.pfb></Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt12.pfb></Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on main.pdf (60 pages, 510294 bytes).
+</Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx8.pfb></Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmex10.pfb></Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi12.pfb></Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi6.pfb></Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi7.pfb></Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi8.pfb></Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb></Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb></Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr6.pfb></Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr7.pfb></Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr8.pfb></Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri12.pfb></Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy6.pfb></Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy7.pfb></Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy8.pfb></Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt12.pfb></Users/tuannghiem/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on main.pdf (59 pages, 528909 bytes).
 PDF statistics:
- 905 PDF objects out of 1000 (max. 8388607)
- 789 compressed objects within 8 object streams
- 189 named destinations out of 1000 (max. 500000)
- 59818 words of extra memory for PDF output out of 61914 (max. 10000000)
+ 911 PDF objects out of 1000 (max. 8388607)
+ 792 compressed objects within 8 object streams
+ 188 named destinations out of 1000 (max. 500000)
+ 63914 words of extra memory for PDF output out of 74296 (max. 10000000)
 
