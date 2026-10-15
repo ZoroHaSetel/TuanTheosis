@@ -1,0 +1,51 @@
+\section{Datasets and Corpus Preparation}
+\label{sec:datasets-corpus}
+
+The evaluation uses ALQAC, Zalo, and the BCA collection. ALQAC and Zalo each have two corpus versions: the supplied reference article text, denoted A, and text extracted from legal documents collected in raw HTML format, denoted B. The label ``clean'' identifies the reference version; it does not imply that its text or annotations are error-free. Each pair uses the same ordered queries, so the A and B conditions are paired corpus comparisons rather than independent datasets.
+
+Table~\ref{tab:4.1} summarizes the five baseline evaluation conditions. Queries that share legal references are grouped for selection and evaluation, as explained in Section~\ref{sec:evaluation-design}.
+
+\begingroup
+\small
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.18}
+\begin{longtable}{>{\raggedright\arraybackslash}p{3.808cm}>{\raggedright\arraybackslash}p{2.519cm}>{\raggedright\arraybackslash}p{2.519cm}>{\raggedright\arraybackslash}p{6.274cm}}
+\caption[Baseline datasets and corpus versions.]{Baseline datasets and corpus versions.}\label{tab:4.1}\\
+\toprule
+\textbf{Condition} & \textbf{Queries} & \textbf{Articles} & \textbf{Evaluation design} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Condition} & \textbf{Queries} & \textbf{Articles} & \textbf{Evaluation design} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{4}{r}{\footnotesize Continued on next page}\\
+\endfoot
+\bottomrule
+\endlastfoot
+ALQAC A, clean & 811 & 3,363 & Grouped cross-validation using reference article text \\
+ALQAC B, parsed & 811 & 3,381 & Same ordered queries, with a separately extracted article corpus \\
+Zalo A, clean & 3,196 & 61,425 & Grouped cross-validation using reference article text \\
+Zalo B, parsed with fallback & 3,196 & 61,425 & Same ordered queries, with extracted text where available and reference text otherwise \\
+BCA & 546 & 14,789 & Separate evaluation of the largest linked group and grouped cross-validation over smaller groups \\
+\end{longtable}
+\endgroup
+
+\subsection{ALQAC and Zalo Datasets}
+
+For ALQAC, the query pool combines the supplied training questions and private-test questions with their recorded relevance targets, in that order. The resulting 811 questions are evaluated through grouped cross-validation. These results therefore describe the combined query pool under the thesis's evaluation design, rather than the original benchmark's private-test protocol. Each query is evaluated using fusion weights selected on other groups.
+
+Zalo contains 3,196 questions in the baseline evaluation. The reference corpus contains 61,425 articles. As with ALQAC, the same query order and recorded relevance targets are used for both corpus versions. This pairing permits comparison of retrieval performance when the article text changes.
+
+\subsection{Article Extraction and Corpus Alignment}
+
+The reference corpora are converted from legal-document records into individual article records. Each record preserves the legal document identifier, article identifier, and article text. These identifiers connect ranked results to the recorded relevance targets; text similarity alone does not establish a target match.
+
+For ALQAC B, legal document mappings link the reference documents to their HTML sources. Article text is extracted from those sources, and a leading article heading is removed where present. The extracted corpus contains 3,381 articles, compared with 3,363 in the reference corpus. This difference reflects the construction of article records and does not by itself indicate greater target coverage. Extraction can affect article boundaries, identifiers, and text, so corpus size and target coverage must be assessed separately.
+
+For Zalo B, preparation follows the reference article order. Extracted text replaces reference text only when an aligned article has nonempty cleaned content. Otherwise, the original reference text is retained. This fallback preserves all 61,425 article records. Consequently, the Zalo A/B comparison measures the effect of this replacement procedure, including fallback, rather than the effect of HTML extraction alone.
+
+Article identity is kept separate from text preprocessing. Law and article identifiers are normalized for matching, and duplicate reference pairs are removed. The ordered article records and their identifiers must remain aligned with the score matrices used by every retriever. A change in text can alter retrieval performance without changing the article's identity, while an incorrect identifier mapping can affect target matching even when the relevant text is present.
+
+BCA contains public questions and published answers from the Bộ Công an portal. Its evaluation set contains 546 queries and 14,789 indexed articles. Section~\ref{sec:bca-construction} describes the source records, answer-derived targets, corpus construction, and coverage checks.

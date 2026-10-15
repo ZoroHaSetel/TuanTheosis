@@ -339,19 +339,18 @@ The three-way hybrid also has lower mean NDCG@10 after fine-tuning. The regressi
 \centering
 \footnotesize
 \setstretch{1.0}
-\setlength{\tabcolsep}{4pt}
+\setlength{\tabcolsep}{3pt}
 \renewcommand{\arraystretch}{1.05}
-\caption[Corrected paired statistics for NDCG@10.]{Corrected paired statistics for NDCG@10.}\label{tab:5.11}
+\caption[Corrected paired statistics for NDCG@10.]{Corrected paired statistics for NDCG@10. Bootstrap tail values are calculated as described in Section~\ref{sec:evaluation-design}; they are not calibrated hypothesis-test p-values.}\label{tab:5.11}
 \vspace{6pt}
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{@{}lrrrrrr@{}}
+\begin{tabular}{@{}p{3.4cm}rrrp{2.9cm}rr@{}}
 \toprule
-\textbf{Comparison} & \textbf{Queries} & \textbf{Clusters} & \textbf{Mean $\Delta$} & \textbf{95\% cluster CI} & \textbf{Raw p} & \textbf{Holm p} \\
+\textbf{Comparison} & \textbf{Queries} & \textbf{Groups} & \shortstack{\textbf{Mean}\\$\Delta$} & \shortstack{\textbf{95\% group}\\\textbf{bootstrap}\\\textbf{interval}} & \shortstack{\textbf{Bootstrap}\\\textbf{tail value}} & \shortstack{\textbf{Holm-adjusted}\\\textbf{tail value}} \\
 \midrule
-Fine-tuned minus pretrained, two-way & 640 & 106 & \ensuremath{-}0.0520 & [\ensuremath{-}0.0919, +\allowbreak{}0.1076] & 0.7480 & 1.0000 \\
-Fine-tuned minus pretrained, three-way & 640 & 106 & \ensuremath{-}0.0249 & [\ensuremath{-}0.0542, +\allowbreak{}0.0938] & 0.7480 & 1.0000 \\
+Fine-tuned minus pretrained, BM25+BGE-M3 & 640 & 106 & \ensuremath{-}0.0520 & [\ensuremath{-}0.0919, +\allowbreak{}0.1076] & 0.7480 & 1.0000 \\
+Fine-tuned minus pretrained, BM25+BGE-M3+E5 & 640 & 106 & \ensuremath{-}0.0249 & [\ensuremath{-}0.0542, +\allowbreak{}0.0938] & 0.7480 & 1.0000 \\
 \bottomrule
-\end{tabular}}
+\end{tabular}
 \end{table}
 
 The intervals in Table~\ref{tab:5.11} include zero, so the observed regressions are not described as statistically established population-level harm. However, non-significance is not equivalence, and the practical improvement threshold of +0.01 NDCG@10 is not met. The correct conclusion is that the selected adaptation recipe failed to demonstrate hybrid improvement on unseen data under this protocol.

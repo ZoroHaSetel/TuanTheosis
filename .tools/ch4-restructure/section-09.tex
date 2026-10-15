@@ -1,0 +1,10 @@
+\section{Experimental Environment and Reproducibility}
+\label{sec:experimental-environment}
+
+The recorded execution environments differ between the two fine-tuning experiments. Both report an NVIDIA L4 graphics processing unit and PyTorch \texttt{2.11.0+cu128}. The experiment using hybrid retrieval for model selection records Transformers \texttt{5.15.0}, NumPy \texttt{2.1.3}, and 16-bit floating-point (FP16) precision. The experiment using standalone dense retrieval for model selection records Transformers \texttt{5.16.1} and bfloat16 (BF16) precision. These details describe the recorded training runs rather than the local computer used to prepare the thesis. The final hybrid-selected run records do not specify processor, system memory, graphics memory, or driver details; preliminary environment checks cannot establish those details for the completed runs.
+
+Each selected fine-tuning configuration is evaluated with training seeds 42, 43, and 44. Reproducing the comparison requires the same model revision and tokenizer, training examples, query and article ordering, data splits, checkpoint selection rule, and fusion coefficients. Appendix~D records the hybrid-selected configuration, model revision, and checksums for its model files, training data, and training code. These records identify the inputs used in the experiment; access to the checkpoint files is also required to reproduce encoder outputs.
+
+The saved score matrices and selected fusion coefficients support recalculation of the reported retrieval metrics without retraining. Their rows and columns must remain aligned with the recorded query and article identifiers. Recalculating metrics verifies the numerical results but does not establish that model training can be repeated exactly. Appendix~F describes the reproduction procedure and its limits.
+
+The experiments assess retrieval effectiveness. They do not provide controlled measurements of query latency, throughput, or deployment cost, so the recorded hardware specifications do not support conclusions about those outcomes.

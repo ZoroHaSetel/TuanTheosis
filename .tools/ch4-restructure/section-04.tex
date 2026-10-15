@@ -1,0 +1,41 @@
+\section{System Overview}
+\label{sec:system-overview}
+
+The system takes a Vietnamese question and an indexed corpus of legal articles as inputs. BM25 assigns lexical scores, while BGE-M3 and multilingual-E5-base assign dense similarity scores. Each retriever scores every article in the same corpus order. The experiments compare individual retrievers with BM25+BGE-M3 and BM25+BGE-M3+E5. The evaluated pipeline ends at article ranking and does not include reranking or answer generation.
+
+For hybrid retrieval, scores are normalized separately for each query and retriever, then combined by weighted addition. The combination weights are selected on designated queries and fixed before ranking the evaluation queries. The system returns the ten highest-ranked articles with their legal document and article identifiers. Section~\ref{sec:score-fusion} specifies the normalization, combination weights, and ranking procedure.
+
+Evaluation is performed after retrieval by comparing the returned identifiers with the recorded relevance targets. Published answers and relevance targets are not retrieval inputs. Questions linked by shared legal references are assigned to the same evaluation group, as described in Section~\ref{sec:evaluation-design}. Figure~\ref{fig:4.1} shows the baseline scoring and evaluation pipeline. Fine-tuning replaces the BGE-M3 component within this pipeline; Section~\ref{sec:bge-finetuning} describes the training and model selection procedures.
+
+\begin{figure}[p]
+\centering
+\begin{tikzpicture}[>=Latex, every node/.style={draw=black!65, rounded corners=2pt, fill=black!3, text width=4.35cm, minimum height=0.85cm, align=center, font=\small}, every path/.style={draw=black!60, thick}]
+\node (A) at (0.00,0.00) {Indexed articles and question text};
+\node (B) at (-2.52,-1.55) {Preserve identifiers and order};
+\node (C) at (-5.05,-3.10) {BM25 scores};
+\node (D) at (0.00,-3.10) {Pretrained BGE-M3 dense scores};
+\node (E) at (5.05,-3.10) {Pretrained E5 dense scores};
+\node (F) at (0.00,-4.65) {Per-query normalized scores};
+\node (G) at (2.52,-1.55) {Query groups from shared legal references};
+\node (H) at (0.00,-6.20) {Select combination weights};
+\node (I) at (0.00,-7.75) {Fix weights for each split};
+\node (J) at (0.00,-9.30) {Top-ten rankings for evaluation queries};
+\node (K) at (0.00,-10.85) {Match recorded targets and compute metrics};
+\draw[->] (A.south) -- (B.north);
+\draw[->] (B.south) -- (C.north);
+\draw[->] (B.south) -- (D.north);
+\draw[->] (B.south) -- (E.north);
+\draw[->] (C.south) -- (F.north);
+\draw[->] (D.south) -- (F.north);
+\draw[->] (E.south) -- (F.north);
+\draw[->] (A.south) -- (G.north);
+\draw[->] (G.east) -- (7.5,-1.55) |- (H.east);
+\draw[->] (F.south) -- (H.north);
+\draw[->] (H.south) -- (I.north);
+\draw[->] (I.south) -- (J.north);
+\draw[->] (F.west) -- (-7.5,-4.65) |- (J.west);
+\draw[->] (J.south) -- (K.north);
+\end{tikzpicture}
+\caption[Baseline scoring and evaluation pipeline.]{Baseline scoring and evaluation pipeline. Scores are computed over the full corpus. Relevance targets are used for grouping, weight selection, and evaluation, but are not supplied to the retrievers.}
+\label{fig:4.1}
+\end{figure}

@@ -1,0 +1,27 @@
+\babel@toc {english}{}\relax 
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {2.1}{\ignorespaces Illustrative BM25+BGE-M3 score fusion for three legal articles.}}{9}{table.26}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {4.1}{Baseline datasets and corpus versions.}}{24}{table.4.1}%
+\contentsline {table}{\numberline {4.2}{Worked BCA question-to-target transformation.}}{30}{table.4.2}%
+\contentsline {table}{\numberline {4.3}{Baseline dense-model settings.}}{33}{table.4.3}%
+\contentsline {table}{\numberline {4.4}{\ignorespaces Training groups and protected folds in the completed hybrid fine-tuning study.}}{35}{table.89}%
+\contentsline {table}{\numberline {4.5}{Locked configuration for the completed final-training runs.}}{36}{table.4.5}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {5.1}{System identities and comparison boundaries.}}{44}{table.5.1}%
+\contentsline {table}{\numberline {5.2}{Pretrained standalone and hybrid results, query-macro OOF population.}}{45}{table.5.2}%
+\contentsline {table}{\numberline {5.3}{Hybrid NDCG@10 changes relative to fixed BM25.}}{46}{table.5.3}%
+\contentsline {table}{\numberline {5.4}{Incremental E5 contribution on the canonical ALQAC and Zalo populations.}}{47}{table.5.4}%
+\contentsline {table}{\numberline {5.5}{\ignorespaces Compact BCA protocol and coverage views.}}{48}{table.110}%
+\contentsline {table}{\numberline {5.6}{Passage-512 learning-rate and epoch pilot: development NDCG@10.}}{50}{table.5.6}%
+\contentsline {table}{\numberline {5.7}{\ignorespaces Batch ablation at the selected learning rate and epoch.}}{50}{table.114}%
+\contentsline {table}{\numberline {5.8}{\ignorespaces Corrected Zalo fold-0 two-way hybrid evaluation.}}{51}{table.116}%
+\contentsline {table}{\numberline {5.9}{\ignorespaces Corrected Zalo fold-0 three-way hybrid evaluation.}}{51}{table.117}%
+\contentsline {table}{\numberline {5.10}{\ignorespaces Corrected paired statistics for NDCG@10.}}{52}{table.118}%
+\contentsline {table}{\numberline {5.11}{Study B post-hoc dense benchmark on 640 official queries.}}{52}{table.5.11}%
+\contentsline {table}{\numberline {5.12}{\ignorespaces Study B primary fusion outcomes under pretrained-locked weights.}}{53}{table.121}%
+\contentsline {table}{\numberline {5.13}{Query-level changes after fine-tuning, corrected seed 42.}}{53}{table.5.13}%
+\contentsline {table}{\numberline {5.14}{Study B NDCG changes by query, using mean fine-tuned seed metric minus pretrained.}}{54}{table.5.14}%
+\addvspace {10\p@ }

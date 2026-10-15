@@ -1,0 +1,90 @@
+\section{BCA Dataset Construction}
+\label{sec:bca-construction}
+
+The BCA collection converts public questions and published answers from the Bộ Công an portal into an article-retrieval dataset. The question supplies the retrieval input, while citations in the published answer provide the recorded relevance targets. The construction process covers source collection, text cleaning, reference extraction, and alignment with the searchable legal corpus.
+
+\subsection{Data Sources and Record Selection}
+
+Question and answer records are collected through the portal's application programming interface. The collection script requests paginated question listings and then retrieves the details of each listed record. It stores a stable question identifier derived from the source identifier. Existing identifiers are skipped during a repeated full collection to avoid duplicate records; this procedure does not automatically refresh answers that have changed on the website.
+
+The saved source snapshot contains 652 records with distinct question identifiers. The canonical construction retains 546 records that have at least one extracted reference with a nonempty legal document identifier. This inclusion rule does not require every target to be present in the indexed corpus. Corpus coverage is checked separately after construction.
+
+These counts describe the saved snapshot used in the experiments. They do not establish complete coverage of the portal or a representative sample of all public legal questions. Acquisition failures and selection rules can affect which records are saved. The stored records also lack individual acquisition timestamps and raw response snapshots, which limits reconstruction of the website state at collection time.
+
+\subsection{Question Cleaning and Reference Extraction}
+
+The collection script replaces HTML tags with spaces and collapses repeated whitespace in the question and answer fields. The resulting record stores the question identifier, question text, answer text, extracted references, and category name. This lightweight cleaning procedure produces plain text, but does not establish preservation of HTML table structure or complete removal of boilerplate.
+
+Reference extraction operates on the published answer. It normalizes Unicode text, locates article markers such as ``Điều'' followed by a number, and detects mentions of legal documents. Position and connector rules associate article mentions with nearby document mentions. A document reference without an associated article is retained with an empty article identifier, representing a whole-document target under the matching policy in Section~3.6. Repeated reference pairs are removed.
+
+The extraction procedure uses hand-written rules rather than independent expert relevance annotation. A published answer may omit other relevant articles, and an extracted reference may be incorrect. Therefore, the recorded targets support evaluation against the extracted citations, but do not constitute an exhaustive assessment of legal relevance. Answer text remains stored as extraction evidence and is not appended to the question when retrieval scores are computed.
+
+Figure~\ref{fig:4.2} summarizes the construction process and its connection to corpus coverage checks.
+
+\begin{figure}[p]
+\centering
+\begin{tikzpicture}[>=Latex, every node/.style={draw=black!65, rounded corners=2pt, fill=black!3, text width=4.35cm, minimum height=0.85cm, align=center, font=\small}, every path/.style={draw=black!60, thick}]
+\node (A) at (-2.52,0.00) {Public question and answer records};
+\node (B) at (-2.52,-1.55) {Clean question and answer text};
+\node (C) at (0.00,-3.10) {Extract law and article mentions from answers};
+\node (D) at (0.00,-4.65) {Normalize legal identifiers};
+\node (E) at (2.52,0.00) {Reference and parsed legal articles};
+\node (F) at (2.52,-1.55) {Canonical searchable corpus};
+\node (G) at (0.00,-6.20) {Queries with answer-derived legal targets};
+\node (H) at (0.00,-7.75) {Target coverage and query grouping};
+\node (I) at (0.00,-9.30) {Grouped retrieval evaluation};
+\draw[->] (A.south) -- (B.north);
+\draw[->] (B.south) -- (C.north);
+\draw[->] (C.south) -- (D.north);
+\draw[->] (D.south) -- (G.north);
+\draw[->] (E.south) -- (F.north);
+\draw[->] (F.east) -- (7.5,-1.55) |- (H.east);
+\draw[->] (G.south) -- (H.north);
+\draw[->] (H.south) -- (I.north);
+\end{tikzpicture}
+\caption[Construction of the BCA retrieval collection.]{Construction of the BCA retrieval collection. Published answers supply reference evidence; only question text is used as the retrieval query.}
+\label{fig:4.2}
+\end{figure}
+
+\subsection{Target Mapping and Coverage Checks}
+
+Extracted document names may differ from the identifiers used in the legal corpus. A stored mapping aligns these names with legal document identifiers and parsed source files where available. Article identifiers are normalized separately. Matching uses the resulting document and article identifiers rather than text similarity.
+
+The BCA corpus starts from reference articles and adds article text extracted from legal documents collected in raw HTML format. The loader removes duplicate article identifiers within each document and retains articles with nonempty text. It excludes the internal-document placeholder from added searchable documents. The final corpus contains 14,789 articles.
+
+For each question, the loader applies available document mappings, normalizes reference identifiers, and retains a nonempty list of targets. This step does not ensure that each target resolves to an indexed article. An absent article cannot be retrieved, whereas an incorrect mapping can prevent a retrieved article from matching its recorded target even when the relevant content exists in the corpus. Coverage analysis must distinguish these cases from ranking errors.
+
+Questions are subsequently grouped through shared legal document references for evaluation, as described in Section~\ref{sec:evaluation-design}. Chapter 5 reports coverage and retrieval results for the retained collection, including questions with partially available or unavailable targets. Those cases remain part of the end-to-end evaluation rather than being removed to increase the aggregate scores.
+
+\subsection{Example of Query and Target Construction}
+
+Table~\ref{tab:4.2} summarizes a saved question about mandatory fire-prevention equipment for apartment buildings. The published answer supplies both whole-document and article-level references to a decree. The example shows the stored question-to-target transformation rather than a reconstruction of the original HTML response.
+
+\begingroup
+\small
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.18}
+\begin{longtable}{>{\raggedright\arraybackslash}p{3.429cm}>{\raggedright\arraybackslash}p{5.828cm}>{\raggedright\arraybackslash}p{6.084cm}}
+\caption[Worked BCA question-to-target transformation.]{Worked BCA question-to-target transformation.}\label{tab:4.2}\\
+\toprule
+\textbf{Stage} & \textbf{Representation} & \textbf{Interpretation} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Stage} & \textbf{Representation} & \textbf{Interpretation} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{3}{r}{\footnotesize Continued on next page}\\
+\endfoot
+\bottomrule
+\endlastfoot
+Stored query & Vietnamese question about mandatory fire-prevention equipment for apartment buildings & Question text supplies the retrieval input \\
+Extracted answer references & A cited decree with whole-document and article-level mentions & Published answer citations supply the recorded targets \\
+Normalized document identity & Standardized legal document identifier for the cited decree & The extracted document name is aligned with corpus identifiers \\
+Canonical target identity & Normalized document identifier and an article identifier, or an empty article identifier & Evaluation applies article-level or whole-document matching \\
+Retriever input & Question text and indexed article text & The published answer and recorded targets are not supplied at retrieval time \\
+\end{longtable}
+\endgroup
+
+Whole-document and article-specific references can coexist in one record. Their evaluation follows the matching rules in Section~3.6, with each recorded target credited at most once. The example illustrates dataset construction; it does not establish that the extracted citations are complete or that the cited provisions remain applicable to a current legal question.

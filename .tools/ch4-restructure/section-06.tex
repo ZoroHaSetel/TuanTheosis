@@ -1,0 +1,45 @@
+\section{Score Normalization and Fusion}
+\label{sec:score-fusion}
+
+BM25 and dense retrieval produce scores on different scales. Before combining them, the baseline applies Min-Max normalization separately to each retriever's scores for each query. For retriever \(r\), raw score \(s_r(q,d)\), and full indexed corpus \(C\), the normalized score is
+\[
+\widetilde{s}_r(q,d)=\frac{s_r(q,d)-\min_{d'\in C}s_r(q,d')}{\max\left(\max_{d'\in C}s_r(q,d')-\min_{d'\in C}s_r(q,d'),\epsilon\right)}.
+\]
+Here, \(\epsilon\) is a small positive constant that prevents division by zero. If a retriever assigns the same score to every article for a query, all its normalized scores are zero. Normalization uses the full corpus rather than a shortlist of retrieved candidates, so every indexed article can enter the final ranking.
+
+The BM25+BGE-M3 score is
+\[
+S_{bg}(q,d)
+=w_b\widetilde{s}_{b}(q,d)+(1-w_b)\widetilde{s}_{g}(q,d),
+\]
+where \(b\) denotes BM25, \(g\) denotes BGE-M3, and \(0\leq w_b\leq1\). Adding E5 gives
+\[
+\begin{aligned}
+S_{bge}(q,d)
+&=w_b\widetilde{s}_{b}(q,d)+w_g\widetilde{s}_{g}(q,d)
++w_e\widetilde{s}_{e}(q,d),\\
+w_b+w_g+w_e&=1,
+\end{aligned}
+\]
+where \(e\) denotes E5 and all weights are nonnegative. The articles are ranked by the combined score in decreasing order.
+
+The baseline selects weights from a grid with increments of 0.1. BM25+BGE-M3 has 11 candidate settings, with \(w_b\in\{0,0.1,\ldots,1\}\). BM25+BGE-M3+E5 has 66 candidate settings whose weights sum to one. This grid includes zero-weight settings, including \(w_e=0\), so it can reproduce every BM25+BGE-M3 setting in the baseline grid. A higher score on the weight-selection queries therefore does not establish that E5 improves retrieval on separate evaluation queries.
+
+For each baseline split, the weights with the highest mean NDCG@10 on the weight-selection queries are fixed before evaluation on the other queries. Section~\ref{sec:evaluation-design} describes the grouping and fold procedure. Algorithm~\ref{alg:locked-hybrid-ranking} shows how the selected configuration produces a ranking for one query.
+
+\begin{algorithm}[H]
+\caption{Article ranking with fixed fusion weights}
+\label{alg:locked-hybrid-ranking}
+\footnotesize
+\begin{algorithmic}[1]
+\Require Query $q$, corpus $C$, retriever scores, fixed fusion weights $w$
+\Ensure Ten highest-ranked articles
+\State Normalize each retriever's scores over the full corpus for $q$
+\For{each article $d\in C$}
+    \State $\mathrm{combined}[d]\gets\sum_r w_r\,\mathrm{normalized\_score}[r,d]$
+\EndFor
+\State \Return the ten articles with highest combined score
+\end{algorithmic}
+\end{algorithm}
+
+The fine-tuning comparisons use weights selected with pretrained BGE-M3 and keep them fixed when replacing it with the fine-tuned model. BM25 and E5 also remain unchanged. These comparisons measure the effect of replacing BGE-M3 within the specified hybrid configuration. The 0.1 grid described above applies to baseline selection. The fine-tuning experiments use separate selection procedures, described in Section~\ref{sec:bge-finetuning}.

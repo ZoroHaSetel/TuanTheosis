@@ -1,0 +1,787 @@
+Building with TinyTeX: C:\Users\ADMIN\Downloads\TuanTheosis\.tools\TinyTeX\bin\windows\latexmk.exe
+perl: warning: Setting locale failed.
+perl: warning: Please check that your locale settings:
+	LC_ALL = "C.UTF-8",
+	LC_CTYPE = "C",
+	LC_NUMERIC = "C",
+	LC_COLLATE = "C",
+	LC_TIME = (unset),
+	LC_MONETARY = (unset),
+	LANG = "C.UTF-8"
+    are supported and installed on your system.
+perl: warning: Falling back to the system default locale ("French_France.1252").
+Initial Win CP for (console input, console output, system): (CP437, CP65001, CP1252)
+I changed them all to CP1252
+Rc files read (in order):
+  NONE
+Latexmk: This is Latexmk, John Collins, 9 March 2026. Version 4.88.
+No existing .aux file, so I'll make a simple one, and require run of *latex.
+Latexmk: applying rule 'pdflatex'...
+Rule 'pdflatex':  Reasons for rerun
+Category 'other':
+  Rerun of 'pdflatex' forced or previously required:
+    Reason or flag: 'Initial setup'
+
+------------
+Run number 1 of rule 'pdflatex'
+------------
+------------
+Running 'pdflatex  -synctex=1 -interaction=nonstopmode -file-line-error -halt-on-error -recorder -output-directory=".tools/dense-figure-check"  "C:/Users/ADMIN/Downloads/TuanTheosis/main.tex"'
+------------
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex)
+ restricted \write18 enabled.
+entering extended mode
+(c:/Users/ADMIN/Downloads/TuanTheosis/main.tex
+LaTeX2e <2026-06-01>
+L3 programming layer <2026-09-09>
+(c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/base/report.cls
+Document Class: report 2025/01/22 v1.4n Standard LaTeX document class
+(c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/base/size12.clo)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/iftex/iftex.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/base/inputenc.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/base/fontenc.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/vntex/t5enc.def (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/vntex/t5enc.dfu)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/vntex/t5cmr.fd)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/lm/lmodern.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/babel/babel.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/babel/txtbabel.def) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/babel/locale/en/babel-english.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/babel-english/english.ldf)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/geometry/geometry.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/graphics/keyval.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/iftex/ifvtex.sty)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/amsmath/amsmath.sty
+For additional information on amsmath, use the `?' option.
+(c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/amsmath/amstext.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/amsmath/amsgen.sty)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/amsmath/amsbsy.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/amsmath/amsopn.sty)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/amsfonts/amssymb.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/amsfonts/amsfonts.sty)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/tools/bm.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/microtype/microtype.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/etoolbox/etoolbox.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/microtype/microtype-pdftex.def) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/microtype/microtype.cfg)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/graphics/graphicx.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/graphics/graphics.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/graphics/trig.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/graphics-cfg/graphics.cfg) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/graphics-def/pdftex.def))) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/booktabs/booktabs.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/tools/longtable.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/tools/array.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/pdflscape/pdflscape.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/pdflscape/pdflscape-nometadata.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/graphics/lscape.sty))) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/float/float.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/algorithms/algorithm.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/base/ifthen.sty)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/algorithmicx/algpseudocode.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/algorithmicx/algorithmicx.sty
+Document Style algorithmicx 1.2 - a greatly improved `algorithmic' style
+)
+Document Style - pseudocode environments for use with the `algorithmicx' style
+) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/setspace/setspace.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/fvextra/fvextra.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/fancyvrb/fancyvrb.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/upquote/upquote.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/base/textcomp.sty)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/lineno/lineno.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/kvoptions/kvoptions.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty)))) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/pgf/frontendlayer/tikz.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/pgf/basiclayer/pgf.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/pgf/utilities/pgfrcs.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfutil-common.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfutil-latex.def) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfrcs.code.tex (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/pgf.revision.tex))) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/pgf/basiclayer/pgfcore.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/pgf/systemlayer/pgfsys.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsys.code.tex (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfkeyslibraryfiltered.code.tex)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgf.cfg) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-pdftex.def (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-common-pdf.def))) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsyssoftpath.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsysprotocol.code.tex)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/xcolor/xcolor.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/graphics-cfg/color.cfg) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/graphics/mathcolor.ltx)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcore.code.tex (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathutil.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathparser.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.basic.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.trigonometric.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.random.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.comparison.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.base.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.round.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.misc.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.integerarithmetics.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathcalc.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfloat.code.tex)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfint.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepoints.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathconstruct.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathusage.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorescopes.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoregraphicstate.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransformations.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorequick.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreobjects.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathprocessing.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorearrows.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreshade.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreimage.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreexternal.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorelayers.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransparency.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepatterns.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorerdf.code.tex))) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/modules/pgfmoduleshapes.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/modules/pgfmoduleplot.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-0-65.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-1-18.sty)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/pgf/utilities/pgffor.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/pgf/utilities/pgfkeys.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/pgf/math/pgfmath.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgffor.code.tex)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/frontendlayer/tikz/tikz.code.tex (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/libraries/pgflibraryplothandlers.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/modules/pgfmodulematrix.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarytopaths.code.tex))) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/libraries/pgflibraryarrows.meta.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarypositioning.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarycalc.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/eso-pic/eso-pic.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/hyperref/hyperref.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pdfescape/pdfescape.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/infwarerr/infwarerr.sty))) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/hycolor/hycolor.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/hyperref/nameref.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/refcount/refcount.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/stringenc/stringenc.sty)
+(c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/hyperref/pd1enc.def) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/intcalc/intcalc.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/hyperref/puenc.def) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/url/url.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/bitset/bitset.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty))) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/hyperref/hpdftex.def (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty))) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/xurl/xurl.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/lm/t5lmr.fd) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/l3kernel/l3backend-pdftex.def) (.tools/dense-figure-check/main.aux)
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+(c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/microtype/mt-cmr.cfg) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg)) (./main.out) (./main.out) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/lm/ot1lmr.fd) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/lm/omllmm.fd) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/lm/omslmsy.fd) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/lm/omxlmex.fd) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/amsfonts/umsa.fd) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/microtype/mt-msa.cfg) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/amsfonts/umsb.fd) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/microtype/mt-msb.cfg) [1{c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-t5.enc} <./metadata/fpt.png>] (./chapters/acknowledgements.tex) [1] (./main.toc [2]) [3] (./chapters/frontmatter.tex
+
+LaTeX Warning: Citation `manning2008' on page iv undefined on input line 16.
+
+
+LaTeX Warning: Citation `chen2024' on page iv undefined on input line 16.
+
+
+LaTeX Warning: Citation `wang2024' on page iv undefined on input line 16.
+
+
+LaTeX Warning: Citation `lewis2020' on page iv undefined on input line 16.
+
+(c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/lm/t5lmtt.fd)
+
+Package microtype Warning: I cannot find a protrusion list for font
+(microtype)                `T5/lmtt/m/n/10.95'. Switching off
+(microtype)                protrusion for this font on input line 41.
+
+[4]) [5] (./main.lof) [6] (./main.lot) [7] (./chapters/chapter_1.tex
+Chapter 1.
+
+LaTeX Warning: Citation `lewis2020' on page 1 undefined on input line 5.
+
+
+LaTeX Warning: Citation `robertson2009' on page 1 undefined on input line 9.
+
+
+LaTeX Warning: Citation `rosa2021' on page 1 undefined on input line 9.
+
+
+LaTeX Warning: Citation `chen2024' on page 1 undefined on input line 9.
+
+
+LaTeX Warning: Citation `wang2024' on page 1 undefined on input line 9.
+
+
+LaTeX Warning: Citation `rosa2021' on page 1 undefined on input line 15.
+
+
+LaTeX Warning: Citation `chen2024' on page 1 undefined on input line 15.
+
+
+LaTeX Warning: Citation `wang2024' on page 1 undefined on input line 15.
+
+
+LaTeX Warning: Citation `bruch2022' on page 1 undefined on input line 15.
+
+[1]
+
+LaTeX Warning: Citation `thakur2021' on page 2 undefined on input line 17.
+
+
+LaTeX Warning: Citation `zhan2021' on page 2 undefined on input line 17.
+
+[2]
+
+LaTeX Warning: Reference `tab:5.3' on page 3 undefined on input line 42.
+
+
+LaTeX Warning: Reference `tab:5.4' on page 3 undefined on input line 42.
+
+
+LaTeX Warning: Reference `tab:5.12' on page 3 undefined on input line 44.
+
+
+LaTeX Warning: Reference `tab:5.13' on page 3 undefined on input line 44.
+
+[3]
+
+LaTeX Warning: Reference `tab:5.5' on page 4 undefined on input line 46.
+
+[4]) (./chapters/chapter_2.tex [5]
+Chapter 2.
+
+LaTeX Warning: Reference `fig:rag-system-position' on page 6 undefined on input line 5.
+
+(./figures/rag-system-position.tex)
+
+LaTeX Warning: Citation `goebel2024' on page 6 undefined on input line 11.
+
+[6 <./figures/rag-system-position.png (PNG copy)>]
+
+LaTeX Warning: Citation `alqac2024' on page 7 undefined on input line 13.
+
+
+LaTeX Warning: Citation `nguyen2020' on page 7 undefined on input line 19.
+
+
+LaTeX Warning: Reference `fig:rag-system-position' on page 7 undefined on input line 21.
+
+
+LaTeX Warning: Citation `lewis2020' on page 7 undefined on input line 21.
+
+
+LaTeX Warning: Citation `robertson2009' on page 7 undefined on input line 25.
+
+
+LaTeX Warning: Citation `rosa2021' on page 7 undefined on input line 27.
+
+[7]
+
+LaTeX Warning: Citation `reimers2019' on page 8 undefined on input line 33.
+
+
+LaTeX Warning: Citation `karpukhin2020' on page 8 undefined on input line 33.
+
+
+LaTeX Warning: Citation `chen2024' on page 8 undefined on input line 35.
+
+
+LaTeX Warning: Citation `wang2024' on page 8 undefined on input line 35.
+
+
+LaTeX Warning: Citation `khattab2020' on page 8 undefined on input line 37.
+
+
+LaTeX Warning: Citation `chen2024' on page 8 undefined on input line 39.
+
+
+LaTeX Warning: Citation `wang2024' on page 8 undefined on input line 39.
+
+
+LaTeX Warning: Citation `cormack2009' on page 8 undefined on input line 45.
+
+
+LaTeX Warning: Citation `bruch2022' on page 8 undefined on input line 45.
+
+[8]
+
+LaTeX Warning: Reference `tab:score-fusion-example' on page 9 undefined on input line 60.
+
+[9{c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}]
+
+LaTeX Warning: Citation `karpukhin2020' on page 10 undefined on input line 93.
+
+
+LaTeX Warning: Citation `zhan2021' on page 10 undefined on input line 95.
+
+[10]
+
+LaTeX Warning: Citation `chen2024' on page 11 undefined on input line 103.
+
+
+LaTeX Warning: Citation `wang2024' on page 11 undefined on input line 103.
+
+
+LaTeX Warning: Citation `bruch2022' on page 11 undefined on input line 103.
+
+
+LaTeX Warning: Citation `zhan2021' on page 11 undefined on input line 103.
+
+) (./chapters/chapter_3.tex [11]
+Chapter 3.
+
+LaTeX Warning: Citation `manning2008' on page 12 undefined on input line 7.
+
+
+LaTeX Warning: Citation `gov2025structure' on page 12 undefined on input line 9.
+
+
+LaTeX Warning: Citation `chen2024granularity' on page 12 undefined on input line 11.
+
+
+Package microtype Warning: I cannot find a protrusion list for font
+(microtype)                `T5/lmtt/m/n/10'. Switching off
+(microtype)                protrusion for this font on input line 18.
+
+[12]
+
+Package microtype Warning: I cannot find a protrusion list for font
+(microtype)                `T5/lmtt/m/n/6'. Switching off
+(microtype)                protrusion for this font on input line 22.
+
+
+Package microtype Warning: I cannot find a protrusion list for font
+(microtype)                `T5/lmtt/m/n/12'. Switching off
+(microtype)                protrusion for this font on input line 36.
+
+
+LaTeX Warning: Reference `tab:4.2' on page 13 undefined on input line 38.
+
+
+LaTeX Warning: Citation `manning2008' on page 13 undefined on input line 47.
+
+[13]
+
+LaTeX Warning: Citation `robertson2009' on page 14 undefined on input line 51.
+
+(c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/lm/ts1lmr.fd)
+
+LaTeX Warning: Citation `manning2008' on page 14 undefined on input line 64.
+
+
+LaTeX Warning: Citation `reimers2019' on page 14 undefined on input line 72.
+
+
+LaTeX Warning: Citation `karpukhin2020' on page 14 undefined on input line 72.
+
+[14{c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}{c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}]
+
+LaTeX Warning: Reference `fig:dense-retrieval-overview' on page 15 undefined on input line 74.
+
+(./figures/dense-retrieval-overview.tex) [15 <./figures/dense-retrieval-overview.png (PNG copy)>]
+
+LaTeX Warning: Citation `khattab2020' on page 16 undefined on input line 86.
+
+
+LaTeX Warning: Citation `bgem3card' on page 16 undefined on input line 94.
+
+
+LaTeX Warning: Citation `chen2024' on page 16 undefined on input line 103.
+
+
+LaTeX Warning: Citation `chen2024' on page 16 undefined on input line 104.
+
+
+LaTeX Warning: Citation `bgem3card' on page 16 undefined on input line 109.
+
+
+LaTeX Warning: Citation `bgem3card' on page 16 undefined on input line 110.
+
+
+LaTeX Warning: Reference `tab:4.3' on page 16 undefined on input line 114.
+
+
+LaTeX Warning: Citation `wang2024' on page 16 undefined on input line 118.
+
+
+LaTeX Warning: Citation `e5basecard' on page 16 undefined on input line 118.
+
+[16]
+
+LaTeX Warning: Citation `e5basecard' on page 17 undefined on input line 120.
+
+
+LaTeX Warning: Citation `bruch2022' on page 17 undefined on input line 127.
+
+
+LaTeX Warning: Citation `bruch2022' on page 17 undefined on input line 129.
+
+
+LaTeX Warning: Citation `bruch2022' on page 17 undefined on input line 144.
+
+[17]
+
+LaTeX Warning: Citation `cormack2009' on page 18 undefined on input line 158.
+
+
+LaTeX Warning: Citation `bruch2022' on page 18 undefined on input line 162.
+
+
+LaTeX Warning: Citation `chalkidis2020' on page 18 undefined on input line 166.
+
+
+LaTeX Warning: Citation `karpukhin2020' on page 18 undefined on input line 166.
+
+
+LaTeX Warning: Citation `oord2018' on page 18 undefined on input line 170.
+
+
+LaTeX Warning: Citation `karpukhin2020' on page 18 undefined on input line 170.
+
+[18]
+
+LaTeX Warning: Citation `karpukhin2020' on page 19 undefined on input line 180.
+
+
+LaTeX Warning: Citation `zhan2021' on page 19 undefined on input line 180.
+
+
+LaTeX Warning: Citation `zhan2021' on page 19 undefined on input line 186.
+
+[19]
+
+LaTeX Warning: Citation `jarvelin2002' on page 20 undefined on input line 194.
+
+
+LaTeX Warning: Citation `manning2008' on page 20 undefined on input line 204.
+
+
+LaTeX Warning: Citation `manning2008' on page 20 undefined on input line 218.
+
+[20]
+
+LaTeX Warning: Citation `asa2016' on page 21 undefined on input line 224.
+
+) (./chapters/chapter_4.tex [21]
+Chapter 4.
+[22]
+
+LaTeX Warning: Reference `fig:4.1' on page 23 undefined on input line 27.
+
+[23]
+
+LaTeX Warning: Reference `fig:4.2' on page 24 undefined on input line 101.
+
+
+LaTeX Warning: Reference `tab:4.2' on page 24 undefined on input line 130.
+
+[24] [25] [26] [27] [28] [29]
+
+LaTeX Warning: Reference `fig:4.3' on page 30 undefined on input line 336.
+
+[30] [31]) (./chapters/chapter_5.tex [32]
+Chapter 5.
+
+LaTeX Warning: Reference `tab:4.1' on page 33 undefined on input line 9.
+
+[33]
+
+LaTeX Warning: Reference `tab:5.2' on page 34 undefined on input line 44.
+
+
+LaTeX Warning: Reference `tab:5.3' on page 34 undefined on input line 44.
+
+[34] [35]
+
+LaTeX Warning: Reference `tab:5.4' on page 36 undefined on input line 154.
+
+[36]
+
+LaTeX Warning: Reference `tab:5.5' on page 37 undefined on input line 162.
+
+[37] [38]
+
+LaTeX Warning: Reference `tab:5.7' on page 39 undefined on input line 229.
+
+
+LaTeX Warning: Reference `tab:5.8' on page 39 undefined on input line 229.
+
+[39] [40]
+
+LaTeX Warning: Reference `tab:5.11' on page 41 undefined on input line 357.
+
+[41]
+
+LaTeX Warning: Reference `tab:5.13' on page 42 undefined on input line 394.
+
+
+LaTeX Warning: Reference `tab:5.14' on page 42 undefined on input line 421.
+
+[42] [43]) (./chapters/chapter_6.tex [44]
+Chapter 6.
+[45] [46] [47]) (./ref/references.tex [48]
+Underfull \hbox (badness 5022) in paragraph at lines 9--10
+[]\T5/lmr/m/n/12 (+20) J. Chen, S. Xiao, P. Zhang, K. Luo, D. Lian, and Z. Liu, ``M3-
+
+Underfull \hbox (badness 10000) in paragraph at lines 18--19
+[]\T5/lmr/m/n/12 (+20) S. Robert-son and H. Zaragoza, ``The prob-a-bilis-tic rel-e-vance frame-
+
+Underfull \hbox (badness 10000) in paragraph at lines 18--19
+\T5/lmr/m/n/12 (+20) work: BM25 and be-yond,'' \T5/lmr/m/it/12 (+20) Foun-da-tions and Trends in In-for-ma-
+
+Underfull \hbox (badness 6510) in paragraph at lines 18--19
+\T5/lmr/m/it/12 (+20) tion Re-trieval\T5/lmr/m/n/12 (+20) , vol. 3, no. 4, pp. 333--389, 2009. [On-line]. Avail-able:
+
+Underfull \hbox (badness 2460) in paragraph at lines 24--25
+[]\T5/lmr/m/n/12 (+20) R. Goebel, Y. Kano, M.-Y. Kim, J. Ra-belo, K. Satoh, and M. Yosh-
+
+Underfull \hbox (badness 10000) in paragraph at lines 24--25
+\T5/lmr/m/n/12 (+20) ioka, ``Overview of bench-mark datasets and meth-ods for the Le-gal
+
+Underfull \hbox (badness 10000) in paragraph at lines 24--25
+\T5/lmr/m/n/12 (+20) In-for-ma-tion Ex-trac-tion/Entailment Com-pe-ti-tion (COL-IEE) 2024,'' in
+
+Underfull \hbox (badness 8170) in paragraph at lines 24--25
+\T5/lmr/m/it/12 (+20) JSAI-isAI 2024\T5/lmr/m/n/12 (+20) , LNAI 14741, pp. 109--124, 2024. [On-line]. Avail-able:
+[49]
+Underfull \hbox (badness 1173) in paragraph at lines 33--34
+\T5/lmr/m/n/12 (+20) BERT-networks,'' in \T5/lmr/m/it/12 (+20) Proc. EMNLP-IJCNLP 2019\T5/lmr/m/n/12 (+20) , 2019. [On-line]. Avail-able:
+
+Underfull \hbox (badness 1460) in paragraph at lines 54--55
+\T5/lmr/m/n/12 (+20) mod-els,'' in \T5/lmr/m/it/12 (+20) Ad-vances in Neu-ral In-for-ma-tion Pro-cess-ing Sys-tems: Datasets
+
+Underfull \hbox (badness 10000) in paragraph at lines 54--55
+\T5/lmr/m/n/12 (+20) proceedings.neurips.cc/paper/2021/hash/65b9eea6e1cc6bb9f0cd2a47751a186f-
+[50]
+Underfull \hbox (badness 1648) in paragraph at lines 60--61
+[]\T5/lmr/m/n/12 (+20) A. van den Oord, Y. Li, and O. Vinyals, ``Rep-re-sen-ta-tion learn-ing with
+
+Underfull \hbox (badness 3482) in paragraph at lines 60--61
+\T5/lmr/m/n/12 (+20) con-trastive pre-dic-tive cod-ing,'' arXiv:1807.03748, 2018. [On-line]. Avail-able:
+
+Underfull \hbox (badness 1939) in paragraph at lines 63--64
+[]\T5/lmr/m/n/12 (+20) American Sta-tis-ti-cal As-so-ci-a-tion, ``Amer-i-can Sta-tis-ti-cal As-so-ci-a-tion re-leases
+
+Underfull \hbox (badness 10000) in paragraph at lines 72--73
+[]\T5/lmr/m/n/12 (+20) Intfloat, ``Multilingual-E5-base model card.'' [On-line]. Avail-able:
+) [51] (.tools/dense-figure-check/main.aux)
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+
+Package rerunfilecheck Warning: File `main.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+ )
+(see the transcript file for additional information)
+pdfTeX warning (dest): name{table.89} has been referenced but does not exist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{table.84} has been referenced but does not exist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{table.82} has been referenced but does not exist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{table.78} has been referenced but does not exist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{table.68} has been referenced but does not exist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{figure.70} has been referenced but does not exist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{figure.59} has been referenced but does not exist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{figure.56} has been referenced but does not exist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{chapter*.102} has been referenced but does not exist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{section*.98} has been referenced but does not exist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{section*.94} has been referenced but does not exist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{chapter*.93} has been referenced but does not exist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{section*.92} has been referenced but does not exist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{section*.79} has been referenced but does not exist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{section*.74} has been referenced but does not exist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{chapter*.73} has been referenced but does not exist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{section*.72} has been referenced but does not exist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{section*.66} has been referenced but does not exist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{section*.61} has been referenced but does not exist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{section*.57} has been referenced but does not exist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{section*.54} has been referenced but does not exist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{chapter*.53} has been referenced but does not exist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{section*.50} has been referenced but does not exist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{section*.46} has been referenced but does not exist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{section*.42} has been referenced but does not exist, replaced by a fixed one
+
+<c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx12.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx8.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmex10.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi10.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi12.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi6.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi7.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi8.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr6.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr7.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr8.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri12.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy10.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy6.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy7.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy8.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt12.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on .tools/dense-figure-check/main.pdf (59 pages, 3813287 bytes).
+SyncTeX written on .tools/dense-figure-check/main.synctex.gz.
+
+Transcript written on .tools/dense-figure-check/main.log.
+Latexmk: Getting log file '.tools/dense-figure-check/main.log'
+Latexmk: Examining '.tools/dense-figure-check/main.fls'
+Latexmk: Examining '.tools/dense-figure-check/main.log'
+Latexmk: References changed.
+Latexmk: References changed.
+Latexmk: Log file says output to '.tools/dense-figure-check/main.pdf'
+Latexmk: Log file says output to '.tools/dense-figure-check/main.pdf'
+Latexmk: applying rule 'pdflatex'...
+Rule 'pdflatex':  Reasons for rerun
+Changed files or newly in use/created:
+  .tools/dense-figure-check/main.aux
+  .tools/dense-figure-check/main.out
+
+------------
+Run number 2 of rule 'pdflatex'
+------------
+------------
+Running 'pdflatex  -synctex=1 -interaction=nonstopmode -file-line-error -halt-on-error -recorder -output-directory=".tools/dense-figure-check"  "C:/Users/ADMIN/Downloads/TuanTheosis/main.tex"'
+------------
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex)
+ restricted \write18 enabled.
+entering extended mode
+(c:/Users/ADMIN/Downloads/TuanTheosis/main.tex
+LaTeX2e <2026-06-01>
+L3 programming layer <2026-09-09>
+(c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/base/report.cls
+Document Class: report 2025/01/22 v1.4n Standard LaTeX document class
+(c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/base/size12.clo)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/iftex/iftex.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/base/inputenc.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/base/fontenc.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/vntex/t5enc.def (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/vntex/t5enc.dfu)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/vntex/t5cmr.fd)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/lm/lmodern.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/babel/babel.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/babel/txtbabel.def) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/babel/locale/en/babel-english.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/babel-english/english.ldf)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/geometry/geometry.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/graphics/keyval.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/iftex/ifvtex.sty)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/amsmath/amsmath.sty
+For additional information on amsmath, use the `?' option.
+(c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/amsmath/amstext.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/amsmath/amsgen.sty)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/amsmath/amsbsy.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/amsmath/amsopn.sty)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/amsfonts/amssymb.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/amsfonts/amsfonts.sty)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/tools/bm.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/microtype/microtype.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/etoolbox/etoolbox.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/microtype/microtype-pdftex.def) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/microtype/microtype.cfg)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/graphics/graphicx.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/graphics/graphics.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/graphics/trig.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/graphics-cfg/graphics.cfg) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/graphics-def/pdftex.def))) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/booktabs/booktabs.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/tools/longtable.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/tools/array.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/pdflscape/pdflscape.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/pdflscape/pdflscape-nometadata.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/graphics/lscape.sty))) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/float/float.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/algorithms/algorithm.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/base/ifthen.sty)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/algorithmicx/algpseudocode.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/algorithmicx/algorithmicx.sty
+Document Style algorithmicx 1.2 - a greatly improved `algorithmic' style
+)
+Document Style - pseudocode environments for use with the `algorithmicx' style
+) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/setspace/setspace.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/fvextra/fvextra.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/fancyvrb/fancyvrb.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/upquote/upquote.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/base/textcomp.sty)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/lineno/lineno.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/kvoptions/kvoptions.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty)))) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/pgf/frontendlayer/tikz.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/pgf/basiclayer/pgf.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/pgf/utilities/pgfrcs.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfutil-common.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfutil-latex.def) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfrcs.code.tex (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/pgf.revision.tex))) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/pgf/basiclayer/pgfcore.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/pgf/systemlayer/pgfsys.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsys.code.tex (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfkeyslibraryfiltered.code.tex)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgf.cfg) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-pdftex.def (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-common-pdf.def))) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsyssoftpath.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsysprotocol.code.tex)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/xcolor/xcolor.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/graphics-cfg/color.cfg) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/graphics/mathcolor.ltx)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcore.code.tex (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathutil.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathparser.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.basic.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.trigonometric.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.random.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.comparison.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.base.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.round.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.misc.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.integerarithmetics.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathcalc.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfloat.code.tex)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfint.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepoints.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathconstruct.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathusage.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorescopes.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoregraphicstate.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransformations.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorequick.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreobjects.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathprocessing.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorearrows.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreshade.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreimage.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreexternal.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorelayers.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransparency.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepatterns.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorerdf.code.tex))) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/modules/pgfmoduleshapes.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/modules/pgfmoduleplot.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-0-65.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-1-18.sty)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/pgf/utilities/pgffor.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/pgf/utilities/pgfkeys.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/pgf/math/pgfmath.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgffor.code.tex)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/frontendlayer/tikz/tikz.code.tex (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/libraries/pgflibraryplothandlers.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/modules/pgfmodulematrix.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarytopaths.code.tex))) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/libraries/pgflibraryarrows.meta.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarypositioning.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarycalc.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/eso-pic/eso-pic.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/hyperref/hyperref.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pdfescape/pdfescape.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/infwarerr/infwarerr.sty))) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/hycolor/hycolor.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/hyperref/nameref.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/refcount/refcount.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/stringenc/stringenc.sty)
+(c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/hyperref/pd1enc.def) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/intcalc/intcalc.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/hyperref/puenc.def) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/url/url.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/bitset/bitset.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty))) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/hyperref/hpdftex.def (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty))) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/xurl/xurl.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/lm/t5lmr.fd) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/l3kernel/l3backend-pdftex.def) (.tools/dense-figure-check/main.aux)
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+(c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/microtype/mt-cmr.cfg) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg)) (.tools/dense-figure-check/main.out) (.tools/dense-figure-check/main.out) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/lm/ot1lmr.fd) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/lm/omllmm.fd) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/lm/omslmsy.fd) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/lm/omxlmex.fd) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/amsfonts/umsa.fd) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/microtype/mt-msa.cfg) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/amsfonts/umsb.fd) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/microtype/mt-msb.cfg) [1{c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-t5.enc} <./metadata/fpt.png>] (./chapters/acknowledgements.tex) [1] (.tools/dense-figure-check/main.toc [2]) [3] (./chapters/frontmatter.tex (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/lm/t5lmtt.fd)
+
+Package microtype Warning: I cannot find a protrusion list for font
+(microtype)                `T5/lmtt/m/n/10.95'. Switching off
+(microtype)                protrusion for this font on input line 41.
+
+[4]) [5] (.tools/dense-figure-check/main.lof) [6] (.tools/dense-figure-check/main.lot) [7] (./chapters/chapter_1.tex
+Chapter 1.
+[1] [2] [3] [4]) (./chapters/chapter_2.tex [5]
+Chapter 2.
+(./figures/rag-system-position.tex) [6 <./figures/rag-system-position.png (PNG copy)>] [7] [8] [9{c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}] [10]) (./chapters/chapter_3.tex [11]
+Chapter 3.
+
+Package microtype Warning: I cannot find a protrusion list for font
+(microtype)                `T5/lmtt/m/n/10'. Switching off
+(microtype)                protrusion for this font on input line 18.
+
+[12]
+
+Package microtype Warning: I cannot find a protrusion list for font
+(microtype)                `T5/lmtt/m/n/6'. Switching off
+(microtype)                protrusion for this font on input line 22.
+
+
+Package microtype Warning: I cannot find a protrusion list for font
+(microtype)                `T5/lmtt/m/n/12'. Switching off
+(microtype)                protrusion for this font on input line 36.
+
+[13] (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/lm/ts1lmr.fd) [14{c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}{c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}] (./figures/dense-retrieval-overview.tex) [15 <./figures/dense-retrieval-overview.png (PNG copy)>] [16] [17] [18] [19] [20]) (./chapters/chapter_4.tex [21]
+Chapter 4.
+[22] [23] [24] [25] [26] [27] [28] [29] [30] [31]) (./chapters/chapter_5.tex [32]
+Chapter 5.
+[33] [34] [35] [36] [37] [38] [39] [40] [41] [42] [43]) (./chapters/chapter_6.tex [44]
+Chapter 6.
+[45] [46] [47]) (./ref/references.tex [48]
+Underfull \hbox (badness 5022) in paragraph at lines 9--10
+[]\T5/lmr/m/n/12 (+20) J. Chen, S. Xiao, P. Zhang, K. Luo, D. Lian, and Z. Liu, ``M3-
+
+Underfull \hbox (badness 10000) in paragraph at lines 18--19
+[]\T5/lmr/m/n/12 (+20) S. Robert-son and H. Zaragoza, ``The prob-a-bilis-tic rel-e-vance frame-
+
+Underfull \hbox (badness 10000) in paragraph at lines 18--19
+\T5/lmr/m/n/12 (+20) work: BM25 and be-yond,'' \T5/lmr/m/it/12 (+20) Foun-da-tions and Trends in In-for-ma-
+
+Underfull \hbox (badness 6510) in paragraph at lines 18--19
+\T5/lmr/m/it/12 (+20) tion Re-trieval\T5/lmr/m/n/12 (+20) , vol. 3, no. 4, pp. 333--389, 2009. [On-line]. Avail-able:
+
+Underfull \hbox (badness 2460) in paragraph at lines 24--25
+[]\T5/lmr/m/n/12 (+20) R. Goebel, Y. Kano, M.-Y. Kim, J. Ra-belo, K. Satoh, and M. Yosh-
+
+Underfull \hbox (badness 10000) in paragraph at lines 24--25
+\T5/lmr/m/n/12 (+20) ioka, ``Overview of bench-mark datasets and meth-ods for the Le-gal
+
+Underfull \hbox (badness 10000) in paragraph at lines 24--25
+\T5/lmr/m/n/12 (+20) In-for-ma-tion Ex-trac-tion/Entailment Com-pe-ti-tion (COL-IEE) 2024,'' in
+
+Underfull \hbox (badness 8170) in paragraph at lines 24--25
+\T5/lmr/m/it/12 (+20) JSAI-isAI 2024\T5/lmr/m/n/12 (+20) , LNAI 14741, pp. 109--124, 2024. [On-line]. Avail-able:
+[49]
+Underfull \hbox (badness 1173) in paragraph at lines 33--34
+\T5/lmr/m/n/12 (+20) BERT-networks,'' in \T5/lmr/m/it/12 (+20) Proc. EMNLP-IJCNLP 2019\T5/lmr/m/n/12 (+20) , 2019. [On-line]. Avail-able:
+
+Underfull \hbox (badness 1460) in paragraph at lines 54--55
+\T5/lmr/m/n/12 (+20) mod-els,'' in \T5/lmr/m/it/12 (+20) Ad-vances in Neu-ral In-for-ma-tion Pro-cess-ing Sys-tems: Datasets
+
+Underfull \hbox (badness 10000) in paragraph at lines 54--55
+\T5/lmr/m/n/12 (+20) proceedings.neurips.cc/paper/2021/hash/65b9eea6e1cc6bb9f0cd2a47751a186f-
+[50]
+Underfull \hbox (badness 1648) in paragraph at lines 60--61
+[]\T5/lmr/m/n/12 (+20) A. van den Oord, Y. Li, and O. Vinyals, ``Rep-re-sen-ta-tion learn-ing with
+
+Underfull \hbox (badness 3482) in paragraph at lines 60--61
+\T5/lmr/m/n/12 (+20) con-trastive pre-dic-tive cod-ing,'' arXiv:1807.03748, 2018. [On-line]. Avail-able:
+
+Underfull \hbox (badness 1939) in paragraph at lines 63--64
+[]\T5/lmr/m/n/12 (+20) American Sta-tis-ti-cal As-so-ci-a-tion, ``Amer-i-can Sta-tis-ti-cal As-so-ci-a-tion re-leases
+
+Underfull \hbox (badness 10000) in paragraph at lines 72--73
+[]\T5/lmr/m/n/12 (+20) Intfloat, ``Multilingual-E5-base model card.'' [On-line]. Avail-able:
+) [51] (.tools/dense-figure-check/main.aux)
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+ )
+(see the transcript file for additional information)<c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx12.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx8.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmex10.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi10.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi12.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi6.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi7.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi8.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr6.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr7.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr8.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri12.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy10.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy6.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy7.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy8.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt12.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on .tools/dense-figure-check/main.pdf (59 pages, 3815513 bytes).
+SyncTeX written on .tools/dense-figure-check/main.synctex.gz.
+
+Transcript written on .tools/dense-figure-check/main.log.
+Latexmk: Getting log file '.tools/dense-figure-check/main.log'
+Latexmk: Examining '.tools/dense-figure-check/main.fls'
+Latexmk: Examining '.tools/dense-figure-check/main.log'
+Latexmk: References changed.
+Latexmk: Log file says output to '.tools/dense-figure-check/main.pdf'
+Latexmk: Log file says output to '.tools/dense-figure-check/main.pdf'
+Latexmk: applying rule 'pdflatex'...
+Rule 'pdflatex':  Reasons for rerun
+Changed files or newly in use/created:
+  .tools/dense-figure-check/main.aux
+  .tools/dense-figure-check/main.lof
+  .tools/dense-figure-check/main.lot
+  .tools/dense-figure-check/main.toc
+
+------------
+Run number 3 of rule 'pdflatex'
+------------
+------------
+Running 'pdflatex  -synctex=1 -interaction=nonstopmode -file-line-error -halt-on-error -recorder -output-directory=".tools/dense-figure-check"  "C:/Users/ADMIN/Downloads/TuanTheosis/main.tex"'
+------------
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex)
+ restricted \write18 enabled.
+entering extended mode
+(c:/Users/ADMIN/Downloads/TuanTheosis/main.tex
+LaTeX2e <2026-06-01>
+L3 programming layer <2026-09-09>
+(c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/base/report.cls
+Document Class: report 2025/01/22 v1.4n Standard LaTeX document class
+(c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/base/size12.clo)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/iftex/iftex.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/base/inputenc.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/base/fontenc.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/vntex/t5enc.def (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/vntex/t5enc.dfu)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/vntex/t5cmr.fd)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/lm/lmodern.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/babel/babel.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/babel/txtbabel.def) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/babel/locale/en/babel-english.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/babel-english/english.ldf)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/geometry/geometry.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/graphics/keyval.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/iftex/ifvtex.sty)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/amsmath/amsmath.sty
+For additional information on amsmath, use the `?' option.
+(c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/amsmath/amstext.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/amsmath/amsgen.sty)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/amsmath/amsbsy.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/amsmath/amsopn.sty)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/amsfonts/amssymb.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/amsfonts/amsfonts.sty)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/tools/bm.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/microtype/microtype.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/etoolbox/etoolbox.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/microtype/microtype-pdftex.def) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/microtype/microtype.cfg)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/graphics/graphicx.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/graphics/graphics.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/graphics/trig.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/graphics-cfg/graphics.cfg) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/graphics-def/pdftex.def))) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/booktabs/booktabs.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/tools/longtable.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/tools/array.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/pdflscape/pdflscape.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/pdflscape/pdflscape-nometadata.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/graphics/lscape.sty))) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/float/float.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/algorithms/algorithm.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/base/ifthen.sty)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/algorithmicx/algpseudocode.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/algorithmicx/algorithmicx.sty
+Document Style algorithmicx 1.2 - a greatly improved `algorithmic' style
+)
+Document Style - pseudocode environments for use with the `algorithmicx' style
+) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/setspace/setspace.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/fvextra/fvextra.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/fancyvrb/fancyvrb.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/upquote/upquote.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/base/textcomp.sty)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/lineno/lineno.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/kvoptions/kvoptions.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty)))) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/pgf/frontendlayer/tikz.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/pgf/basiclayer/pgf.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/pgf/utilities/pgfrcs.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfutil-common.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfutil-latex.def) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfrcs.code.tex (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/pgf.revision.tex))) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/pgf/basiclayer/pgfcore.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/pgf/systemlayer/pgfsys.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsys.code.tex (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfkeyslibraryfiltered.code.tex)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgf.cfg) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-pdftex.def (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-common-pdf.def))) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsyssoftpath.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/systemlayer/pgfsysprotocol.code.tex)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/xcolor/xcolor.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/graphics-cfg/color.cfg) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/graphics/mathcolor.ltx)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcore.code.tex (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathutil.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathparser.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.basic.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.trigonometric.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.random.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.comparison.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.base.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.round.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.misc.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.integerarithmetics.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathcalc.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmathfloat.code.tex)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfint.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepoints.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathconstruct.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathusage.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorescopes.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoregraphicstate.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransformations.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorequick.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreobjects.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathprocessing.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorearrows.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreshade.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreimage.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreexternal.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorelayers.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransparency.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepatterns.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/basiclayer/pgfcorerdf.code.tex))) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/modules/pgfmoduleshapes.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/modules/pgfmoduleplot.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-0-65.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-1-18.sty)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/pgf/utilities/pgffor.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/pgf/utilities/pgfkeys.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/pgf/math/pgfmath.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/utilities/pgffor.code.tex)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/frontendlayer/tikz/tikz.code.tex (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/libraries/pgflibraryplothandlers.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/modules/pgfmodulematrix.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarytopaths.code.tex))) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/libraries/pgflibraryarrows.meta.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarypositioning.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarycalc.code.tex) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/eso-pic/eso-pic.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/hyperref/hyperref.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pdfescape/pdfescape.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/infwarerr/infwarerr.sty))) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/hycolor/hycolor.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/hyperref/nameref.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/refcount/refcount.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty)) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/stringenc/stringenc.sty)
+(c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/hyperref/pd1enc.def) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/intcalc/intcalc.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/hyperref/puenc.def) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/url/url.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/bitset/bitset.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty))) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/hyperref/hpdftex.def (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty))) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/xurl/xurl.sty) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/lm/t5lmr.fd) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/l3kernel/l3backend-pdftex.def) (.tools/dense-figure-check/main.aux)
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+(c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/microtype/mt-cmr.cfg) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg)) (.tools/dense-figure-check/main.out) (.tools/dense-figure-check/main.out) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/lm/ot1lmr.fd) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/lm/omllmm.fd) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/lm/omslmsy.fd) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/lm/omxlmex.fd) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/amsfonts/umsa.fd) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/microtype/mt-msa.cfg) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/amsfonts/umsb.fd) (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/microtype/mt-msb.cfg) [1{c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-t5.enc} <./metadata/fpt.png>] (./chapters/acknowledgements.tex) [1] (.tools/dense-figure-check/main.toc [2]) [3] (./chapters/frontmatter.tex (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/lm/t5lmtt.fd)
+
+Package microtype Warning: I cannot find a protrusion list for font
+(microtype)                `T5/lmtt/m/n/10.95'. Switching off
+(microtype)                protrusion for this font on input line 41.
+
+[4]) [5] (.tools/dense-figure-check/main.lof) [6] (.tools/dense-figure-check/main.lot) [7] (./chapters/chapter_1.tex
+Chapter 1.
+[1] [2] [3] [4]) (./chapters/chapter_2.tex [5]
+Chapter 2.
+(./figures/rag-system-position.tex) [6 <./figures/rag-system-position.png (PNG copy)>] [7] [8] [9{c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}] [10]) (./chapters/chapter_3.tex [11]
+Chapter 3.
+
+Package microtype Warning: I cannot find a protrusion list for font
+(microtype)                `T5/lmtt/m/n/10'. Switching off
+(microtype)                protrusion for this font on input line 18.
+
+[12]
+
+Package microtype Warning: I cannot find a protrusion list for font
+(microtype)                `T5/lmtt/m/n/6'. Switching off
+(microtype)                protrusion for this font on input line 22.
+
+
+Package microtype Warning: I cannot find a protrusion list for font
+(microtype)                `T5/lmtt/m/n/12'. Switching off
+(microtype)                protrusion for this font on input line 36.
+
+[13] (c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/tex/latex/lm/ts1lmr.fd) [14{c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}{c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}] (./figures/dense-retrieval-overview.tex) [15 <./figures/dense-retrieval-overview.png (PNG copy)>] [16] [17] [18] [19] [20]) (./chapters/chapter_4.tex [21]
+Chapter 4.
+[22] [23] [24] [25] [26] [27] [28] [29] [30] [31]) (./chapters/chapter_5.tex [32]
+Chapter 5.
+[33] [34] [35] [36] [37] [38] [39] [40] [41] [42] [43]) (./chapters/chapter_6.tex [44]
+Chapter 6.
+[45] [46] [47]) (./ref/references.tex [48]
+Underfull \hbox (badness 5022) in paragraph at lines 9--10
+[]\T5/lmr/m/n/12 (+20) J. Chen, S. Xiao, P. Zhang, K. Luo, D. Lian, and Z. Liu, ``M3-
+
+Underfull \hbox (badness 10000) in paragraph at lines 18--19
+[]\T5/lmr/m/n/12 (+20) S. Robert-son and H. Zaragoza, ``The prob-a-bilis-tic rel-e-vance frame-
+
+Underfull \hbox (badness 10000) in paragraph at lines 18--19
+\T5/lmr/m/n/12 (+20) work: BM25 and be-yond,'' \T5/lmr/m/it/12 (+20) Foun-da-tions and Trends in In-for-ma-
+
+Underfull \hbox (badness 6510) in paragraph at lines 18--19
+\T5/lmr/m/it/12 (+20) tion Re-trieval\T5/lmr/m/n/12 (+20) , vol. 3, no. 4, pp. 333--389, 2009. [On-line]. Avail-able:
+
+Underfull \hbox (badness 2460) in paragraph at lines 24--25
+[]\T5/lmr/m/n/12 (+20) R. Goebel, Y. Kano, M.-Y. Kim, J. Ra-belo, K. Satoh, and M. Yosh-
+
+Underfull \hbox (badness 10000) in paragraph at lines 24--25
+\T5/lmr/m/n/12 (+20) ioka, ``Overview of bench-mark datasets and meth-ods for the Le-gal
+
+Underfull \hbox (badness 10000) in paragraph at lines 24--25
+\T5/lmr/m/n/12 (+20) In-for-ma-tion Ex-trac-tion/Entailment Com-pe-ti-tion (COL-IEE) 2024,'' in
+
+Underfull \hbox (badness 8170) in paragraph at lines 24--25
+\T5/lmr/m/it/12 (+20) JSAI-isAI 2024\T5/lmr/m/n/12 (+20) , LNAI 14741, pp. 109--124, 2024. [On-line]. Avail-able:
+[49]
+Underfull \hbox (badness 1173) in paragraph at lines 33--34
+\T5/lmr/m/n/12 (+20) BERT-networks,'' in \T5/lmr/m/it/12 (+20) Proc. EMNLP-IJCNLP 2019\T5/lmr/m/n/12 (+20) , 2019. [On-line]. Avail-able:
+
+Underfull \hbox (badness 1460) in paragraph at lines 54--55
+\T5/lmr/m/n/12 (+20) mod-els,'' in \T5/lmr/m/it/12 (+20) Ad-vances in Neu-ral In-for-ma-tion Pro-cess-ing Sys-tems: Datasets
+
+Underfull \hbox (badness 10000) in paragraph at lines 54--55
+\T5/lmr/m/n/12 (+20) proceedings.neurips.cc/paper/2021/hash/65b9eea6e1cc6bb9f0cd2a47751a186f-
+[50]
+Underfull \hbox (badness 1648) in paragraph at lines 60--61
+[]\T5/lmr/m/n/12 (+20) A. van den Oord, Y. Li, and O. Vinyals, ``Rep-re-sen-ta-tion learn-ing with
+
+Underfull \hbox (badness 3482) in paragraph at lines 60--61
+\T5/lmr/m/n/12 (+20) con-trastive pre-dic-tive cod-ing,'' arXiv:1807.03748, 2018. [On-line]. Avail-able:
+
+Underfull \hbox (badness 1939) in paragraph at lines 63--64
+[]\T5/lmr/m/n/12 (+20) American Sta-tis-ti-cal As-so-ci-a-tion, ``Amer-i-can Sta-tis-ti-cal As-so-ci-a-tion re-leases
+
+Underfull \hbox (badness 10000) in paragraph at lines 72--73
+[]\T5/lmr/m/n/12 (+20) Intfloat, ``Multilingual-E5-base model card.'' [On-line]. Avail-able:
+) [51] (.tools/dense-figure-check/main.aux) )
+(see the transcript file for additional information)<c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx12.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx8.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmex10.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi10.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi12.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi6.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi7.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi8.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr6.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr7.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr8.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri12.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy10.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy6.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy7.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy8.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt12.pfb><c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on .tools/dense-figure-check/main.pdf (59 pages, 3815515 bytes).
+SyncTeX written on .tools/dense-figure-check/main.synctex.gz.
+
+Transcript written on .tools/dense-figure-check/main.log.
+Latexmk: Getting log file '.tools/dense-figure-check/main.log'
+Latexmk: Examining '.tools/dense-figure-check/main.fls'
+Latexmk: Examining '.tools/dense-figure-check/main.log'
+Latexmk: Log file says output to '.tools/dense-figure-check/main.pdf'
+Latexmk: Log file says output to '.tools/dense-figure-check/main.pdf'
+Latexmk: All targets (.tools/dense-figure-check/main.pdf) are up-to-date
+
+Reverting Windows console CPs to (in,out) = (437,65001)

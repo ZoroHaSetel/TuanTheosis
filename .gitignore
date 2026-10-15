@@ -16,3 +16,6 @@ Icon
 .Trashes
 .VolumeIcon.icns
 .com.apple.timemachine.donotpresent
+
+# Local portable LaTeX installation
+.tools/TinyTeX/

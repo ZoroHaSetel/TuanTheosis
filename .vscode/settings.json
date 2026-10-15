@@ -1,0 +1,30 @@
+{
+  "latex-workshop.latex.tools": [
+    {
+      "name": "tinytex-latexmk",
+      "command": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "args": [
+        "-NoLogo",
+        "-NoProfile",
+        "-NonInteractive",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "%WORKSPACE_FOLDER%/.vscode/build-latex.ps1",
+        "-RootFile",
+        "%DOC_EXT%",
+        "-OutputDirectory",
+        "%OUTDIR%"
+      ]
+    }
+  ],
+  "latex-workshop.latex.recipes": [
+    {
+      "name": "TinyTeX (pdfLaTeX)",
+      "tools": ["tinytex-latexmk"]
+    }
+  ],
+  "latex-workshop.latex.recipe.default": "TinyTeX (pdfLaTeX)",
+  "latex-workshop.latex.clean.command": "C:\\Users\\ADMIN\\Downloads\\TuanTheosis\\.tools\\TinyTeX\\bin\\windows\\latexmk.exe",
+  "latex-workshop.kpsewhich.path": "C:\\Users\\ADMIN\\Downloads\\TuanTheosis\\.tools\\TinyTeX\\bin\\windows\\kpsewhich.exe"
+}

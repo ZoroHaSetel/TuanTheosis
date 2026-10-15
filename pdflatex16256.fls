@@ -1,0 +1,5 @@
+PWD C:/Users/ADMIN/Downloads/TuanTheosis
+INPUT c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf.cnf
+INPUT c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-dist/web2c/texmf.cnf
+INPUT c:/Users/ADMIN/Downloads/TuanTheosis/.tools/TinyTeX/texmf-var/web2c/pdftex/pdflatex.fmt
+INPUT c:/Users/ADMIN/Downloads/TuanTheosis/main.tex

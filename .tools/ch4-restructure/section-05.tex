@@ -1,0 +1,49 @@
+\section{Retrieval Models and Implementation}
+\label{sec:retrieval-implementation}
+
+The experiments use BM25 for lexical retrieval and the dense representations of BGE-M3 and multilingual-E5-base for semantic retrieval. All models score the same ordered articles within each corpus version. Preserving article order allows their scores to be combined without changing the associated legal document and article identifiers.
+
+\subsection{BM25}
+
+BM25 scores tokenized question and article text. Preprocessing converts text to lowercase, replaces non-word punctuation with token separators, and splits the resulting text on whitespace. This preprocessing remains fixed in the reported comparisons. The experiments therefore evaluate this BM25 configuration rather than alternative Vietnamese tokenization methods.
+
+\subsection{BGE-M3 and Multilingual-E5-base}
+
+BGE-M3 is the primary dense retriever. Multilingual-E5-base, referred to as E5, provides an additional dense score for the BM25+BGE-M3+E5 configuration. The experiments use BGE-M3's dense representation; its sparse and multi-vector retrieval methods are not evaluated.
+
+Each encoder maps the question and each article to vectors. The implementation divides each vector by its Euclidean norm, with a minimum denominator of \(10^{-10}\), and computes the dot product of the normalized vectors. For the query vector \(\mathbf{u}_q\) and article vector \(\mathbf{v}_d\) before normalization, the resulting score is
+\[
+s_{\mathrm{dense}}(q,d)=\frac{\mathbf{u}_q^\top\mathbf{v}_d}{\max(\lVert\mathbf{u}_q\rVert_2,10^{-10})\max(\lVert\mathbf{v}_d\rVert_2,10^{-10})}.
+\]
+Here, \(q\) is the question, \(d\) is an indexed article, and \(\lVert\cdot\rVert_2\) denotes the Euclidean norm. For vectors whose norms exceed the numerical threshold, this calculation is cosine similarity. The threshold prevents division by zero.
+
+Table~\ref{tab:4.3} summarizes the pretrained dense models and the baseline input settings. Both encoders use a maximum input length of 512 tokens in the baseline experiments. This experimental limit is distinct from BGE-M3's supported maximum of 8,192 tokens described in Chapter~3. The fine-tuning experiment selected by hybrid retrieval performance uses maximum lengths of 256 tokens for queries and 512 tokens for passages, as specified in Section~\ref{sec:bge-finetuning}.
+
+\begingroup
+\small
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.18}
+\begin{longtable}{>{\raggedright\arraybackslash}p{5.072cm}>{\raggedright\arraybackslash}p{5.134cm}>{\raggedright\arraybackslash}p{5.134cm}}
+\caption[Baseline dense-model settings.]{Baseline dense-model settings.}\label{tab:4.3}\\
+\toprule
+\textbf{Property} & \textbf{BGE-M3} & \textbf{Multilingual-E5-base} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Property} & \textbf{BGE-M3} & \textbf{Multilingual-E5-base} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{3}{r}{\footnotesize Continued on next page}\\
+\endfoot
+\bottomrule
+\endlastfoot
+Model family & BGE-M3 multilingual embedding model & E5 multilingual text-embedding model \\
+Embedding dimension & 1,024 & 768 \\
+Experimental role & Primary pretrained dense component & Additional pretrained dense component \\
+Baseline maximum input length & 512 tokens & 512 tokens \\
+Fine-tuning status & Fine-tuned in the experiments in Section~\ref{sec:bge-finetuning} & Pretrained parameters remain fixed \\
+\end{longtable}
+\endgroup
+
+The evaluation scores every indexed article rather than restricting retrieval to candidates from an approximate nearest-neighbor index. Thus, an available target that falls outside the first ten results is excluded by the resulting ranking rather than by a separate candidate filter. This exhaustive scoring design supports comparisons of ranking performance; it does not establish the system's latency in deployment.

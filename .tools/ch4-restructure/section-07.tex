@@ -1,0 +1,140 @@
+\section{BGE-M3 Fine-Tuning}
+\label{sec:bge-finetuning}
+
+The two fine-tuning experiments differ in how they select BGE-M3: the first uses hybrid retrieval performance, while the second uses standalone dense retrieval performance. Both then compare hybrids containing pretrained and fine-tuned BGE-M3. BM25, E5, and the selected combination weights remain fixed within each pretrained and fine-tuned comparison. The experiments use different training procedures and are therefore described separately.
+
+\subsection{Model Selection Based on Hybrid Retrieval}
+\label{sec:finetuning-hybrid-selection}
+
+\subsubsection{Training Data and Negative Examples}
+
+This experiment uses Zalo question and article pairs. For each eligible query, the training builder selects a known relevant article available in both clean and parsed views, creating paired training examples from the two corpus representations. Negative passages are mined from lexical and dense rankings after excluding known positives, duplicates, unavailable documents, and laws reserved for development and test evaluation.
+
+The negative-selection procedure considers up to 256 candidates from each of BM25 and pretrained BGE-M3 on the parsed corpus. It alternates between the filtered lists until seven distinct negatives have been selected. These rankings and negative groups are fixed before training. All explicit negatives use parsed article text, including groups whose positive uses clean text.
+
+\begin{table}[H]
+\centering
+\footnotesize
+\setstretch{1.0}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.05}
+\caption[Training groups and protected folds in the completed hybrid fine-tuning study.]{Training groups and protected folds in the completed hybrid fine-tuning study.}\label{tab:4.4}
+\vspace{6pt}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+\textbf{Stage} & \textbf{Train folds} & \textbf{Queries} & \textbf{A/B groups} & \textbf{Protected folds} & \textbf{Protected laws} & \textbf{Law overlap} \\
+\midrule
+Pilot & 2, 3, 4 & 1,917 & 3,834 & 0, 1 & 258 & 0 \\
+Final training & 1, 2, 3, 4 & 2,556 & 5,112 & 0 & 110 & 0 \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+Each eligible query produces two training groups using the clean and parsed text of the same selected relevant article. The group counts therefore do not represent independent questions. The zero-overlap checks confirm that training groups contain no article from the protected law identifiers; they do not establish separation of legal concepts or similar language. Explicit-negative filtering also does not guarantee that passages from other groups in the same batch are nonrelevant to a query.
+
+\subsubsection{Training Objective and Configuration}
+
+This experiment trains BGE-M3 with a single-positive in-batch contrastive objective. Each query group contains one selected positive and seven explicit negatives. With batch size \(B\), group size \(G=8\), positive passage index \(y_i=iG\), normalized query vector \(\mathbf q_i\), normalized passage vector \(\mathbf p_j\), and temperature \(\tau=0.02\), the implemented objective is
+\[
+\mathcal L_{\mathrm{batch}}=-\frac{1}{B}\sum_{i=0}^{B-1}
+\log\frac{\exp(\mathbf q_i^\top\mathbf p_{y_i}/\tau)}
+{\sum_{j=0}^{BG-1}\exp(\mathbf q_i^\top\mathbf p_j/\tau)}.
+\]
+
+\begingroup
+\small
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.18}
+\begin{longtable}{>{\raggedright\arraybackslash}p{6.306cm}>{\raggedright\arraybackslash}p{9.254cm}}
+\caption[Locked configuration for the completed final-training runs.]{Locked configuration for the completed final-training runs.}\label{tab:4.5}\\
+\toprule
+\textbf{Parameter} & \textbf{Verified value} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Parameter} & \textbf{Verified value} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{2}{r}{\footnotesize Continued on next page}\\
+\endfoot
+\bottomrule
+\endlastfoot
+Base encoder & BGE-M3 \\
+Trainable component & Full dense encoder \\
+Epochs & 2 \\
+Learning rate & \(2.0000\times10^{-5}\) \\
+Contrastive query batch & 4 \\
+Gradient accumulation & 8 \\
+Optimizer effective batch & 32 query groups \\
+Passage group & 1 selected positive and 7 explicit negatives \\
+Query /\allowbreak{} passage maximum length & 256 /\allowbreak{} 512 tokens \\
+Temperature & 0.0200 \\
+Pooling /\allowbreak{} normalization & First-token hidden state /\allowbreak{} L2 normalization \\
+Seeds & 42, 43, 44 \\
+Frozen E5 component & Multilingual-E5-base, unchanged throughout fine-tuning \\
+\end{longtable}
+\endgroup
+
+The numerator rewards the selected positive article, while the denominator includes all passages in the forward-pass batch. With four query groups and eight passages per group, this denominator contains 32 passage positions. Gradient accumulation across eight forward passes yields an effective optimizer batch of 32 query groups, but does not combine their passages into one contrastive denominator.
+
+\subsubsection{Model Selection and Evaluation}
+
+Pilot training uses folds 2, 3, and 4. Fold 1 selects the learning rate, epoch, and forward-pass query batch using hybrid NDCG@10. NDCG@10 for BM25+BGE-M3 is the primary selection criterion, while BM25+BGE-M3+E5 is checked separately. The development rule requires an improvement of at least 0.01 for BM25+BGE-M3 and a decrease of no more than 0.01 for BM25+BGE-M3+E5. After the configuration is fixed, final models are trained again from pretrained BGE-M3 on folds 1, 2, 3, and 4 with seeds 42, 43, and 44.
+
+Fold 0 contains 640 queries reserved for evaluation on a separate test set. The corrected comparison selects combination weights on folds 1, 2, 3, and 4 using pretrained BGE-M3 and keeps them fixed when replacing it with fine-tuned BGE-M3. A preliminary analysis had already examined fold 0 before a document-identity error was corrected. The corrected results are therefore interpreted as post-hoc evidence, despite excluding fold 0 from training and model selection.
+
+Figure~\ref{fig:4.3} summarizes the selection and evaluation sequence.
+
+\begin{figure}[p]
+\centering
+\begin{tikzpicture}[>=Latex, every node/.style={draw=black!65, rounded corners=2pt, fill=black!3, text width=4.35cm, minimum height=0.85cm, align=center, font=\small}, every path/.style={draw=black!60, thick}]
+\node (A) at (0.00,0.00) {Folds 2, 3, 4: pilot training pairs};
+\node (B) at (0.00,-1.55) {Learning-rate and epoch candidates};
+\node (C) at (0.00,-3.10) {Fold 1: checkpoint selection};
+\node (D) at (0.00,-4.65) {Batch ablation on fold 1};
+\node (E) at (0.00,-6.20) {Locked recipe};
+\node (F) at (0.00,-7.75) {Folds 1, 2, 3, 4: train seeds 42, 43, 44};
+\node (G) at (0.00,-9.30) {Fold 0: initial evaluation};
+\node (H) at (0.00,-10.85) {Document-identity error identified};
+\node (I) at (0.00,-12.40) {Corrected weight selection on folds 1, 2, 3, 4};
+\node (J) at (0.00,-13.95) {Post-hoc corrected fold-0 comparison};
+\draw[->] (A.south) -- (B.north);
+\draw[->] (B.south) -- (C.north);
+\draw[->] (C.south) -- (D.north);
+\draw[->] (D.south) -- (E.north);
+\draw[->] (E.south) -- (F.north);
+\draw[->] (F.south) -- (G.north);
+\draw[->] (G.south) -- (H.north);
+\draw[->] (H.south) -- (I.north);
+\draw[->] (I.south) -- (J.north);
+\end{tikzpicture}
+\caption[Training and evaluation evidence flow.]{Training and evaluation evidence flow.}
+\label{fig:4.3}
+\end{figure}
+
+\subsection{Model Selection Based on Standalone Dense Retrieval}
+\label{sec:finetuning-dense-selection}
+
+\subsubsection{Training Data and Configuration}
+
+This experiment selects BGE-M3 using standalone dense retrieval before testing it in BM25+BGE-M3 and BM25+BGE-M3+E5. It uses a fixed corpus of 61,425 parsed articles, with reference text retained where parsed text is unavailable. The official training partition contains 2,556 queries. Removing one near-duplicate of an official test query leaves 2,555 eligible training groups. The final evaluation uses 640 official test queries.
+
+Each group includes five explicit negatives. The training procedure uses a mask to identify all known positive articles within the batch candidate set. This differs from the selected-positive objective in Section~\ref{sec:finetuning-hybrid-selection}. The encoder uses the hidden state at the first token position, L2 normalization, and query and passage limits of 256 and 512 tokens, respectively. The specified temperature is 0.05, with bfloat16 precision, a cosine learning-rate schedule, and a warmup ratio of 0.05. The procedure requires at least 32 queries in a forward-pass contrastive batch, with 64 preferred; this requirement cannot be met by gradient accumulation alone. The available description does not identify which of these batch sizes was used in every final run.
+
+\subsubsection{Training Objective}
+
+For logits \(z_{ij}=s(q_i,d_j)/\tau\), positive candidate positions \(P_i\), candidate positions \(C_i\), and batch size \(B\), the multi-positive loss is
+\[
+\mathcal{L}=-\frac{1}{B}\sum_{i=1}^{B}\left[\log\sum_{j\in P_i}\exp(z_{ij})-\log\sum_{j\in C_i}\exp(z_{ij})\right].
+\]
+Here \(s(q_i,d_j)\) is the similarity between query \(i\) and candidate article \(j\), and \(\tau=0.05\) controls the scale of the logits. The numerator includes every known positive present in the candidate set rather than one selected positive. This use of recorded labels does not establish that every unannotated candidate is legally irrelevant. The documented checks concern article identity, labels, and data provenance; they do not constitute expert review of every negative example.
+
+\subsubsection{Model Selection and Hybrid Evaluation}
+
+Screening evaluates 36 checkpoints across three learning rates, four development folds, and training steps 30, 60, and 90. A training-data stage passes if its mean NDCG@10 gain is at least 0.01, at least three folds improve NDCG@10, and mean Recall@100 decreases by no more than 0.01. These criteria use standalone dense retrieval. The Zalo-only stage is the first stage to pass, so subsequent data expansions are skipped. Screening selects a learning rate of \(2\times10^{-5}\) and step 60. Final models are trained using seeds 42, 43, and 44, with each checkpoint taken at step 60 and checked after reloading.
+
+For the hybrid comparisons, combination weights are selected on official training queries using pretrained BGE-M3, then fixed when fine-tuned BGE-M3 replaces it. BM25+BGE-M3 uses BM25 and BGE-M3 weights of 0.20 and 0.80. BM25+BGE-M3+E5 uses BM25, BGE-M3, and E5 weights of 0.15, 0.50, and 0.35. Dense and hybrid comparisons use the same 640 test queries. A gain of at least 0.01 NDCG@10 defines the practical improvement threshold, with the Recall@100 condition checked separately. This threshold is a decision rule rather than a statistical significance test.
+
+The official test queries had been examined before this experiment. Excluding them from final training and model selection does not remove that prior exposure, so the results are interpreted as post-hoc evidence. They assess query retrieval over a fixed corpus and do not establish transfer to new legal documents or a later time period. Chapter 5 reports standalone and hybrid outcomes separately.

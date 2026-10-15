@@ -1,0 +1,10 @@
+\section{Research Design and Retrieval Task}
+\label{sec:research-design}
+
+This thesis uses controlled retrieval experiments to compare lexical retrieval, dense retrieval, and their combination for Vietnamese legal questions. The system receives a question, scores the indexed legal articles, and returns a ranked list. Each article has a legal document identifier and an article identifier. The primary outcome is normalized discounted cumulative gain at rank ten (NDCG@10); the matching rules and evaluation metrics are defined in Section~\ref{sec:target-metrics}.
+
+BM25 provides the baseline for retrieval effectiveness. Comparing BM25+BGE-M3 with BM25 assesses the benefit of combining lexical and dense retrieval. Comparing BM25+BGE-M3+E5 with BM25+BGE-M3 assesses the additional benefit of multilingual-E5-base. Dataset and corpus conditions provide separate settings for these comparisons, with the same query population retained within each comparison of corpus versions. The evaluation also distinguishes articles absent from the corpus from errors in mapping target identifiers, since both can affect measured performance.
+
+The fine-tuning experiments compare pretrained and fine-tuned BGE-M3 in standalone dense retrieval and in the hybrid configurations. One experiment selects the model using hybrid retrieval performance on development data; the other uses standalone dense retrieval performance. The hybrid comparisons keep BM25, E5, and the combination weights fixed while replacing BGE-M3 with its fine-tuned version. This design tests whether improvements in standalone retrieval are retained after score fusion. Section~\ref{sec:bge-finetuning} describes the training procedures, and Section~\ref{sec:evaluation-design} specifies the evaluation conditions and their limitations.
+
+Relevance labels support training, configuration selection, and evaluation. At retrieval time, the system uses only the question text and the indexed corpus. Published answers and recorded relevance targets are not retrieval inputs. The experiments therefore measure recovery of annotated legal articles rather than the correctness of a generated legal answer.

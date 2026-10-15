@@ -1,117 +1,113 @@
 \chapter{Literature Review}
 
-The research gap concerns the value of additional retrieval capacity under legal collection and evaluation constraints. This review groups prior work by the problem it addresses: lexical evidence, learned semantic matching, fusion, adaptation, and benchmark design. Mathematical definitions are developed separately in Chapter 3. Findings on other languages, jurisdictions, and retrieval units motivate experiments here; their numerical outcomes are not transferred to Vietnamese article retrieval.
+This chapter reviews prior work on legal retrieval, multilingual embeddings, and hybrid fusion. It identifies the research gap addressed by this thesis and positions its contributions relative to the literature.
+
+Figure~\ref{fig:rag-system-position} shows the position of retrieval in a Retrieval-Augmented Generation (RAG) system. The retrieval component searches the document sources and supplies information to the generator to support answer generation.
+
+\input{figures/rag-system-position}
 
 \section{Legal Retrieval and Evidence}
 
-Legal information retrieval identifies and ranks legal materials in response to an information need. The retrieval unit may be a judgment, statute, article, paragraph, or other passage. These units define different tasks. Finding a precedent relevant to a case is different from identifying an article that supplies the rule needed to answer a short question. COLIEE makes this distinction explicit by separating case retrieval, case entailment, statute retrieval, and statute entailment. Its statute tasks use Japanese bar-examination questions; its case tasks concern Canadian case law. Goebel et al.~\cite{goebel2024} therefore provides a useful taxonomy, rather than a directly interchangeable benchmark for Vietnamese law.
+Legal information retrieval identifies and ranks legal materials relevant to a query. The retrieval unit may be a judgment, statute, article, or passage. The Competition on Legal Information Extraction and Entailment (COLIEE) separates retrieval tasks from entailment tasks, which assess whether legal texts support a given statement. Its case tasks use Canadian case law, while its statute tasks use Japanese bar-examination questions~\cite{goebel2024}. Comparisons with Vietnamese article retrieval must therefore account for differences in the legal system, retrieval unit, relevance annotations, and evaluation metrics.
 
-For this thesis, relevance is operationalized through the dataset's question\allowbreak{}-to-prov\allowbreak{}ision judgments. The ALQAC 2024 organizers define relevant articles as those that can be used to answer the question. The competition distinguishes document retrieval from question answering and describes its data as manually annotated Vietnamese statute-law questions. This task definition supports evaluating retrieval independently from answer generation. It does not imply that every retrieved article constitutes a complete answer or that the available judgments exhaust every legally defensible supporting provision~\cite{alqac2024}.
+The Automated Legal Question Answering Competition (ALQAC) 2024 provides manually annotated Vietnamese legal questions and defines separate tasks for legal document retrieval and question answering. In the retrieval task, articles are relevant when they can be used to answer the question~\cite{alqac2024}. This thesis uses the available relevance annotations to assess how highly the recorded relevant articles are ranked.
 
-The distinction between semantic association and evidential relevance is fundamental to the analysis developed here. Consider an illustrative question about a deadline for submitting an application. A document discussing the same application may receive a high semantic score while describing a different procedural stage. Conversely, a short provision giving the required deadline may share few words with a conversational question. This example is an analytical illustration, not an observed project failure. It explains why both lexical and semantic signals deserve evaluation: one may preserve distinctive terminology, while the other may connect different formulations of the same information need. Neither signal explicitly proves that all conditions of the question are satisfied.
+Similarity in wording or topic alone does not establish relevance to a legal question. For example, a question about an application deadline may match an article concerning a different stage of the same procedure. In this hypothetical case, the article discusses the same topic but does not provide the required deadline. A relevant provision may also use different terms from those in the question. These possibilities motivate comparing lexical and dense retrieval using the same queries and relevance annotations.
 
-Article-level retrieval also introduces a boundary decision. An article may contain a rule, several exceptions, and cross-references. Dividing it into smaller passages can make a particular sentence easier to match, but the resulting passage may omit context necessary to interpret it. Retaining the complete article preserves context but forces the ranking representation to accommodate several subtopics. There is no represen\allowbreak{}tation-i\allowbreak{}ndepende\allowbreak{}nt answer to this tradeoff. If the ground truth identifies articles, passage-level predictions must be mapped back to articles before effectiveness is compared. Otherwise, a change in retrieval unit is confounded with a change in the number and definition of relevant items.
+The retrieval unit must also match the relevance annotations. An article may contain rules, exceptions, and references to other provisions, so splitting it into passages changes the context available to the retriever. When the annotations identify articles, retrieved passages must be mapped to their source articles before ranking performance is evaluated. Otherwise, passage retrieval and article retrieval would be assessed using different units.
 
-Vietnamese preprocessing requires similar care. PhoBERT explicitly uses Vietnamese word segmentation before subword processing and evaluates language-specific NLP tasks~\cite{nguyen2020}. Its evidence establishes that segmentation is a substantive modeling decision in Vietnamese NLP; it does not establish that a particular segmenter improves this thesis's retriever. The implication for lexical retrieval is that whitespace units and segmented words define different vocabularies and frequency statistics. The implication for dense retrieval is different: its input should follow the encoder's documented preprocessing contract. Applying a lexical segmenter's output to an encoder without checking that contract would introduce another experimental variable.
+Text preprocessing is another consideration in Vietnamese retrieval. PhoBERT uses word segmentation before subword tokenization and is evaluated on Vietnamese language-processing tasks~\cite{nguyen2020}. Its preprocessing illustrates a model-specific requirement; its results do not establish that word segmentation improves the retrievers used in this thesis. For lexical retrieval, splitting text at spaces and segmenting it into words produce different vocabularies and term counts. For dense retrieval, preprocessing should follow the embedding model's documented requirements.
 
-The broader motivation includes retrieva\allowbreak{}l-augmen\allowbreak{}ted generation. Lewis et al. combine a parametric generator with retrieved nonparametric information and evaluate knowledg\allowbreak{}e-intens\allowbreak{}ive NLP tasks~\cite{lewis2020}. This establishes an architectural connection between retrieval and generation. The present thesis nevertheless treats retrieval effectiveness as a separate construct. A ranking metric describes the ordering of judged evidence; it does not directly measure whether a generator interprets that evidence correctly, cites it faithfully, or produces an appropriate legal answer. Any downstream benefit inferred from retrieval improvements must therefore remain a hypothesis until generation is evaluated.
+In the RAG workflow shown in Figure~\ref{fig:rag-system-position}, retrieval supplies information to the generator. Lewis et al. combine a language model with retrieved passages for knowledge-intensive tasks~\cite{lewis2020}. This thesis evaluates the retrieval component by measuring article ranking against the available relevance annotations. Therefore, its results establish retrieval performance within those annotations, while any improvement in the accuracy of generated legal answers requires a separate evaluation.
 
-\section{Lexical Retrieval as a Serious Reference}
+\section{Lexical Retrieval and BM25}
 
-The lexical family ranks documents using observable term evidence. Its attraction in legal retrieval is the direct relationship between score contributions and the indexed wording. Robertson and Zaragoza~\cite{robertson2009} develop the probabilistic relevance framework underlying BM25; Rosa et al.~\cite{rosa2021} provide a legal case-retrieval example in which a vanilla BM25 submission is competitive. These sources play different roles: the former explains a scoring framework, while the latter demonstrates that a lexical comparator cannot be dismissed simply because neural methods are available.
+Lexical retrieval ranks documents by matching query terms with indexed text. BM25 is a probabilistic ranking model that combines term frequency and document frequency with document length normalization~\cite{robertson2009}. Its scores therefore depend on both the terms in a document and their distribution in the indexed corpus.
 
-The case-retrieval finding does not settle article retrieval in Vietnamese. A named legal concept may be expressed differently in a conversational question, and a matched term may occur in a provision addressing a different procedural condition. The relevant gap is therefore whether a learned signal adds useful ordering evidence under the same candidate collection and judgments. A weakly specified BM25 baseline would make that question difficult to answer because preprocessing and article boundaries affect its vocabulary and document statistics.
+A BM25 submission achieved second place in the legal case retrieval task of COLIEE 2021~\cite{rosa2021}. This finding provides empirical support for using BM25 as a baseline in legal retrieval. Since that task concerns case law, its results do not establish BM25's effectiveness for Vietnamese legal article retrieval. The latter requires evaluation on the Vietnamese collections studied here.
 
-This thesis retains BM25 as the fixed lexical reference. It does not introduce word segmentation or a new lexical representation as a demonstrated contribution without a matched experiment. The mathematical treatment of term saturation and length normalization appears in Section 3.2; the actual tokenizer and implementation are specified in Section 4.4.1.
+This thesis compares dense and hybrid retrieval with BM25 using the same queries, corpus, and relevance annotations within each evaluation condition. BM25's evaluation scores serve as the baseline. Section~3.2 explains the scoring formula, and Section~\ref{sec:retrieval-implementation} specifies the preprocessing and retrieval implementation used in the experiments.
 
-\section{Multilingual Neural Retrieval}
+\section{Dense Retrieval and Multilingual Embeddings}
 
-The neural family replaces explicit vocabulary coordinates with learned representations. Sentence-BERT and Dense Passage Retrieval provide influential approaches to separate query/\allowbreak{}document encoding and supervised retrieval \cite{reimers2019,karpukhin2020}. Their methodological relevance is that document representations can be prepared before a query arrives. Their evaluation tasks do not independently establish effectiveness on the legal collections studied here.
+Dense retrieval represents queries and documents as embeddings and ranks documents by vector similarity. Sentence-BERT produces sentence embeddings that can be compared using cosine similarity~\cite{reimers2019}. Dense Passage Retrieval trains separate query and passage encoders for open-domain question answering~\cite{karpukhin2020}. Independent encoding allows document embeddings to be computed before a query is submitted and reused during retrieval.
 
-BGE-M3 and multilingual E5 extend the motivation to multilingual retrieval \cite{chen2024,wang2024}. The BGE-M3 paper describes multiple retrieval functions, while the E5 technical report describes a model family with distinct checkpoints and training configurations. The present study uses BGE-M3 dense vectors and E5-base as separately identified channels. This restriction matters: a result for one dense configuration cannot support a conclusion about all model modes or all members of a model family.
+BGE-M3 supports multilingual retrieval through dense, sparse, and multiple-vector representations~\cite{chen2024}. Multilingual E5 provides embedding models in small, base, and large variants, trained using multilingual text pairs and labeled datasets~\cite{wang2024}. This thesis evaluates BGE-M3's dense representations and multilingual-E5-base (E5). The results therefore apply to these configurations, rather than to every retrieval mode or model variant described in the source papers.
 
-A single-vector representation supplies an efficient separation between document encoding and query-time comparison, but it compresses the document before seeing the query. ColBERT explores a different design through contextualized token representations and late interaction \cite{khattab2020}. That alternative identifies a limitation of the studied design space; it is not an evaluated solution to this project’s observed failures.
+Single-vector retrieval represents each query and document with one vector. ColBERT instead retains contextualized token embeddings and computes relevance through interactions between query and document tokens after encoding~\cite{khattab2020}. This approach provides an alternative to single-vector retrieval. ColBERT is included here as related work and is not evaluated in the experiments.
 
-These studies justify testing multilingual representations while leaving two local questions unresolved: whether their rankings improve on the lexical reference, and whether their disagreements are useful after fusion. The latter cannot be answered by a standalone leaderboard position. It requires comparing the complete hybrid against the hybrid it extends.
+Multilingual-E5-base is included to test whether it complements BGE-M3 in semantic retrieval. The models use different training procedures and embedding methods~\cite{chen2024,wang2024}. The hypothesis is that these differences may produce complementary rankings, allowing E5 to improve retrieval for some questions whose relevant articles are ranked poorly by BGE-M3. Whether this improves hybrid retrieval is tested by comparing BM25+BGE-M3+E5 with BM25+BGE-M3.
 
-\section{Lexical–Semantic and Multi-Retriever Fusion}
+The experiments also compare pretrained BGE-M3 and E5 with BM25 to assess standalone retrieval on the Vietnamese legal collections, and BM25+BGE-M3 with BM25 to assess hybrid retrieval. These comparisons distinguish the effect of combining lexical and dense retrieval from the effect of adding E5 to an existing hybrid.
 
-Fusion studies address how heterogeneous rankings or scores can be combined. Cormack et al.~\cite{cormack2009} introduce reciprocal rank fusion, while Bruch et al.~\cite{bruch2022} analyze lexical–semantic fusion including convex score combination. The distinction is substantive: rank fusion uses positions, whereas weighted score fusion retains information about score distances after a specified normalization. Their behavior depends on candidate policy and parameter selection; the literature does not justify a universal ordering independent of those settings.
+\section{Hybrid Retrieval and Score Fusion}
 
-The hypothesis behind lexical–semantic fusion is complementarity. Lexical evidence and learned similarity may recover different relevant items or order the same items differently. Adding a second dense retriever poses a stricter question: it must contribute beyond a system that already combines lexical and semantic information. Strong standalone performance is insufficient if the added channel repeats evidence already supplied by the other components~\cite{bruch2022}.
+Hybrid retrieval combines the outputs of different retrievers to produce a single ranking. Reciprocal Rank Fusion combines rankings using document positions rather than the original retrieval scores~\cite{cormack2009}. Weighted score fusion instead combines the component scores according to assigned weights. An analysis of lexical and semantic retrieval examines how score normalization and parameter selection affect fusion performance~\cite{bruch2022}. These findings motivate specifying both the normalization method and the procedure for selecting fusion weights.
 
-The project tests that stricter question by comparing BM25+\allowbreak{}BGE-M3 with a search space that additionally permits E5-base. Because the larger weight simplex includes zero-weight boundaries, selection can ignore the new channel. An improved selection score could reflect a wider search rather than stable additional evidence. The evaluation must therefore inspect rankings on unseen data and conditio\allowbreak{}n-specif\allowbreak{}ic changes, not only selected weights.
+\paragraph{Example of Score Fusion.}
+Consider the legal question:
+\begin{quote}
+    \emph{``Is an employee entitled to severance allowance after terminating an employment contract?''}
+\end{quote}
+BM25 and BGE-M3 independently assign retrieval scores to candidate legal articles. Since their scores have different scales, each model's scores are normalized separately over the indexed corpus \(C\). For model \(m\), Min-Max normalization is defined as
+\[
+s'_m(d)=\frac{s_m(d)-\min_{d'\in C}s_m(d')}{\max_{d'\in C}s_m(d')-\min_{d'\in C}s_m(d')},
+\]
+assuming the maximum and minimum scores differ. The normalized scores are then combined using weights of 0.4 for BM25 and 0.6 for BGE-M3:
+\[
+S(d)=0.4s'_{\mathrm{BM25}}(d)+0.6s'_{\mathrm{BGE\text{-}M3}}(d).
+\]
+Table~\ref{tab:score-fusion-example} shows hypothetical normalized scores for three candidate articles from the larger corpus. The article descriptions and weights are used only to illustrate the calculation.
 
-This reasoning motivates RQ1 and RQ2 while defining their limits. The thesis evaluates the implemented score fusion; Reciprocal Rank Fusion, alternative normalization, and candidate-depth changes remain related approaches unless matched experimental outputs support a comparison.
+\begin{table}[H]
+    \centering
+    \caption{Illustrative BM25+BGE-M3 score fusion for three legal articles.}
+    \label{tab:score-fusion-example}
+    \begin{tabular}{lcccc}
+        \toprule
+        \textbf{Legal article} & \textbf{BM25} & \textbf{BGE-M3} & \textbf{Fused score} & \textbf{Final rank} \\
+        \midrule
+        A: Severance allowance & 0.90 & 0.95 & \textbf{0.93} & \textbf{1} \\
+        B: Unemployment benefits & 0.85 & 0.60 & 0.70 & 2 \\
+        C: Contract termination & 0.40 & 0.80 & 0.64 & 3 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
 
-\section{Legal-Domain Adaptation and Hard Negatives}
+For Article A, the fused score is
+\[
+S(A)=0.4\times0.90+0.6\times0.95=0.93.
+\]
+The articles are ranked by fused score in descending order. Article A ranks first because both models assign it high scores. The example illustrates how fusion combines lexical matching from BM25 and embedding similarity from BGE-M3 into a single ranking score. It demonstrates the calculation, rather than establishing which provision legally answers the question.
 
-Domain adaptation can concern language modeling or retrieval supervision. LEGAL-BERT studies legal language representations, whereas Dense Passage Retrieval trains query–passage matching \cite{chalkidis2020,karpukhin2020}. Legal text exposure alone therefore does not identify the retrieval objective optimized by a model. For this thesis, the intervention is supervised contrastive adaptation of a dense encoder using query–article groups.
+The hypothesis is that lexical and dense retrieval may provide complementary rankings. A relevant article ranked poorly by one retriever may be ranked highly by another. Adding E5 to BM25+BGE-M3 tests whether another dense retriever improves a system that already combines lexical and semantic information. Its standalone performance does not establish that additional benefit.
 
-Hard-negative research examines how informative competitors affect retrieval training. Zhan et al.~\cite{zhan2021} investigate training strategies that change the source or refresh of difficult examples. This makes the mining procedure a substantive part of the experiment: the source retriever, corpus, and filtering rules determine the distinctions the learner is asked to acquire. In legal collections, excluding known positive identifiers is necessary but does not establish that every remaining competitor is legally irrelevant.
+This thesis uses normalized weighted score fusion and compares BM25+BGE-M3 with BM25+BGE-M3+E5. The weight search includes configurations that assign E5 a weight of zero, so adding E5 expands the available configurations without requiring its use. A higher score on the data used to select weights therefore does not establish an improvement on separate evaluation queries. The selected weights must be evaluated on queries excluded from weight selection.
 
-The system-level question remains after training. An adapted dense model may change its overlap with BM25, so its value inside a hybrid cannot be inferred from training loss or from a separate dense-only score. Fixed fusion weights test replacement of one component; retuning weights on permissible selection data tests an additional system adjustment. Neither design should be confused with selecting weights from final test outcomes.
+The evaluation reports the effect of adding E5 separately for each dataset and corpus condition. Section~\ref{sec:score-fusion} specifies score normalization and fusion, and Section~\ref{sec:evaluation-design} describes weight selection and evaluation. Reciprocal Rank Fusion is discussed as related work but is not evaluated in the experiments.
 
-RQ3 addresses the completed fixed-weight hybrid experiments. The hypothesis is that developm\allowbreak{}ent-sele\allowbreak{}cted adaptation supplies useful ranking changes outside the selection cohort. Study B: Dense-Oriented Adaptation measures both dense-only and locked-weight hybrid outcomes, allowing the thesis to distinguish encoder improvement from system improvement. Study B's different recipe and previously observed test remain explicit in Section 5.6.3.
+\section{Fine-Tuning for Legal Retrieval and Hard Negatives}
 
-\section{Benchmarks and Evaluation Design}
+The thesis examines two fine-tuning experiments. The first selects the model based on hybrid retrieval performance on development data, followed by evaluation on a separate test set. The second selects the model based on standalone dense retrieval performance and then evaluates it in BM25+BGE-M3 and BM25+BGE-M3+E5. Section~\ref{sec:bge-finetuning} describes the training procedures, and Section~5.6 reports the results and evaluation limitations.
 
-The literature supplies several kinds of evidence, each answering a different question. ALQAC specifies a directly relevant Vietnamese statute-retrieval task. COLIEE distinguishes retrieval from entailment and supplies legal benchmarks in other jurisdictions. BEIR studies generalization across heterogeneous retrieval collections. Model papers establish representation methods, while training studies investigate optimization. A defensible related-work synthesis separates these evidential roles rather than treating every reported score as a comparable estimate of legal retrieval quality~\cite{alqac2024,goebel2024,thakur2021}.
+Contrastive training teaches a retrieval model to give relevant passages higher similarity scores than passages labeled as irrelevant~\cite{karpukhin2020}. This thesis uses legal questions and articles to fine-tune BGE-M3 in this way.
 
-\begingroup
-\footnotesize
-\setlength{\tabcolsep}{3pt}
-\renewcommand{\arraystretch}{1.18}
-\begin{longtable}{>{\raggedright\arraybackslash}p{2.003cm}>{\raggedright\arraybackslash}p{2.982cm}>{\raggedright\arraybackslash}p{3.097cm}>{\raggedright\arraybackslash}p{2.923cm}>{\raggedright\arraybackslash}p{3.895cm}}
-\caption{Prior research grouped by task, intervention, and evaluation role.}\label{tab:2.1}\\
-\toprule
-\textbf{Source} & \textbf{Task and language scope} & \textbf{Representation or intervention} & \textbf{Evaluation emphasis} & \textbf{Relevance and boundary for this thesis} \\
-\midrule
-\endfirsthead
-\toprule
-\textbf{Source} & \textbf{Task and language scope} & \textbf{Representation or intervention} & \textbf{Evaluation emphasis} & \textbf{Relevance and boundary for this thesis} \\
-\midrule
-\endhead
-\midrule
-\multicolumn{5}{r}{\footnotesize Continued on next page}\\
-\endfoot
-\bottomrule
-\endlastfoot
-ALQAC Organizers~\cite{alqac2024} & Vietnamese statute articles retrieved for questions & Competition task definition & Identifying answer-supporting articles & Direct task motivation; project-specific corpus versions still require local provenance \\
-Goebel et al.~\cite{goebel2024} & Canadian case law and Japanese statute tasks & Multiple competition submissions & Task-specific retrieval and entailment evaluation & Defines legal task distinctions; jurisdiction and retrieval unit differ \\
-\cite{rosa2021} & COLIEE legal case retrieval & Vanilla BM25 submission & Competition retrieval outcome & Supports a serious lexical baseline; does not establish Vietnamese article performance \\
-Thakur et al.~\cite{thakur2021} & Heterogeneous general retrieval collections & Lexical, dense, sparse, reranking, and late interaction & Zero-shot transfer across tasks & Motivates reporting generalization separately from development gains \\
-Chen et al.~\cite{chen2024} & Multilingual and multiple\allowbreak{}-granula\allowbreak{}rity retrieval & M3-Embedding & Model benchmark evaluation & Establishes BGE-M3 capabilities; dense-only deployment is a restricted configuration \\
-Wang et al.~\cite{wang2024} & Multilingual embedding and retrieval tasks & E5 model family & Training recipe and benchmark evaluation & Supplies E5 context; base, large, and instruction-tuned variants remain separate \\
-\cite{bruch2022} & Lexical–semantic fusion experiments & Convex combination and Reciprocal Rank Fusion & Fusion behavior and tuning & Motivates explicit fusion specification; local gains need local evaluation \\
-\cite{zhan2021} & Dense retrieval training & Hard-negative strategies & Ranking optimization & Motivates careful negative construction; legal label validity remains a separate issue \\
-\end{longtable}
-\endgroup
+Hard negatives are passages that a retriever ranks highly even though they are labeled as irrelevant. They help train the model to distinguish relevant passages from similar but incorrect matches. Experiments show that mixing hard negatives with randomly selected negatives, or selecting new hard negatives during training, can improve dense retrieval~\cite{zhan2021}.
 
-The table synthesizes the cited primary sources; it deliberately omits incompatible numerical leaderboards. For example, a case-retrieval F-measure and article-level NDCG at a fixed cutoff summarize different outputs. Comparing their magnitudes would create an apparent ranking of methods without a common task, relevance set, or metric. The appropriate transfer from prior work is a methodological argument: include a strong lexical comparator, distinguish representation from scoring, and evaluate model selection independently from final performance.
+The hybrid comparisons replace pretrained BGE-M3 with fine-tuned BGE-M3 while keeping BM25, E5, and fusion weights unchanged. BGE-M3 is evaluated both on its own and within each hybrid. This tests whether fine-tuning improves standalone retrieval and whether that improvement is retained when its scores are combined with those of the other retrievers.
 
-BEIR is particularly useful for that argument. Thakur et al. introduce heterogeneous zero-shot retrieval evaluation and report that BM25 remains robust, while reranking and late-interaction approaches offer strong average effectiveness with additional computational cost. They also identify generalization limitations of evaluated dense and sparse systems~\cite{thakur2021}. This does not mean that dense retrieval cannot generalize. It means that in-domain improvement is insufficient evidence of transfer. A thesis about multilingual legal adaptation should report each dataset and its selection status rather than allow an aggregate to conceal different outcomes.
 
-Ranking metrics introduce another layer of task definition. Discounted cumulative gain was developed to account for relevance gains at different ranking positions~\cite{jarvelin2002}. In the usual normalized construction, observed discounted gain is divided by the gain of an ideal ranking under the same judgments. The interpretation depends on the labels. Binary article judgments evaluate the order of known relevant items; they do not produce a scale of legal importance simply because the metric can also accommodate graded labels.
-
-The difference between finding any relevant article and retrieving the complete labeled evidence set is equally important. For a query with several relevant articles, a hit indicator becomes one as soon as one is found. Recall instead depends on how many labeled relevant articles are recovered relative to their total number. The two coincide for a single-positive query but need not coincide otherwise. This is a consequence of their definitions and explains why legacy metric names must be checked against evaluator code before being used in a comparison with the literature~\cite{manning2008}.
-
-Legal benchmarks also require attention to unavailable targets. If a labeled article is absent from the indexed corpus, a ranking model cannot retrieve that identifier. Evaluating only answerable questions estimates ranking quality conditional on corpus coverage. Evaluating every question estimates the combined outcome of coverage and ranking. These are different estimands, and neither should silently replace the other. This distinction is especially relevant when an experimental representation is obtained by extraction or mapping, because the data pipeline can change whether a target is represented at all.
-
-Related architectures provide boundaries rather than promised solutions. A cross-encoder reranker can evaluate a query and candidate jointly, while ColBERT retains token-level matching~\cite{reimers2019,khattab2020}. Such methods are relevant alternatives when a single-vector representation loses a distinguishing condition. Their presence in the literature does not establish that they would resolve the specific failures observed here. A future comparison would need fixed candidate sets, comparable relevance judgments, and explicit computation measurements.
 
 \section{Research Gap and Positioning}
 
-This thesis is positioned as a controlled empirical investigation of Vietnamese legal retrieval. Its purpose is not to introduce BM25, multilingual embeddings, contrastive learning, or linear fusion as new algorithms. The contribution lies in determining what these components accomplish under the studied legal collections, representation conditions, and evaluation constraints. The literature makes the comparisons worthwhile; the experiments determine which conclusions can be sustained.
+BGE-M3 and multilingual E5 provide pretrained embedding models for multilingual retrieval~\cite{chen2024,wang2024}. Research on lexical and semantic score fusion examines the effects of normalization and parameter selection~\cite{bruch2022}, while hard-negative training strategies have improved dense retrieval on benchmark datasets~\cite{zhan2021}. These studies provide a basis for evaluating multilingual embeddings, score fusion, and embedding model fine-tuning on Vietnamese legal collections.
 
-Three distinctions organize that investigation. First, lexical–semantic combination is separated from the addition of another dense channel. Demonstrating that a hybrid improves on BM25 would not establish that every further retriever adds useful evidence. Second, dense adaptation is separated from hybrid adaptation. An improvement in the dense component would not by itself establish an improvement in the combined ranking. Third, development performance is separated from performance on unseen data and across datasets. A configuration selected using a particular collection cannot be described as unselected generalization evidence on that same collection.
+The research gap addressed by this thesis is the evidence needed to assess these methods under the selected Vietnamese legal datasets and corpus conditions. The evaluation distinguishes improvements over BM25 from improvements due to adding E5 to BM25+BGE-M3. It also tests whether fine-tuning BGE-M3 improves standalone retrieval and whether any improvement is retained in the hybrid systems. Model selection on development data is reported separately from evaluation on a separate test set.
 
-Representation conditions are another substantive part of the study. The clean or parsed text supplied to a model is part of the experimental treatment, as are article boundaries and target mappings. Treating these merely as preprocessing details would obscure why a model gains or loses evidence. At the same time, the thesis should not attribute every score change to parser quality when candidate coverage, text content, and normalization populations may change together. The empirical analysis therefore distinguishes directly measured outcomes from explanations that require further intervention or manual inspection.
+The comparisons use clean reference text and article text extracted from legal documents in raw HTML format. 
 
-The reviewed sources support hypotheses about lexical–semantic complementarity, multilingual representation, and the value of difficult training examples. They do not warrant assuming that all three hypotheses will succeed simultaneously. A limited contribution from E5, a dense-only improvement without hybrid benefit, or a development gain that fails to transfer can each answer a valid research question. Negative findings are particularly informative when the comparison fixes the corpus, evaluation, and model identities sufficiently to make the failure interpretable~\cite{bruch2022,chen2024,zhan2021}.
-
-Chapter 4 translates the theoretical definitions into a concrete retrieval pipeline. It specifies the indexed units, query processing, component scores, normalization population, and fusion selection. The experimental evaluation can then interpret an observed difference as evidence about a defined system rather than about an ambiguous model name. Where a fine-tuning evaluation has not been completed, the thesis preserves that boundary instead of turning theoretical motivation or training progress into an empirical result.
+The contribution is a controlled empirical comparison of established retrieval methods, together with the construction and evaluation of the BCA collection. The BCA analysis examines the availability of cited provisions and dependence among questions linked by shared legal references. Chapter~4 specifies the datasets and evaluation procedures, and Chapter~5 reports the results within those conditions.
 
 \section{Chapter Summary}
 
-Prior work establishes relevant model families and evaluation principles, but it does not determine their incremental value on these particular Vietnamese legal collections. The thesis therefore asks three increasingly restrictive questions: whether fusion improves a lexical reference, whether another dense channel improves an existing hybrid, and whether developm\allowbreak{}ent-sele\allowbreak{}cted adaptation improves the hybrid on unseen data. Chapter 3 defines the concepts needed to formalize these comparisons.
+This chapter reviewed legal retrieval, BM25, multilingual embeddings, score fusion, and fine-tuning with hard negatives. The reviewed studies motivate evaluating these methods on Vietnamese legal collections, with separate comparisons for improvements over BM25, the contribution of E5, and the effect of BGE-M3 fine-tuning in standalone and hybrid retrieval. Chapter~3 presents the theoretical background and evaluation metrics used in these comparisons.

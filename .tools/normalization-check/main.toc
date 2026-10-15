@@ -1,0 +1,79 @@
+\babel@toc {english}{}\relax 
+\contentsline {section}{Acknowledgements and Declaration of Authorship}{i}{section*.1}%
+\contentsline {chapter}{\numberline {1}Introduction}{1}{chapter*.8}%
+\contentsline {section}{\numberline {1.1}Research Context}{1}{section*.9}%
+\contentsline {section}{\numberline {1.2}Research Gap and Approach}{2}{section*.10}%
+\contentsline {section}{\numberline {1.3}Research Objectives}{3}{section*.11}%
+\contentsline {section}{\numberline {1.4}Research Contributions}{3}{section*.16}%
+\contentsline {section}{\numberline {1.5}Scope of the Thesis}{4}{section*.17}%
+\contentsline {section}{\numberline {1.6}Thesis Organization}{4}{section*.18}%
+\contentsline {chapter}{\numberline {2}Literature Review}{6}{chapter*.19}%
+\contentsline {section}{\numberline {2.1}Legal Retrieval and Evidence}{6}{section*.21}%
+\contentsline {section}{\numberline {2.2}Lexical Retrieval and BM25}{7}{section*.22}%
+\contentsline {section}{\numberline {2.3}Dense Retrieval and Multilingual Embeddings}{8}{section*.23}%
+\contentsline {section}{\numberline {2.4}Hybrid Retrieval and Score Fusion}{9}{section*.24}%
+\contentsline {paragraph}{Example of Score Fusion.}{9}{section*.25}%
+\contentsline {section}{\numberline {2.5}Fine-Tuning for Legal Retrieval and Hard Negatives}{10}{section*.27}%
+\contentsline {section}{\numberline {2.6}Research Gap and Positioning}{11}{section*.28}%
+\contentsline {section}{\numberline {2.7}Chapter Summary}{11}{section*.29}%
+\contentsline {chapter}{\numberline {3}Theoretical Background}{12}{chapter*.30}%
+\contentsline {section}{\numberline {3.1}Queries, Articles, and Relevance}{12}{section*.31}%
+\contentsline {paragraph}{Example of an article-level record.}{12}{section*.32}%
+\contentsline {section}{\numberline {3.2}Lexical Scoring with BM25}{14}{section*.33}%
+\contentsline {subsection}{\numberline {3.2.1}Term Frequency and Inverse Document Frequency}{14}{subsection*.34}%
+\contentsline {subsection}{\numberline {3.2.2}BM25}{14}{subsection*.35}%
+\contentsline {section}{\numberline {3.3}Dense Retrieval and Vector Similarity}{15}{section*.36}%
+\contentsline {subsection}{\numberline {3.3.1}BGE-M3}{16}{subsection*.38}%
+\contentsline {subsection}{\numberline {3.3.2}Multilingual-E5-base}{16}{subsection*.42}%
+\contentsline {section}{\numberline {3.4}Score Normalization and combination weights}{17}{section*.43}%
+\contentsline {subsection}{\numberline {3.4.1}Hybrid Retrieval}{17}{subsection*.44}%
+\contentsline {subsection}{\numberline {3.4.2}Score Normalization}{17}{subsection*.45}%
+\contentsline {subsection}{\numberline {3.4.3}Weighted Score Fusion}{18}{subsection*.46}%
+\contentsline {section}{\numberline {3.5}Fine-Tuning and Negative Sampling}{19}{section*.47}%
+\contentsline {subsection}{\numberline {3.5.1}Contrastive Learning}{19}{subsection*.48}%
+\contentsline {subsection}{\numberline {3.5.2}Negative Sampling}{20}{subsection*.49}%
+\contentsline {subsection}{\numberline {3.5.3}Hard-Negative Mining}{20}{subsection*.50}%
+\contentsline {section}{\numberline {3.6}Target Matching and Evaluation Metrics}{20}{section*.51}%
+\contentsline {paragraph}{Normalized discounted cumulative gain.}{21}{section*.52}%
+\contentsline {paragraph}{Hit and recall.}{21}{section*.53}%
+\contentsline {paragraph}{Mean reciprocal rank.}{21}{section*.54}%
+\contentsline {paragraph}{Mean average precision.}{22}{section*.55}%
+\contentsline {section}{\numberline {3.7}Chapter Summary}{22}{section*.56}%
+\contentsline {chapter}{\numberline {4}Proposed Methodology}{23}{chapter*.57}%
+\contentsline {section}{\numberline {4.1}Retrieval Task and Selection Objective}{23}{section*.58}%
+\contentsline {section}{\numberline {4.2}Retrieval and Evaluation Pipeline}{24}{section*.59}%
+\contentsline {section}{\numberline {4.3}Datasets and Corpus Construction}{24}{section*.61}%
+\contentsline {subsection}{\numberline {4.3.1}BCA Target Construction}{25}{subsection*.62}%
+\contentsline {subsection}{\numberline {4.3.2}Worked BCA Example}{25}{subsection*.64}%
+\contentsline {section}{\numberline {4.4}Lexical and Dense Representations}{27}{section*.65}%
+\contentsline {section}{\numberline {4.5}Score Normalization and Fusion}{28}{section*.66}%
+\contentsline {section}{\numberline {4.6}Evaluation Design}{29}{section*.67}%
+\contentsline {section}{\numberline {4.7}Legal-Domain Fine-Tuning}{30}{section*.70}%
+\contentsline {subsection}{\numberline {4.7.1}Training Pairs and Negatives}{30}{subsection*.71}%
+\contentsline {subsection}{\numberline {4.7.2}Training Objective and Configuration}{30}{subsection*.73}%
+\contentsline {subsection}{\numberline {4.7.3}Study B: Dense-Oriented Adaptation}{31}{subsection*.75}%
+\contentsline {section}{\numberline {4.8}Method Summary}{33}{section*.76}%
+\contentsline {chapter}{\numberline {5}Experimental Evaluation}{34}{chapter*.77}%
+\contentsline {section}{\numberline {5.1}Datasets and Experimental Setup}{34}{section*.78}%
+\contentsline {section}{\numberline {5.2}Lexical and Hybrid Retrieval}{35}{section*.79}%
+\contentsline {section}{\numberline {5.3}Incremental Contribution of E5}{37}{section*.80}%
+\contentsline {section}{\numberline {5.4}BCA Coverage and Component-Aware Evaluation}{38}{section*.81}%
+\contentsline {section}{\numberline {5.5}Failure Analysis}{39}{section*.83}%
+\contentsline {section}{\numberline {5.6}Legal-Domain Adaptation}{40}{section*.84}%
+\contentsline {subsection}{\numberline {5.6.1}Development Selection}{40}{subsection*.85}%
+\contentsline {subsection}{\numberline {5.6.2}Corrected Hybrid Evaluation on Unseen Data}{41}{subsection*.87}%
+\contentsline {subsection}{\numberline {5.6.3}Study B: Dense-Oriented Adaptation}{42}{subsection*.91}%
+\contentsline {subsection}{\numberline {5.6.4}Transfer of Dense Improvements into Hybrid Retrieval}{42}{subsection*.92}%
+\contentsline {subsection}{\numberline {5.6.5}Query-Level Analysis}{43}{subsection*.94}%
+\contentsline {subsection}{\numberline {5.6.6}Overall Interpretation}{44}{subsection*.95}%
+\contentsline {section}{\numberline {5.7}Experimental Synthesis}{44}{section*.96}%
+\contentsline {chapter}{\numberline {6}Conclusion and Future Work}{46}{chapter*.97}%
+\contentsline {section}{\numberline {6.1}Summary of Findings}{46}{section*.98}%
+\contentsline {subsection}{\numberline {6.1.1}Hybrid Retrieval over the Lexical Baseline}{46}{subsection*.99}%
+\contentsline {subsection}{\numberline {6.1.2}Incremental Contribution of E5}{46}{subsection*.100}%
+\contentsline {subsection}{\numberline {6.1.3}Effect of Legal-Domain Adaptation}{46}{subsection*.101}%
+\contentsline {section}{\numberline {6.2}Research Contributions}{47}{section*.102}%
+\contentsline {section}{\numberline {6.3}Discussion and Limitations}{47}{section*.103}%
+\contentsline {section}{\numberline {6.4}Future Work}{48}{section*.104}%
+\contentsline {section}{\numberline {6.5}Closing Remarks}{49}{section*.105}%
+\contentsline {chapter}{References}{50}{chapter*.106}%

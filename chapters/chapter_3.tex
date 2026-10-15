@@ -1,144 +1,249 @@
 \chapter{Theoretical Background}
 
-This chapter defines the retrieval models, fusion methods, training objectives, and evaluation metrics used in the thesis. Chapter 4 specifies their implementation.
+This chapter presents the theoretical foundations of retrieval models, score fusion, model training, and evaluation metrics used in the thesis. Chapter 4 describes how these methods are implemented and evaluated.
 
 \section{Queries, Articles, and Relevance}
 
-Let \(D\) be an ordered article corpus, \(Q\) a query population, and \(R_q\) the deduplicated relevance targets for query \(q\). Retrieval returns ranked article identities, not generated answers. Corpus coverage determines whether targets are available; ranking determines their positions. No scorer can recover a target absent from the corpus~\cite{manning2008}.
+Information retrieval ranks indexed documents according to their relevance to a query~\cite{manning2008}. In this thesis, the query is a Vietnamese legal question, and the retrieval unit is a legal article.
 
-Targets may identify an article or an entire law. Because one law-level annotation need not represent multiple independent article judgments, evaluation credits each target at most once.
+The corpus contains laws (Luật), decrees (Nghị định), and circulars (Thông tư). A document may be organized into parts (phần), chapters (chương), sections (mục), subsections (tiểu mục), articles (điều), clauses (khoản), and points (điểm), although not every document uses all these levels~\cite{gov2025structure}. Each article belongs to one legal document and may contain several clauses and points.
 
-\section{Lexical Scoring and BM25}
-\subsection{TF–IDF as a Conceptual Starting Point}
+Chunking divides document text into units for indexing and retrieval. The choice of unit can affect retrieval performance~\cite{chen2024granularity}. This thesis uses articles as the retrieval units. For documents collected in raw HTML format, the extracted text is separated at article boundaries. Each article record contains its text, document identifier, and article identifier. Clauses and points are kept within their source article. Section~\ref{sec:datasets-corpus} describes corpus construction and the Zalo reference-text fallback when extraction is unavailable.
 
-Sparse representations weight indexed terms. TF–IDF rewards within-document occurrences while reducing the influence of terms common across the collection. It provides the conceptual basis for BM25, not an additional experimental baseline in this thesis~\cite{robertson2009}.
+Chunking can affect recall because it determines the content available to the retriever before encoding. If a chunk incorrectly combines three articles, one vector represents their combined content. This may make a specific provision harder to retrieve and associate text with the wrong article identifier. Improving the encoder does not repair missing text or incorrect identifiers in the corpus. Article boundaries and the match between text and identifiers must therefore be checked when investigating retrieval errors.
+
+\paragraph{Example of an article-level record.}
+The following example contains two article excerpts from the supplied sample for Decree No. 340/2025/NĐ-CP. The title and article texts are shortened for display, with ellipses marking omitted text. The example illustrates the record format; the complete sample retains each article's clauses and points.
+
+\begin{Verbatim}[fontsize=\footnotesize,breaklines=true,breakanywhere=true]
+{
+  "law_id": "340/2025/NĐ-CP",
+  "title": "NGHỊ ĐỊNH SỐ 340/2025/NĐ-CP ...",
+  "url": "https://vbpl.vn/van-ban/chi-tiet/nghi-dinh-so-340-2025-nd-cp-quy-dinh-ve-xu-phat-vi-pham-hanh-chinh-trong-linh-vuc-tien-te-va-ngan-hang--187101",
+  "articles": [
+    {
+      "id": "1",
+      "text": "Điều 1. Phạm vi điều chỉnh\n1. Nghị định này quy định các hành vi vi phạm hành chính ... trong lĩnh vực tiền tệ và ngân hàng.\n2. Vi phạm hành chính trong lĩnh vực tiền tệ và ngân hàng bao gồm: ..."
+    },
+    {
+      "id": "2",
+      "text": "Điều 2. Đối tượng bị xử phạt vi phạm hành chính\n1. Nghị định này áp dụng đối với tổ chức, cá nhân có hành vi vi phạm hành chính trong lĩnh vực tiền tệ và ngân hàng.\n2. Tổ chức quy định tại khoản 1 Điều này gồm: ..."
+    }
+  ]
+}
+\end{Verbatim}
+
+The fields \texttt{law\_id}, \texttt{title}, and \texttt{url} describe the legal document. Each entry in \texttt{articles} is a separate chunk with its own \texttt{id} and \texttt{text}. Article 1 and Article 2 therefore receive separate embeddings. Together, \texttt{law\_id} and the article \texttt{id} identify each retrieval unit.
+
+Relevance targets identify the documents or articles recorded as relevant to each query. ALQAC and Zalo use the available dataset annotations. For BCA, the question is used as the query, and citations in its published answer are extracted to form relevance targets. Document names and article numbers are normalized and matched to corpus identifiers. The answer text is used for target extraction and is not supplied to the retriever. Table~\ref{tab:4.2} illustrates this process.
+
+An article-level target specifies a document and an article within it. A law-level target specifies only the document. In the dataset, ``law-level'' also covers decrees and circulars. Duplicate targets are removed, and each target receives evaluation credit at most once. Retrieving several articles from one document therefore does not multiply credit for a single law-level target. Section~3.6 defines the matching rules and evaluation metrics.
+
+Retrieval returns a list of article identifiers ordered by retrieval score. These identifiers link the results to the article text and source document. A RAG generator can use the retrieved text to produce an answer, while this thesis evaluates the article ranking. Corpus coverage measures target availability, and ranking performance measures target positions.
+
+\section{Lexical Scoring with BM25}
+\subsection{Term Frequency and Inverse Document Frequency}
+
+Term frequency and inverse document frequency (TF-IDF) are combined to weight indexed terms. A term receives a higher weight when it occurs frequently in an article but appears in relatively few documents across the corpus~\cite{manning2008}. This illustrates how lexical weighting combines term occurrence with term rarity. The experiments use BM25 as the lexical baseline; TF-IDF is included here as background.
 
 \subsection{BM25}
 
-A common single-field BM25 score is~\cite{robertson2009}
+BM25 is a popular lexical scoring function that combines term frequency, inverse document frequency, and document length normalization. For a query \(q\) and an article \(d\), a common scoring formula sums the contributions of query terms \(t\)~\cite{robertson2009}:
 \[
 \operatorname{BM25}(q,d)=\sum_{t\in q}\operatorname{IDF}(t)
 \frac{f(t,d)(k_1+1)}{f(t,d)+k_1\left(1-b+b|d|/\operatorname{avgdl}\right)}.
 \]
-Here, \(f(t,d)\) is term frequency, \(|d|\) is document length in indexed tokens, \(\operatorname{avgdl}\) is average collection length, and \(\operatorname{IDF}(t)\) weights term rarity. Parameters \(k_1\) and \(b\) control frequency saturation and length normalization. IDF conventions vary by implementation; Chapter 4 identifies the version used~\cite{robertson2009}.
+The quantities in the formula are:
+\begin{itemize}
+    \item \(f(t,d)\): the number of occurrences of term \(t\) in article \(d\).
+    \item \(|d|\): the article length, measured in indexed tokens.
+    \item \(\operatorname{avgdl}\): the average article length in the indexed corpus.
+    \item \(\operatorname{IDF}(t)\): the inverse document frequency weight of term \(t\).
+\end{itemize}
 
-Term contributions saturate, limiting the benefit of repetition. Length normalization also makes scores sensitive to parsing: removing unrelated text can increase a score, whereas removing a matching term eliminates its contribution. Parsed text therefore need not lower every lexical score.
+The parameter \(k_1\) controls term frequency saturation: repeated occurrences of a term contribute progressively less to its score. The parameter \(b\), between zero and one, controls document length normalization. Setting \(b=0\) removes length normalization, while \(b=1\) applies full length normalization~\cite{manning2008}.
 
-BM25 is a substantive baseline: a vanilla submission placed second in COLIEE 2021 case retrieval~\cite{rosa2021}. However, lexical matching cannot directly recover unrepresented paraphrases, and matching terms alone do not establish legal applicability. Dense retrieval tests whether learned representations supply complementary evidence~\cite{robertson2009}.
+BM25 scores depend on the indexed text. Text extraction can change term counts, article lengths, and corpus statistics, so different corpus representations may produce different scores. A query term absent from an article contributes zero to its BM25 score. Section~\ref{sec:retrieval-implementation} describes the lexical preprocessing used in the experiments.
 
-\section{Dense Representations and Similarity}
+BM25 relies on matching indexed terms. A relevant article expressed using different terms from the query may therefore receive a low score. The thesis compares BM25 with dense and hybrid retrieval to evaluate whether embedding similarity improves the ranking. BM25 scores determine article order, while evaluation metrics such as NDCG@10 measure ranking quality against the relevance annotations. The baseline is BM25's evaluation performance on the target collections.
 
-Bi-encoders map queries and documents separately to continuous vectors, allowing document embeddings to be precomputed. Sentence-BERT and Dense Passage Retrieval provide influential examples of learned text matching, although their original tasks differ from Vietnamese legal retrieval~\cite{reimers2019,karpukhin2020}.
+\section{Dense Retrieval and Vector Similarity}
 
-For query and document encoders \(E_q\) and \(E_d\), let \(u=E_q(q)\) and \(v=E_d(d)\) belong to \(\mathbb{R}^m\). Common similarity scores are
+An embedding is a numerical vector that represents text. In a bi-encoder architecture, the query and article are encoded separately. Dense retrieval then ranks articles by the similarity between their embeddings and the query embedding. Sentence-BERT produces sentence embeddings for similarity comparison~\cite{reimers2019}. Dense Passage Retrieval trains query and passage encoders to retrieve relevant passages~\cite{karpukhin2020}. Article embeddings can be computed in advance and reused across queries.
+
+Figure~\ref{fig:dense-retrieval-overview} illustrates separate query and document encoding, similarity scoring, and ranking.
+
+\input{figures/dense-retrieval-overview}
+
+For a query \(q\) and an article \(d\), \(u\) and \(v\) are their respective embedding vectors. Two common similarity measures are the dot product and cosine similarity:
 \[
 s_{\mathrm{dot}}(q,d)=u^\top v,
 \qquad
 s_{\mathrm{cos}}(q,d)=\frac{u^\top v}{\|u\|_2\|v\|_2}.
 \]
-Dot product equals cosine similarity for unit-normalized nonzero vectors. Encoder revision, pooling, normalization, and truncation nevertheless remain distinct parts of the representation~\cite{reimers2019,karpukhin2020}.
+The dot product \(u^\top v\) sums the products of corresponding vector components. The quantities \(\|u\|_2\) and \(\|v\|_2\) are the vector lengths. Cosine similarity divides the dot product by these lengths and is defined for nonzero vectors. When both vectors are normalized to length one, the dot product equals cosine similarity.
 
-A single document vector summarizes information for many possible queries. Token-level late-interaction models such as ColBERT offer a different design; results for a single-vector encoder do not characterize all neural retrieval architectures~\cite{khattab2020}.
+A pooling operation produces one embedding from the model's token representations. Input longer than the selected token limit is truncated, so the embedding may omit content that remains in the stored article. ColBERT retains multiple token embeddings for matching~\cite{khattab2020}. This thesis uses single-vector dense retrieval.
 
 \subsection{BGE-M3}
 
-BGE-M3 supports multilingual dense, sparse, and multi-vector retrieval, with inputs up to 8,192 tokens~\cite{chen2024}. This thesis uses its dense representation. Combining BM25 with that representation is distinct from combining BGE-M3's own retrieval modes, and the model's supported input length should not be confused with the input length selected for a particular experiment.
+BGE-M3 has three main features:
+\begin{enumerate}
+    \item \textbf{Multi-Functionality}
 
-BGE-M3 provides a multilingual semantic channel whose effectiveness and complementarity with BM25 must be measured on the target collections rather than inferred from model capabilities.
+    BGE-M3 supports three retrieval methods~\cite{bgem3card}:
+    \begin{itemize}
+        \item \textbf{Dense Retrieval:} Uses dense vector representations to capture semantic meaning.
+        \item \textbf{Sparse Retrieval:} Uses sparse representations to match important keywords and lexical features.
+        \item \textbf{Multi-Vector Retrieval:} Uses multiple vectors with late interaction mechanisms, similar to ColBERT, to capture relevance through comparisons between query and document tokens.
+    \end{itemize}
 
-\subsection{Multilingual-E5}
+    \item \textbf{Multi-Linguality}
+    \begin{itemize}
+        \item Supports more than 100 languages~\cite{chen2024}.
+        \item Enables cross-lingual retrieval, allowing a query to retrieve documents written in a different language~\cite{chen2024}.
+    \end{itemize}
 
-The multilingual E5 technical report describes contrastive pretraining followed by supervised fine-tuning~\cite{wang2024}. The checkpoint used here, \texttt{intfloat/multilingual-e5-base}, has 12 layers, 768-dimensional embeddings, attention-mask-aware mean pooling, normalized vectors, and a 512-token input limit. Its retrieval convention prefixes queries with \texttt{query: } and documents with \texttt{passage: }, including non-English text~\cite{wang2024}.
+    \item \textbf{Multi-Granularity}
+    \begin{itemize}
+        \item Handles text inputs of varying lengths, from short sentences to long documents~\cite{bgem3card}.
+        \item Supports input sequences of up to 8,192 tokens for encoding short passages and longer documents~\cite{bgem3card}.
+    \end{itemize}
+\end{enumerate}
 
-E5-base supplies a second dense signal. Its incremental value must be assessed against BM25+BGE-M3, since different encoders may make similar errors. Differences in tokenization and truncation can also change the evidence each encoder receives; score differences alone do not isolate semantic understanding.
+This thesis uses BGE-M3's dense representations for retrieval and fine-tuning. The baseline experiments use a maximum input length of 512 tokens (Table~\ref{tab:4.3}). The hybrid systems combine BM25 scores with BGE-M3 dense similarity scores. BGE-M3's sparse and multiple-vector modes are outside the evaluated configurations.
 
-\section{Normalization and Fusion}
-\subsection{Lexical–Semantic Hybrid Retrieval}
+\subsection{Multilingual-E5-base}
 
-Hybrid retrieval combines lexical and semantic evidence. Its central hypothesis is that the combined ranking improves on its components, but effectiveness depends on the fusion configuration~\cite{bruch2022}.
+Multilingual E5 models are pretrained on multilingual text pairs and then fine-tuned on labeled datasets~\cite{wang2024}. This thesis uses multilingual-E5-base, released as \texttt{intfloat/multilingual-e5-base}. The model represents each input text as a vector with 768 components~\cite{e5basecard}. Its weights remain unchanged throughout the experiments.
 
-Full-corpus fusion scores every document with every channel. Candidate-union fusion instead ranks only documents returned by first-stage retrievers; weights cannot recover a target excluded from every candidate list. Candidate depth and score combination are therefore separate design choices~\cite{bruch2022}.
+E5 is included to test whether combining two dense retrievers improves hybrid retrieval. Its contribution is measured by comparing BM25+BGE-M3+E5 with BM25+BGE-M3 using the same queries, corpus, and relevance annotations within each evaluation condition.
 
-\subsection{Multi-Retriever Fusion}
+\section{Score Normalization and combination weights}
+\subsection{Hybrid Retrieval}
 
-For normalized BM25, BGE-M3, and E5-base scores \(\widetilde S_b\), \(\widetilde S_g\), and \(\widetilde S_e\), three-way fusion is
+Hybrid retrieval combines scores or rankings from different retrievers. The aim is to improve article ranking by combining lexical matches with embedding similarity. The result depends on how the scores are normalized and combined~\cite{bruch2022}. This thesis evaluates BM25+BGE-M3 and BM25+BGE-M3+E5.
+
+Scores can be combined for all articles in the corpus or only for candidates selected by the retrievers. In the first approach, each retriever scores every indexed article before the scores are combined. In the second, each retriever first selects its top candidates, and fusion ranks only the articles in those lists. An article missing from every candidate list cannot appear in the final results, regardless of the weights used. This thesis uses the first approach: each retriever scores the full corpus before fusion, as described in Section~\ref{sec:retrieval-implementation}.
+
+\subsection{Score Normalization}
+
+The retrievers produce raw scores on different scales:
+\begin{itemize}
+    \item \textbf{BM25:} The score depends on query term matches, term frequency, inverse document frequency, and article length. It has no fixed numerical range and is not normalized to \([0,1]\). Its values depend on the query, corpus, and inverse document frequency convention~\cite{robertson2009}.
+    \item \textbf{BGE-M3:} The pipeline normalizes query and article embeddings to length one and computes their dot product. For nonzero vectors, this equals cosine similarity, whose theoretical range is \([-1,1]\).
+    \item \textbf{Multilingual-E5-base:} The pipeline uses the same normalized-vector dot product, so its theoretical score range is also \([-1,1]\). Its scores are computed from E5 embeddings rather than BGE-M3 embeddings.
+\end{itemize}
+Section~\ref{sec:retrieval-implementation} specifies the score calculation used in the experiments. Although BGE-M3 and E5 share the same theoretical range, their scores can have different distributions across articles. A raw score from one retriever is therefore not directly interchangeable with a score from another.
+
+Vector normalization and score normalization serve different purposes. Vector normalization gives each embedding a length of one. Min-Max score normalization rescales each retriever's scores across the corpus for a particular query before weighted fusion~\cite{bruch2022}. For raw score \(s_j(q,d)\) from retriever \(j\), the form used in this thesis is
 \[
-S(q,d)=w_b\widetilde S_b(q,d)+w_g\widetilde S_g(q,d)+w_e\widetilde S_e(q,d),
-\quad w_b,w_g,w_e\geq0,\quad w_b+w_g+w_e=1.
+\widetilde{s}_j(q,d)=
+\frac{s_j(q,d)-\min_{x\in C}s_j(q,x)}
+{\max\left(\max_{x\in C}s_j(q,x)-\min_{x\in C}s_j(q,x),\epsilon\right)},
 \]
-Setting \(w_e=0\) recovers BM25+BGE-M3 when all other settings are unchanged. A search containing this boundary cannot have a lower optimal development score than its two-way subset, but improvement on unseen data is not guaranteed. A selected zero E5 weight indicates that the additional channel is unused.
+where \(C\) is the indexed corpus and \(\epsilon>0\) prevents division by zero. The minimum and maximum are computed separately for each query and retriever. The resulting scores lie in \([0,1]\). If all articles receive the same raw score, their normalized scores are zero. Normalization preserves each retriever's score ordering; it changes the scale used for fusion. These scores are used to rank articles and are distinct from evaluation metrics such as normalized discounted cumulative gain. Section~\ref{sec:score-fusion} specifies the implemented normalization procedure.
 
-Complementarity may affect early precision, first-hit position, or target recovery differently. Multiple ranking metrics are therefore needed; positive fusion weights alone do not establish useful complementary errors.
-
-\subsection{Score Normalization and Fusion}
-
-For raw channel score \(S_j\) and normalization candidate set \(C_q\), min–max normalization is~\cite{bruch2022}
+An alternative is z-score normalization:
 \[
-\widetilde S_j(q,d)=\frac{S_j(q,d)-a_j(q)}{b_j(q)-a_j(q)},
-\quad a_j(q)=\min_{x\in C_q}S_j(q,x),
-\quad b_j(q)=\max_{x\in C_q}S_j(q,x).
+Z_j(q,d)=\frac{s_j(q,d)-\mu_j(q)}{\sigma_j(q)},
 \]
-The expression requires \(b_j(q)>a_j(q)\). Constant-score channels require a deterministic rule, such as mapping all values to zero, because they provide no within-query ordering evidence.
+where \(\mu_j(q)\) and \(\sigma_j(q)>0\) are the mean and standard deviation of the retriever's scores over the corpus. Z-scores can be negative and are not restricted to the range \([0,1]\). This method is included as background; the reported experiments use Min-Max normalization. Both methods depend on the articles included in normalization, so the normalization set must be stated.
 
-An alternative is z-score normalization,
+\subsection{Weighted Score Fusion}
+
+Weighted score fusion adds the normalized retrieval scores after multiplying each by a weight~\cite{bruch2022}. The weights control how much each retriever contributes to the combined score. For a query \(q\) and an article \(d\), \(\widetilde{s}_b\), \(\widetilde{s}_g\), and \(\widetilde{s}_e\) denote the normalized scores from BM25, BGE-M3, and E5, respectively.
+
+For BM25+BGE-M3, the combined score is
 \[
-Z_j(q,d)=\frac{S_j(q,d)-\mu_j(q)}{\sigma_j(q)},
+S_{BG}(q,d)=w_b\widetilde{s}_b(q,d)+(1-w_b)\widetilde{s}_g(q,d),
+\qquad 0\leq w_b\leq1,
 \]
-where \(\mu_j(q)\) and \(\sigma_j(q)>0\) are the mean and standard deviation over \(C_q\). Unlike min–max scores, z-scores are not bounded by zero and one. Both methods depend on the candidate population: adding documents can change normalized values without changing existing raw scores.
+Here, \(w_b\) is the BM25 weight, and \(1-w_b\) is the BGE-M3 weight. 
 
-Reciprocal rank fusion (RRF) combines positions instead of score magnitudes~\cite{cormack2009}:
+For BM25+BGE-M3+E5, the score becomes
 \[
-\operatorname{RRF}(d)=\sum_{j\in J_d}\frac{1}{c+r_j(d)}.
+S_{BGE}(q,d)=w_b\widetilde{s}_b(q,d)+w_g\widetilde{s}_g(q,d)+w_e\widetilde{s}_e(q,d),
 \]
-Here, \(r_j(d)\) is a one-based rank, \(J_d\) contains the rankings that include \(d\), and \(c>0\) is a smoothing constant. RRF avoids direct score-scale comparison but remains sensitive to rank depth and parameter choices. Evidence favoring tuned convex fusion in particular settings does not establish a universal ordering; normalization, weights, candidate depth, and selection data must all be specified~\cite{bruch2022}.
+The weights \(w_b\), \(w_g\), and \(w_e\) correspond to BM25, BGE-M3, and E5. They are nonnegative and satisfy \(w_b+w_g+w_e=1\). Articles are ranked by the combined score in descending order. Section~\ref{sec:score-fusion} specifies the fusion procedure used in the experiments.
 
-\section{Contrastive Adaptation and Negative Sampling}
+When \(w_e=0\), E5 does not contribute to the combined score. Setting \(w_g=1-w_b\) then reproduces BM25+BGE-M3, provided the corpus, retrieval scores, and normalization are unchanged. The weight search can therefore select a configuration that omits E5. A higher score on the data used to select weights does not establish an improvement on a separate test set. Therefore, E5's contribution is assessed by comparing the selected BM25+BGE-M3+E5 and BM25+BGE-M3 configurations on a separate test set.
 
-Legal-domain language-model pretraining and supervised retrieval fine-tuning are different interventions. LEGAL-BERT adapts language representations to legal text, whereas DPR learns query–passage ranking from relevance supervision. Familiarity with legal prose does not itself establish retrieval effectiveness~\cite{chalkidis2020,karpukhin2020}.
+\section{Fine-Tuning and Negative Sampling}
+
+Pretraining on legal corpora develops language representations, as investigated in LEGAL-BERT~\cite{chalkidis2020}. Retrieval fine-tuning instead uses labeled questions and relevant passages to train their similarity scores~\cite{karpukhin2020}. This section explains the training objectives and negative examples used to fine-tune the BGE-M3 embedding model.
 
 \subsection{Contrastive Learning}
 
-A single-positive InfoNCE-style loss encourages a relevant document to outscore competing documents~\cite{oord2018,karpukhin2020}:
+BGE-M3 is fine-tuned to give relevant articles higher similarity scores than articles used as negative training examples. For a question \(q\), \(d^+\) is one article labeled as relevant, and \(N(q)\) is the set of negative training examples. The similarity between a question and an article is denoted by \(s(q,d)\). A single-positive contrastive loss is~\cite{karpukhin2020}
 \[
 \mathcal L(q)=-\log\frac{\exp(s(q,d^+)/\tau)}{\exp(s(q,d^+)/\tau)+\sum_{d^-\in N(q)}\exp(s(q,d^-)/\tau)}.
 \]
-Here, \(d^+\) is a labeled positive, \(N(q)\) is the negative set, \(s\) is similarity, and \(\tau>0\) is temperature. Temperature changes the emphasis on score differences, while batch composition determines the competitors. Lower training loss does not guarantee better retrieval on unseen data.
+The loss decreases when the relevant article receives a higher score relative to the negative examples. The temperature \(\tau>0\) scales the similarity scores within the loss. Smaller values increase the effect of score differences.
 
-For multiple positives, a set-positive loss can sum positive exponentials in the numerator. Alternatively, positive-specific losses can be averaged while masking other known positives from negative positions. These objectives are not interchangeable; Chapter 4 states the loss and masking policy of each study.
+A question may have several relevant articles among its training candidates. The multi-positive objective used in this thesis sums their exponentiated scores in the numerator and sums the exponentiated scores of all candidates in the denominator. This allows several relevant articles to contribute to the objective for one question.
+
+The experiment that selects the model based on hybrid retrieval performance uses a single-positive loss. The experiment that selects the model based on standalone dense retrieval performance uses a multi-positive loss. Section~\ref{sec:bge-finetuning} specifies the candidates and loss used in each experiment. A lower training loss must be followed by evaluation on a separate test set to assess retrieval performance.
 
 \subsection{Negative Sampling}
 
-Random negatives are sampled without a high-rank requirement; in-batch negatives reuse passages from other examples; hard negatives are high-ranking candidates without positive labels~\cite{karpukhin2020,zhan2021}.
+Negative sampling selects articles that the model is trained to rank below the known relevant articles. Three common methods differ in how the examples are selected~\cite{karpukhin2020,zhan2021}:
+\begin{itemize}
+    \item \textbf{Random negatives:} Articles selected at random from the corpus.
+    \item \textbf{In-batch negatives:} Articles from other training examples processed in the same batch. An article relevant to another question may be treated as a negative for the current question unless it is also identified as relevant to that question.
+    \item \textbf{Hard negatives:} Articles ranked highly by a retriever but selected as negatives because they have no recorded positive label for the question.
+\end{itemize}
 
-Excluding known positives prevents label contradictions but does not prove that unjudged articles are irrelevant. In particular, selecting one positive must not cause another known positive to become an unmasked negative. Explicit-negative filtering, in-batch masking, and semantic review provide different safeguards and should be reported separately.
+An article without a positive label may still be relevant. Excluding known relevant articles from negative candidates reduces contradictory training labels but does not resolve missing annotations. The training procedure must also state how it treats other known relevant articles within the same batch. Section~\ref{sec:bge-finetuning} describes the negative-selection rules and treatment of positive examples in the fine-tuning experiments.
 
 \subsection{Hard-Negative Mining}
 
-Static mining fixes competitors before training; dynamic mining refreshes them as the model changes~\cite{zhan2021}. Reproduction requires the miner checkpoint, corpus snapshot, ranking range, filtering rules, and any refresh schedule.
+Hard-negative mining selects negative training examples from a retriever's rankings~\cite{zhan2021}. The procedure must specify the retriever, corpus, candidate ranks, and filtering rules so that the training examples can be reproduced.
 
-Adaptation must be evaluated both alone and within the hybrid: a dense improvement may overlap with BM25's strengths or reduce useful disagreement. Retaining pretrained fusion weights tests component substitution, whereas retuning on permissible development data tests adaptation of the complete system.
+In the experiment that selects BGE-M3 based on hybrid retrieval performance, negatives are selected from lexical and dense rankings. Known relevant articles, duplicate candidates, unavailable articles, and articles from legal documents reserved for evaluation are excluded. Section~\ref{sec:bge-finetuning} describes the construction of these training examples.
 
 \section{Target Matching and Evaluation Metrics}
+\label{sec:target-metrics}
 
-The evaluator selects ten candidates by partial partitioning and sorts them by decreasing score. Each retrieved article is checked against unmatched targets. An empty article identifier or \texttt{toanvan} denotes a law-level wildcard; otherwise, both law and article identifiers must match. Each target earns credit at most once, so retrieving several articles from one law does not multiply credit for a single whole-law target.
+Evaluation compares ranked articles with the relevance targets recorded for each query. An article-level target requires both the legal document identifier and the article identifier to match. A target with an empty article identifier or \texttt{toanvan} refers to the whole legal document, so any article from that document can match it. Each target is counted at most once. Retrieving several articles from the same document therefore does not increase the score for a single whole-document target. When a query has both types of target, the evaluator's target-checking order determines which unmatched target receives credit.
 
-Let \(y_{q,r}\) indicate whether rank \(r\) matches a previously unmatched target. The primary metric is~\cite{jarvelin2002}
+In the following formulas, \(Q\) is the set of evaluation queries, and \(R_q\) is the set of distinct recorded relevance targets for query \(q\). The value \(y_{q,r}\) is one if the article at rank \(r\) matches a previously unmatched target, and zero otherwise. The cutoff \(k\) specifies how many articles from the top of the ranking are evaluated.
+
+\paragraph{Normalized discounted cumulative gain.}
+Normalized discounted cumulative gain (NDCG) assigns more credit to relevant results at higher ranks and compares the observed ranking with an ideal ranking~\cite{jarvelin2002}. The thesis uses NDCG@10 as the primary metric, with binary credit defined by the target-matching rules above:
 \[
 \mathrm{NDCG}@10(q)=\frac{\sum_{r=1}^{10}y_{q,r}/\log_2(r+1)}{\sum_{r=1}^{\min(|R_q|,10)}1/\log_2(r+1)}.
 \]
-Queries without targets receive zero. Unavailable targets remain in the ideal-gain denominator, making coverage part of end-to-end effectiveness. Mixed law-level and article-level targets remain subject to the implemented matching order.
+The denominator represents an ideal ranking in which up to ten targets are matched at the highest ranks. Queries without targets receive zero. Targets that cannot be matched to indexed articles remain in the denominator. The score therefore reflects both ranking quality and limitations in corpus coverage or identifier mapping.
 
-The hit metric is
+\paragraph{Hit and recall.}
+Hit@\(k\) is one if at least one target is matched within the first \(k\) results, and zero otherwise:
 \[
 \mathrm{Hit}@k(q)=\mathbb{1}\left[\sum_{r=1}^{k}y_{q,r}>0\right],
 \]
-reported at \(k=1,5,10\). It indicates whether any target is recovered, not the proportion recovered. True target recall is \(\mathrm{Recall}@k(q)=\sum_{r=1}^{k}y_{q,r}/|R_q|\) for nonempty \(R_q\). Hit and recall coincide for single-target queries but can differ for multi-target queries; the canonical baseline aggregate does not report true target recall, including Recall@100~\cite{manning2008}.
-
-With \(r_q^*\) denoting the first matching rank,
+Here, \(\mathbb{1}[\cdot]\) equals one when its condition is satisfied and zero otherwise. Hit is reported at \(k=1,5,10\). Recall measures the proportion of recorded targets that are retrieved~\cite{manning2008}. Under the matching rules used here, it is calculated for queries with at least one target as
 \[
-\mathrm{MRR}@10=\frac{1}{|Q|}\sum_{q\in Q}\frac{\mathbf 1[r_q^*\leq10]}{r_q^*},
+\mathrm{Recall}@k(q)=\frac{\sum_{r=1}^{k}y_{q,r}}{|R_q|}.
 \]
-where a missing match contributes zero. The implemented average-precision metrics are
+For example, matching one of two targets within the first \(k\) results gives \(\mathrm{Hit}@k=1\) and \(\mathrm{Recall}@k=0.5\). The metrics coincide for queries with one target. The baseline results report Hit, while the fine-tuning comparisons also report Recall@100 (Tables~\ref{tab:5.12} and~\ref{tab:5.13}).
+
+\paragraph{Mean reciprocal rank.}
+Mean reciprocal rank (MRR) measures how early the first target is matched. For a query whose first matching article occurs at rank \(r_q^*\), the reciprocal rank (RR) at cutoff ten is
+\[
+\mathrm{RR}@10(q)=
+\begin{cases}
+1/r_q^*, & \text{if a target is matched within the first ten results},\\
+0, & \text{otherwise}.
+\end{cases}
+\]
+MRR@10 is the mean of these values across queries:
+\[
+\mathrm{MRR}@10=\frac{1}{|Q|}\sum_{q\in Q}\mathrm{RR}@10(q).
+\]
+It considers only the first match, so additional matches do not change the score.
+
+\paragraph{Mean average precision.}
+Average precision (AP) combines precision values at ranks where relevant results are retrieved. Mean average precision (MAP) averages AP across queries~\cite{manning2008}. In this thesis, \(P_q(r)\) is the proportion of the first \(r\) results that match distinct targets. The evaluator computes the metrics at cutoff ten as
 \[
 \begin{gathered}
 P_q(r)=\frac{1}{r}\sum_{j=1}^{r}y_{q,j},\\
@@ -146,14 +251,10 @@ P_q(r)=\frac{1}{r}\sum_{j=1}^{r}y_{q,j},\\
 \mathrm{MAP}@10=\frac{1}{|Q|}\sum_{q\in Q}\mathrm{AP}@10(q).
 \end{gathered}
 \]
-This truncated AP denominator may differ from other implementations. All aggregate metrics are query-macro means, including zero-score queries, unless an answerable-only cohort is explicitly stated. They measure annotated target recovery, not exhaustive legal relevance~\cite{manning2008}.
+The AP@10 denominator is the number of recorded targets, capped at ten. The lower bound of one avoids division by zero and gives queries without targets a score of zero. This implementation differs from an AP definition that divides by the total number of targets without a cap.
 
-\section{Grouped Evaluation and Statistical Interpretation}
-
-Queries can share target laws, and multi-law queries connect those laws into components. Keeping each component within one fold prevents reference-law overlap across fusion selection and evaluation. It does not partition the searchable corpus or establish that encoders have never seen the legal text.
-
-Query-, component-, and fold-macro averages differ when group sizes differ. Confidence intervals must identify their resampling unit; variation across training seeds is not uncertainty over a new query population. Likewise, an interval spanning zero neither proves equivalence nor erases an observed difference. Chapter 5 interprets the stored statistical tests within these boundaries~\cite{asa2016}.
+Each aggregate metric gives equal weight to each query and includes queries with zero scores, unless the results explicitly restrict evaluation to queries with available targets. These metrics measure retrieval against the recorded annotations. They do not establish that every legally relevant article has been retrieved or that a generated legal answer is correct.
 
 \section{Chapter Summary}
 
-BM25 and bi-encoders supply lexical and semantic scores; fusion combines them, and contrastive adaptation changes the dense representation. Target-aware metrics and grouped evaluation assess these interventions under explicit corpus and selection boundaries.
+This chapter explains how BM25 and dense retrieval models score legal articles, how score fusion combines their rankings, and how fine-tuning updates the BGE-M3 embedding model. It also defines the target-matching rules and evaluation metrics used to compare retrieval performance. Chapter 4 describes the experimental setup and evaluation procedures.

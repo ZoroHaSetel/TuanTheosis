@@ -1,0 +1,55 @@
+\section{Evaluation Design and Statistical Analysis}
+\label{sec:evaluation-design}
+
+\subsection{Query Grouping and Data Splits}
+
+Queries that cite the same legal document are linked into groups. These links are transitive: if one question cites documents shared with two other questions, all three belong to the same connected group. Keeping each group within one fold prevents a cited document from appearing on both sides of fusion-weight selection and evaluation. It does not eliminate similarity in legal concepts or wording across groups.
+
+For the pretrained ALQAC and Zalo comparisons, fusion weights are selected on the other folds and evaluated on the excluded fold. Each query receives one out-of-fold result, meaning that its relevance targets are excluded from the weight selection used for its prediction. The encoders remain fixed during this procedure. The ALQAC query pool combines the original training and private-test gold files, so these results describe grouped evaluation over that combined pool rather than performance on the original private-test partition.
+
+Algorithm~\ref{alg:grouped-fusion-selection} specifies the selection procedure. The overall score is calculated from all evaluation queries, giving each query equal weight. It is not an unweighted mean of fold scores when fold sizes differ. Because each fold can select different weights, the result evaluates the selection procedure rather than one fixed weight vector.
+
+\begin{algorithm}[H]
+\caption{Grouped selection of fusion weights and out-of-fold evaluation}
+\label{alg:grouped-fusion-selection}
+\footnotesize
+\begin{algorithmic}[1]
+\Require Ordered queries $Q$, corpus $D$, aligned normalized score matrices, grouped folds, ordered candidate weight grid $W$
+\Ensure Selected weights per fold and evaluation metrics for every query
+\For{each fold $f$}
+    \State Set $T$ to the selection-query indices and $V$ to the evaluation-query indices
+    \For{each candidate weight vector $w\in W$, in recorded order}
+        \State Rank $D$ for every query in $T$ using the weighted score sum
+        \State Compute mean query NDCG@10
+    \EndFor
+    \State Select the first candidate with the highest selection mean
+    \State Rank all queries in $V$ using the selected weights
+    \State Store each evaluation query's metrics
+\EndFor
+\State Aggregate evaluation-query rows across folds, giving each query equal weight
+\end{algorithmic}
+\end{algorithm}
+
+BCA requires a separate allocation because 484 of its 546 queries form one connected group. The remaining 62 queries belong to 49 smaller groups. The first comparison selects weights using the 62 queries and evaluates on the 484-query group. The smaller groups are then assigned to four evaluation folds containing 16, 16, 15, and 15 queries. For each of these folds, weights are selected on the remaining queries, including the largest group. Each question receives one evaluation result, but the selection populations differ substantially. The combined BCA score is therefore a descriptive summary, not a balanced five-fold estimate.
+
+The fine-tuning experiments use the separate training, development, and test allocations described in Section~\ref{sec:bge-finetuning}. Their results are compared with pretrained models on the same test queries, not with the all-fold pretrained averages. Although test queries are excluded from the corresponding training and model selection, they had been examined in earlier analyses. Both fine-tuning comparisons are therefore interpreted as post-hoc evidence.
+
+\subsection{Evaluation Metrics and Comparisons}
+
+The target-matching rules and metric formulas are defined in Section~\ref{sec:target-metrics}. NDCG@10 is the primary metric. Hit@10 measures whether at least one target is recovered, MRR@10 measures the position of the first match, and MAP@10 summarizes precision at matching ranks. The standalone dense and corresponding hybrid fine-tuning comparisons also report Recall@100.
+
+The comparison of BM25+BGE-M3 with BM25 measures improvement over the lexical baseline. The comparison of BM25+BGE-M3+E5 with BM25+BGE-M3 isolates the contribution of adding E5 under the specified selection procedure. Fine-tuning comparisons replace pretrained BGE-M3 with its fine-tuned version while holding BM25, E5, and the corresponding fusion weights fixed. Standalone dense performance is assessed separately from hybrid performance. The specified threshold for a practically useful hybrid improvement is an absolute increase of 0.01 NDCG@10; this threshold is distinct from a statistical significance criterion.
+
+BCA results are reported both for all retained queries and for queries with at least one target available in the corpus. The latter population still includes queries with only some targets available, and their original metric denominators are retained. This distinction separates the effect of target availability from ranking performance without treating incomplete annotations as complete relevance judgments.
+
+\subsection{Statistical Analysis}
+
+For ALQAC and Zalo, the recorded comparison between BM25+BGE-M3+E5 and BM25+BGE-M3 uses the Wilcoxon signed-rank test on paired query-level out-of-fold NDCG@10 and MRR@10 values. Its \texttt{zero\_method=zsplit} setting splits the ranks of zero differences between the positive and negative rank sums. These stored tests are unadjusted for the multiple condition and metric comparisons. Queries within the same legal group can remain dependent despite grouped weight selection, so the query-level tests do not establish variation across independent legal topics.
+
+For BCA's 49 smaller groups, the analysis first averages paired NDCG@10 differences within each group. It then applies 100,000 random sign flips to those group means and uses 10,000 bootstrap resamples of the group means to form a 95\% interval. Each group has equal weight in these procedures. Their interval therefore concerns the mean across groups, whereas the reported query-level mean gives each question equal weight. These quantities differ when group sizes differ. Query resampling within the single largest group describes variation among its questions and cannot estimate variation across multiple such legal groups. The combined BCA aggregate remains descriptive.
+
+For the corrected fine-tuning comparison selected by hybrid performance, fine-tuned NDCG@10 is first averaged across seeds 42, 43, and 44 separately for each query. The matched pretrained value is then subtracted. The analysis uses 2,000 seeded bootstrap resamples of 106 legal groups covering the 640 test queries. Each resample draws groups with replacement, includes all their query differences, and calculates the query mean. Percentiles of these means form the reported 95\% interval.
+
+That implementation also records twice the smaller proportion of bootstrap means on either side of zero, capped at one, followed by Holm adjustment across the two hybrid comparisons. This is a bootstrap tail-area quantity, not a Wilcoxon result. Because the resamples come from the observed differences rather than an explicitly generated null distribution, it is not treated as a calibrated hypothesis-test p-value. Unequal group sizes also affect the resampling distribution: one legal group contains 428 of the 640 queries.
+
+Averaging within each query avoids counting three seed-specific predictions as three independent questions. The resulting interval concerns the average of the three observed seed results; it does not estimate uncertainty over arbitrary future seeds or evaluate an ensemble of encoders. For both fine-tuning experiments, variation across the three seeds is reported separately from uncertainty over queries. An interval containing zero does not establish equivalence, and a numerical improvement does not by itself establish a statistically supported or practically useful gain.
