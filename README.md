@@ -10,6 +10,10 @@ Use a local LaTeX installation with `latexmk`:
 latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
 ```
 
+VS Code's LaTeX Workshop uses the `latexmk (pdfLaTeX)` recipe by default on all platforms. Ensure `latexmk`, `pdflatex`, and `kpsewhich` are on the editor's `PATH`. On macOS with TinyTeX, this is typically `~/Library/TinyTeX/bin/universal-darwin`; restart VS Code after changing `PATH`.
+
+On Windows with the repository-local TinyTeX installation at `.tools/TinyTeX`, select **LaTeX Workshop: Build with recipe → TinyTeX (Windows)**. That recipe uses `.vscode/build-latex.ps1` to locate the installation relative to the workspace. For clean and package lookup commands, also add `.tools/TinyTeX/bin/windows` to `PATH`.
+
 The document is configured for pdfLaTeX, including Vietnamese text through T5 font encoding. The current assembly includes six main chapters, seven appendices, native TikZ figures, mathematical notation, and a direct `thebibliography` file. No BibTeX database is required.
 
 ## Revision Summary

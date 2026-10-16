@@ -1,8 +1,21 @@
 {
   "latex-workshop.latex.tools": [
     {
+      "name": "latexmk",
+      "command": "latexmk",
+      "args": [
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "-halt-on-error",
+        "-pdf",
+        "-outdir=%OUTDIR%",
+        "%DOC_EXT%"
+      ]
+    },
+    {
       "name": "tinytex-latexmk",
-      "command": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "command": "powershell.exe",
       "args": [
         "-NoLogo",
         "-NoProfile",
@@ -20,11 +33,19 @@
   ],
   "latex-workshop.latex.recipes": [
     {
-      "name": "TinyTeX (pdfLaTeX)",
-      "tools": ["tinytex-latexmk"]
+      "name": "latexmk (pdfLaTeX)",
+      "tools": [
+        "latexmk"
+      ]
+    },
+    {
+      "name": "TinyTeX (Windows)",
+      "tools": [
+        "tinytex-latexmk"
+      ]
     }
   ],
-  "latex-workshop.latex.recipe.default": "TinyTeX (pdfLaTeX)",
-  "latex-workshop.latex.clean.command": "C:\\Users\\ADMIN\\Downloads\\TuanTheosis\\.tools\\TinyTeX\\bin\\windows\\latexmk.exe",
-  "latex-workshop.kpsewhich.path": "C:\\Users\\ADMIN\\Downloads\\TuanTheosis\\.tools\\TinyTeX\\bin\\windows\\kpsewhich.exe"
+  "latex-workshop.latex.recipe.default": "latexmk (pdfLaTeX)",
+  "latex-workshop.latex.clean.command": "latexmk",
+  "latex-workshop.kpsewhich.path": "kpsewhich"
 }

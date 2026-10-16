@@ -150,21 +150,20 @@ Figure~\ref{fig:4.2} summarizes the construction process and its connection to c
 \subsection{Target Mapping and Corpus Coverage}
 \label{sec:bca-target-mapping}
 
-Extracted references must be mapped to the identifiers used in the corpus before they can serve as evaluation targets. The correction table \texttt{corrected\_mappings.json} links document names to corpus identifiers. For example, ``Nghị định số 100/2019/NĐ-CP'' is mapped to \texttt{100/2019/nd-cp}. Document and article identifiers are stripped of leading and trailing whitespace and converted to lowercase. Each target is then represented by the normalized document identifier and its article identifier; the latter remains empty for a whole-document target.
+Extracted legal references are mapped to corpus identifiers to construct evaluation targets. A correction table associates extracted document names with document identifiers. For example, ``Nghị định số 100/2019/NĐ-CP'' is mapped to \texttt{100/2019/nd-cp}. Leading and trailing whitespace is removed from document and article identifiers, and both are converted to lowercase. Each target consists of a document identifier and an article identifier. The article identifier is left empty when the published answer cites a document without specifying an article. These normalization steps standardize identifiers but do not verify that the extracted reference has been mapped to the correct legal document.
 
-A correct identifier does not ensure that the referenced text is available. The script \texttt{crawl\_batch\_laws.py} searches for additional legal documents and saves their raw HTML, extracted articles, and source mappings when a suitable public source is found. These articles are added to the reference corpus. Duplicate article identifiers within each document and articles with empty text are excluded, producing a searchable corpus of 14,789 articles.
+The reference corpus is extended with legal documents collected from public sources in raw HTML format. Article text is extracted from these documents and added to the corpus, while the raw HTML and source mappings are saved. Duplicate article identifiers within each document and articles with empty text are excluded. The resulting searchable corpus contains 14,789 articles.
 
-When the mapping process assigns the placeholder \texttt{INTERNAL\_DOCUMENT} to an unresolved reference, that entry is excluded from corpus additions. Its question and target remain in the retained evaluation set, with the placeholder recording the mapping status.
+References that remain unresolved may be assigned the placeholder \texttt{INTERNAL\_DOCUMENT}. Entries with this placeholder are excluded from corpus additions, but their questions and recorded targets remain in the evaluation set. The placeholder indicates an unresolved mapping, it does not establish that the referenced document is internal or access-restricted.
 
-Coverage is checked by comparing the normalized targets with indexed article identifiers under the rules in Section~\ref{sec:target-metrics}. An article-level target requires a match on both document and article identifiers. A whole-document target requires at least one indexed article from that document. A question has full coverage if all its targets are available, partial coverage if only some are available, and no coverage if none are available.
+Target coverage is checked against the indexed article identifiers using the matching rules in Section~\ref{sec:target-metrics}. An article-level target requires a match on both the document and article identifiers. A whole-document target requires at least one indexed article with the same document identifier. A question has full coverage when all its recorded targets have a match, partial coverage when only some have a match, and no coverage when none has a match. These categories measure coverage of the recorded targets under the matching rules, rather than completeness of the corpus for answering the legal question.
 
-Coverage and ranking errors are assessed separately. An article absent from the corpus cannot be retrieved. An incorrect mapping can prevent a retrieved article from matching its target even when the relevant text is present. Ranking errors concern the positions assigned to available targets, including whether they fall below the evaluation cutoff. This distinction helps identify whether an observed retrieval failure concerns corpus availability, identifier mapping, or ranking.
+A target without a match can result from missing corpus content or an unresolved or incorrect mapping. If the referenced article is absent from the corpus, no ranking method can retrieve it. If its text is present but the target is mapped incorrectly, retrieval may recover the relevant article without receiving evaluation credit. For a correctly mapped target present in the corpus, failure to retrieve a match within the evaluation cutoff concerns ranking performance. Therefore, coverage checks alone cannot establish whether a retrieval failure is caused by missing content, incorrect mapping, or ranking.
 
-Questions with partial or no target coverage remain in the full-collection evaluation. Chapter 5 reports coverage and retrieval results for these populations. Section~\ref{sec:evaluation-design} describes how questions sharing legal references are grouped for evaluation.
 
 \subsection{Example of Query and Target Construction}
 
-Table~\ref{tab:4.2} illustrates the conversion of a saved question into a query and relevance targets. Its published answer cites Nghị định số 79/2014/NĐ-CP. The saved extraction contains a whole-document reference and references to Articles 9 and 15. These entries illustrate the stored dataset and do not assert the decree's current applicability.
+Table~\ref{tab:4.2} illustrates how a question about fire-prevention equipment in apartment buildings becomes a retrieval query with recorded relevance targets. The published answer cites Nghị định số 79/2014/NĐ-CP. Reference extraction produces one whole-document target and two article-level targets, for Articles 9 and 15. The document identifier is normalized according to Section~\ref{sec:bca-target-mapping}, while the question text supplies the retrieval query.
 
 \begingroup
 \small
@@ -187,35 +186,36 @@ Table~\ref{tab:4.2} illustrates the conversion of a saved question into a query 
 \endlastfoot
 Stored query & ``Bộ Công an cho tôi hỏi có quy định bắt buộc nào về các trang thiết bị, dụng cụ phòng cháy chữa cháy đối với nhà chung cư không?'' & Question text supplies the retrieval input \\
 Extracted answer references & Nghị định số 79/2014/NĐ-CP, with article identifiers empty, 9, and 15 & The saved extraction contains one whole-document reference and two article references \\
-Mapped document identifier & 79/2014/NĐ-CP & The extracted document name is mapped to a corpus identifier \\
-Evaluation targets & The normalized document identifier paired with each recorded article identifier & An empty article identifier permits whole-document matching; 9 and 15 require the corresponding articles \\
-Retriever input & Question text and indexed article text & The published answer and recorded targets are not supplied at retrieval time \\
+Normalized document identifier & \texttt{79/2014/nd-cp} & The mapped identifier is converted to lowercase \\
+Evaluation targets & \texttt{(79/2014/nd-cp, empty)}\newline \texttt{(79/2014/nd-cp, 9)}\newline \texttt{(79/2014/nd-cp, 15)} & Each pair contains a document identifier and an article identifier; \texttt{empty} denotes an empty article identifier \\
+Retrieval inputs & Question text as the query; indexed article text as the corpus & The published answer is used only to construct targets, which are used for evaluation \\
 \end{longtable}
 \endgroup
 
-Whole-document and article-level targets can coexist in one record. Each target receives credit at most once under the matching rules in Section~\ref{sec:target-metrics}. The three extracted references in this example are recorded targets, not three independent expert judgments of legal relevance.
+The empty article identifier allows any indexed article from this decree to match the whole-document target. The other two targets require the corresponding article identifiers. Under the rules in Section~\ref{sec:target-metrics}, each retrieved article receives credit for at most one previously unmatched target. When it could match both a whole-document target and an article-level target, the evaluator's target-checking order determines which target receives credit. Retrieving several articles from the decree does not repeatedly earn credit for the whole-document target.
 
-\section{System Overview}
+
+\section{Overview of Retrieval Experiments}
 \label{sec:system-overview}
 
-The system takes a Vietnamese question and an indexed corpus of legal articles as inputs. BM25 assigns lexical scores, while BGE-M3 and multilingual-E5-base assign dense similarity scores. Each retriever scores every article in the same corpus order. The experiments compare individual retrievers with BM25+BGE-M3 and BM25+BGE-M3+E5. The evaluated pipeline ends at article ranking and does not include reranking or answer generation.
+The retrieval experiments use Vietnamese questions as queries and legal article text as the searchable corpus. BM25 computes lexical scores, while BGE-M3 and multilingual-E5-base, referred to as E5, compute dense similarity scores. Each retriever scores every article in the same corpus order, ensuring that scores combined across retrievers refer to the same article. The experiments evaluate BM25, BGE-M3, and E5 individually, as well as the hybrid configurations BM25+BGE-M3 and BM25+BGE-M3+E5.
 
-For hybrid retrieval, scores are normalized separately for each query and retriever, then combined by weighted addition. The combination weights are selected on designated queries and fixed before ranking the evaluation queries. The system returns the ten highest-ranked articles with their legal document and article identifiers. Section~\ref{sec:score-fusion} specifies the normalization, combination weights, and ranking procedure.
+For hybrid retrieval, each retriever's scores are normalized separately for each query over the full corpus. The normalized scores are combined using a weighted sum, and articles are ranked by the combined score. Fusion weights are selected on the weight-selection queries and fixed before ranking the separate evaluation queries. The system returns the ten highest-ranked articles with their document and article identifiers. The returned identifiers are compared with the recorded relevance targets to compute NDCG@10 and the other evaluation metrics. Section~\ref{sec:score-fusion} specifies score normalization and fusion, and Section~\ref{sec:evaluation-design} describes query grouping and the allocation of queries to weight selection and evaluation. Figure~\ref{fig:4.1} summarizes this procedure with pretrained dense models.
 
-Evaluation is performed after retrieval by comparing the returned identifiers with the recorded relevance targets. Published answers and relevance targets are not retrieval inputs. Questions linked by shared legal references are assigned to the same evaluation group, as described in Section~\ref{sec:evaluation-design}. Figure~\ref{fig:4.1} shows the baseline scoring and evaluation pipeline. Fine-tuning replaces the BGE-M3 component within this pipeline; Section~\ref{sec:bge-finetuning} describes the training and model selection procedures.
+The fine-tuning comparisons replace pretrained BGE-M3 with a fine-tuned model while keeping BM25, E5, and the corresponding fusion weights fixed. Standalone dense retrieval is evaluated separately to examine whether changes in BGE-M3's retrieval performance are also observed in the hybrid configurations. Section~\ref{sec:bge-finetuning} describes the training and model selection procedures. The evaluated system produces article rankings; reranking and answer generation are outside its scope.
 
 \begin{figure}[htbp]
 \centering
 \begin{tikzpicture}[>=Latex, every node/.style={draw=black!65, rounded corners=2pt, fill=black!3, text width=4.35cm, minimum height=0.85cm, align=center, font=\small}, every path/.style={draw=black!60, thick}]
-\node (A) at (0.00,0.00) {Indexed articles\\and annotated queries};
-\node (B) at (-2.52,-1.55) {Preserve identifiers and order};
+\node (A) at (0.00,0.00) {Articles, questions,\\and recorded targets};
+\node (B) at (-2.52,-1.55) {Preserve article\\identifiers and order};
 \node (C) at (-5.05,-3.10) {BM25 scores};
 \node (D) at (0.00,-3.10) {Pretrained \mbox{BGE-M3}\\dense scores};
 \node (E) at (5.05,-3.10) {Pretrained E5 dense scores};
 \node (F) at (0.00,-4.65) {Per-query\\normalized scores};
 \node (G) at (2.52,-1.55) {Query groups from shared legal references};
-\node (H) at (0.00,-6.20) {Select combination\\weights};
-\node (I) at (0.00,-7.75) {Fix weights for each split};
+\node (H) at (0.00,-6.20) {Select fusion weights on\\weight-selection queries};
+\node (I) at (0.00,-7.75) {Fix selected weights\\for evaluation queries};
 \node (J) at (0.00,-9.30) {Top-ten rankings for evaluation queries};
 \node (K) at (0.00,-10.85) {Match recorded targets and compute metrics};
 \draw[->] (A.south) -- (B.north);
@@ -233,7 +233,7 @@ Evaluation is performed after retrieval by comparing the returned identifiers wi
 \draw[->] (F.west) -- (-7.5,-4.65) |- (J.west);
 \draw[->] (J.south) -- (K.north);
 \end{tikzpicture}
-\caption[Baseline scoring and evaluation pipeline.]{Baseline scoring and evaluation pipeline. Scores are computed over the full corpus. Relevance targets are used for grouping, weight selection, and evaluation, but are not supplied to the retrievers.}
+\caption[Hybrid scoring and evaluation pipeline.]{Hybrid scoring and evaluation pipeline with pretrained dense models. Scores are computed over the full corpus. Recorded targets support query grouping; targets for the weight-selection queries guide fusion-weight selection, and targets for the separate evaluation queries are used to compute metrics. Retrievers receive question and article text.}
 \label{fig:4.1}
 \end{figure}
 

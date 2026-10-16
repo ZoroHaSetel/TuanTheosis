@@ -7,7 +7,7 @@
 \contentsline {table}{\numberline {4.1}{Baseline datasets and corpus versions.}}{24}{table.4.1}%
 \contentsline {table}{\numberline {4.2}{Worked BCA question-to-target transformation.}}{30}{table.4.2}%
 \contentsline {table}{\numberline {4.3}{Baseline dense-model settings.}}{33}{table.4.3}%
-\contentsline {table}{\numberline {4.4}{\ignorespaces Training groups and protected folds in the completed hybrid fine-tuning study.}}{35}{table.89}%
+\contentsline {table}{\numberline {4.4}{\ignorespaces Training groups and protected folds in the completed hybrid fine-tuning study.}}{36}{table.89}%
 \contentsline {table}{\numberline {4.5}{Locked configuration for the completed final-training runs.}}{36}{table.4.5}%
 \addvspace {10\p@ }
 \contentsline {table}{\numberline {5.1}{System identities and comparison boundaries.}}{45}{table.5.1}%
