@@ -2,7 +2,7 @@
 
 This chapter reviews prior work on legal retrieval, multilingual embeddings, and hybrid fusion. It identifies the research gap addressed by this thesis and positions its contributions relative to the literature.
 
-Figure~\ref{fig:rag-system-position} shows the position of retrieval in a Retrieval-Augmented Generation (RAG) system. The retrieval component searches the document sources and supplies information to the generator to support answer generation.
+Figure~\ref{fig:rag-system-position} shows the position of retrieval in a Retrieval-Augmented Generation (RAG) system. The retrieval component searches the document sources and supplies information to the generator to support answer generation. If the retriever fails to return relevant information, the generator cannot produce a correct answer. Therefore, retrieval performance is a prerequisite for accurate answer generation.
 
 \input{figures/rag-system-position}
 
@@ -44,67 +44,22 @@ The experiments also compare pretrained BGE-M3 and E5 with BM25 to assess standa
 
 Hybrid retrieval combines the outputs of different retrievers to produce a single ranking. Reciprocal Rank Fusion combines rankings using document positions rather than the original retrieval scores~\cite{cormack2009}. Weighted score fusion instead combines the component scores according to assigned weights. An analysis of lexical and semantic retrieval examines how score normalization and parameter selection affect fusion performance~\cite{bruch2022}. These findings motivate specifying both the normalization method and the procedure for selecting fusion weights.
 
-\paragraph{Example of Score Fusion.}
-Consider the legal question:
-\begin{quote}
-    \emph{``Is an employee entitled to severance allowance after terminating an employment contract?''}
-\end{quote}
-BM25 and BGE-M3 independently assign retrieval scores to candidate legal articles. Since their scores have different scales, each model's scores are normalized separately over the indexed corpus \(C\). For model \(m\), Min-Max normalization is defined as
-\[
-s'_m(d)=\frac{s_m(d)-\min_{d'\in C}s_m(d')}{\max_{d'\in C}s_m(d')-\min_{d'\in C}s_m(d')},
-\]
-assuming the maximum and minimum scores differ. The normalized scores are then combined using weights of 0.4 for BM25 and 0.6 for BGE-M3:
-\[
-S(d)=0.4s'_{\mathrm{BM25}}(d)+0.6s'_{\mathrm{BGE\text{-}M3}}(d).
-\]
-Table~\ref{tab:score-fusion-example} shows hypothetical normalized scores for three candidate articles from the larger corpus. The article descriptions and weights are used only to illustrate the calculation.
-
-\begin{table}[H]
-    \centering
-    \caption{Illustrative BM25+BGE-M3 score fusion for three legal articles.}
-    \label{tab:score-fusion-example}
-    \begin{tabular}{lcccc}
-        \toprule
-        \textbf{Legal article} & \textbf{BM25} & \textbf{BGE-M3} & \textbf{Fused score} & \textbf{Final rank} \\
-        \midrule
-        A: Severance allowance & 0.90 & 0.95 & \textbf{0.93} & \textbf{1} \\
-        B: Unemployment benefits & 0.85 & 0.60 & 0.70 & 2 \\
-        C: Contract termination & 0.40 & 0.80 & 0.64 & 3 \\
-        \bottomrule
-    \end{tabular}
-\end{table}
-
-For Article A, the fused score is
-\[
-S(A)=0.4\times0.90+0.6\times0.95=0.93.
-\]
-The articles are ranked by fused score in descending order. Article A ranks first because both models assign it high scores. The example illustrates how fusion combines lexical matching from BM25 and embedding similarity from BGE-M3 into a single ranking score. It demonstrates the calculation, rather than establishing which provision legally answers the question.
-
 The hypothesis is that lexical and dense retrieval may provide complementary rankings. A relevant article ranked poorly by one retriever may be ranked highly by another. Adding E5 to BM25+BGE-M3 tests whether another dense retriever improves a system that already combines lexical and semantic information. Its standalone performance does not establish that additional benefit.
 
-This thesis uses normalized weighted score fusion and compares BM25+BGE-M3 with BM25+BGE-M3+E5. The weight search includes configurations that assign E5 a weight of zero, so adding E5 expands the available configurations without requiring its use. A higher score on the data used to select weights therefore does not establish an improvement on separate evaluation queries. The selected weights must be evaluated on queries excluded from weight selection.
-
-The evaluation reports the effect of adding E5 separately for each dataset and corpus condition. Section~\ref{sec:score-fusion} specifies score normalization and fusion, and Section~\ref{sec:evaluation-design} describes weight selection and evaluation. Reciprocal Rank Fusion is discussed as related work but is not evaluated in the experiments.
+These studies motivate evaluating whether combining lexical and dense retrieval improves Vietnamese legal article ranking, and whether an additional dense retriever provides further benefit. Section~\ref{sec:weighted-score-fusion} explains the fusion calculation, while Section~\ref{sec:score-fusion} specifies the experimental procedure. Reciprocal Rank Fusion is discussed as related work but is not evaluated in the experiments.
 
 \section{Fine-Tuning for Legal Retrieval and Hard Negatives}
 
-The thesis examines two fine-tuning experiments. The first selects the model based on hybrid retrieval performance on development data, followed by evaluation on a separate test set. The second selects the model based on standalone dense retrieval performance and then evaluates it in BM25+BGE-M3 and BM25+BGE-M3+E5. Section~\ref{sec:bge-finetuning} describes the training procedures, and Section~5.6 reports the results and evaluation limitations.
-
-Contrastive training teaches a retrieval model to give relevant passages higher similarity scores than passages labeled as irrelevant~\cite{karpukhin2020}. This thesis uses legal questions and articles to fine-tune BGE-M3 in this way.
+Contrastive training teaches a retrieval model to give relevant passages higher similarity scores than passages labeled as irrelevant~\cite{karpukhin2020}.
 
 Hard negatives are passages that a retriever ranks highly even though they are labeled as irrelevant. They help train the model to distinguish relevant passages from similar but incorrect matches. Experiments show that mixing hard negatives with randomly selected negatives, or selecting new hard negatives during training, can improve dense retrieval~\cite{zhan2021}.
 
-The hybrid comparisons replace pretrained BGE-M3 with fine-tuned BGE-M3 while keeping BM25, E5, and fusion weights unchanged. BGE-M3 is evaluated both on its own and within each hybrid. This tests whether fine-tuning improves standalone retrieval and whether that improvement is retained when its scores are combined with those of the other retrievers.
-
-
-
+These findings motivate fine-tuning a dense retriever, and the experiments test whether fine-tuning BGE-M3 can improve retrieval on the Vietnamese legal collections. 
 \section{Research Gap and Positioning}
 
 BGE-M3 and multilingual E5 provide pretrained embedding models for multilingual retrieval~\cite{chen2024,wang2024}. Research on lexical and semantic score fusion examines the effects of normalization and parameter selection~\cite{bruch2022}, while hard-negative training strategies have improved dense retrieval on benchmark datasets~\cite{zhan2021}. These studies provide a basis for evaluating multilingual embeddings, score fusion, and embedding model fine-tuning on Vietnamese legal collections.
 
-The research gap addressed by this thesis is the evidence needed to assess these methods under the selected Vietnamese legal datasets and corpus conditions. The evaluation distinguishes improvements over BM25 from improvements due to adding E5 to BM25+BGE-M3. It also tests whether fine-tuning BGE-M3 improves standalone retrieval and whether any improvement is retained in the hybrid systems. Model selection on development data is reported separately from evaluation on a separate test set.
-
-The comparisons use clean reference text and article text extracted from legal documents in raw HTML format. 
+The research gap addressed by this thesis is the evidence needed to assess these methods under the selected Vietnamese legal datasets. The evaluation compares BM25, BGE-M3, and E5 in standalone and hybrid retrieval, and tests whether fine-tuning BGE-M3 with hard negatives improves retrieval.
 
 The contribution is a controlled empirical comparison of established retrieval methods, together with the construction and evaluation of the BCA collection. The BCA analysis examines the availability of cited provisions and dependence among questions linked by shared legal references. Chapter~4 specifies the datasets and evaluation procedures, and Chapter~5 reports the results within those conditions.
 

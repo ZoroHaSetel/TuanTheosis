@@ -1,14 +1,13 @@
 \chapter{Introduction}
 
 \section{Research Context}
+Retrieval-Augmented Generation (RAG) is a technique that grounds language model outputs in external documents retrieved from a target corpus~\cite{lewis2020}. In legal question answering, retrieval precision is critical: an answer, regardless of how fluent, remains unreliable if the cited legal provisions fail to support it. Accordingly, this thesis centers on retrieval effectiveness. Given a Vietnamese legal query and a corpus of legal documents, the goal is to rank provisions such that relevant articles appear at the top of the retrieved results.
 
-Retrieval-Augmented Generation (RAG) uses information retrieved from a document collection to support answer generation by a language model~\cite{lewis2020}. In legal question answering, the retrieved provisions must be relevant to the question. A fluent answer may still be incorrect if those provisions do not support it. This thesis focuses on retrieval effectiveness. Given a Vietnamese legal question, and a corpus containing legal documents that support the anwser, the task is to rank legal articles or documents so that relevant provisions appear near the top of the results.
+Retrieving Vietnamese legal documents poses several distinct challenges. User queries typically rely on everyday language, whereas statutory provisions are framed in formal legal terminology. Furthermore, articles addressing similar domains often dictate divergent conditions, obligations, or procedural requirements; thus, topical or lexical similarity alone does not establish legal relevance. Collection completeness also sets an upper bound on performance, as unindexed provisions cannot be retrieved. Additionally, misalignments between reference annotations and document identifiers can distort benchmark metrics. A rigorous evaluation must therefore account for ranking quality, corpus coverage, and mapping consistency.
 
-Vietnamese legal retrieval presents several challenges. Questions often use everyday language, whereas legal provisions use formal terminology. Articles addressing similar subjects may specify different conditions, obligations, or procedures, so similarity in wording or topic alone does not establish relevance. Corpus completeness also affects retrieval: a ranking model cannot retrieve a provision that is absent from the indexed collection. Incorrect mappings between reference provisions and document identifiers can also affect evaluation results. Retrieval evaluation must therefore consider ranking performance, corpus coverage, and the accuracy of these mappings.
+To establish a baseline, this thesis employs BM25, which ranks documents via lexical matching a vital capability given that legal queries frequently contain explicit statutory identifiers, document numbers, or standard phrasing~\cite{robertson2009,rosa2021}. In contrast, dense retrieval leverages embedding similarity to match queries and documents across lexical gaps. We evaluate two representative pretrained models: BGE-M3 and multilingual-E5-base (E5)~\cite{chen2024,wang2024}, along with hybrid configurations (BM25+BGE-M3 and BM25+BGE-M3+E5) that combine lexical and dense retrieval scores.
 
-BM25 ranks documents using lexical matches and is relevant to legal retrieval because questions may contain terms, document numbers, or phrases found in the corresponding provisions~\cite{robertson2009,rosa2021}. This thesis uses BM25's evaluation scores as the baseline. Dense retrieval uses embedding similarity to match questions and documents even when their wording differs. The evaluated embedding models are pretrained BGE-M3 and multilingual-E5-base (E5)~\cite{chen2024,wang2024}. The hybrid configurations, BM25+BGE-M3 and BM25+BGE-M3+E5, combine lexical and dense retrieval scores.
-
-The study evaluates these methods on fixed Vietnamese legal datasets using the available relevance annotations. It compares BM25+BGE-M3 with BM25 and tests whether adding E5 improves BM25+BGE-M3. It also examines whether fine-tuning BGE-M3 improves standalone retrieval and whether any gains remain when the model is integrated into a hybrid. Therefore, this thesis contributes to the understanding of hybrid retrieval strategies in the context of Vietnamese legal information retrieval.
+We evaluate these approaches on benchmark Vietnamese legal datasets using established relevance annotations. Specifically, we investigate whether BM25+BGE-M3 improves upon the BM25 baseline, whether integrating E5 yields further gains, and whether fine-tuning BGE-M3 enhances standalone retrieval and sustains improvements within hybrid pipelines. Through these empirical evaluations, this thesis clarifies the effectiveness of hybrid retrieval strategies for Vietnamese legal information retrieval.
 
 \section{Research Gap and Approach}
 
@@ -18,30 +17,30 @@ The scope of that evidence also matters. Legal case retrieval differs from retri
 
 The research gap addressed here is the evidence needed for two specific decisions: whether adding E5 improves BM25+BGE-M3, and whether fine-tuning BGE-M3 improves both standalone and hybrid retrieval. The thesis tests these questions under defined corpus conditions and separates model selection from evaluation on a separate test set. This is an empirical contribution rather than a new retrieval algorithm. Chapter~2 reviews the supporting literature, and Chapter~4 specifies the comparisons and evaluation procedures.
 
-The approach has three parts. First, ALQAC and Zalo are evaluated using clean reference text and article text extracted from legal documents collected in raw HTML format. The same questions are used for both text representations, and results are reported separately for each corpus condition. For Zalo, reference text is retained when an extracted article is unavailable.
+The approach has three parts. First, the overall retrieval benchmark evaluates ALQAC and Zalo using only the reference article text supplied with each dataset. All retrieval methods within a dataset use the same questions, corpus, and recorded relevance targets.
 
-Second, a Bộ Công an (BCA) dataset is constructed from published public-service questions and legal citations in their answers. The evaluation examines whether the cited provisions are present in the corpus and identifies retrieval failures. The evaluation result is reported separately due to differences in data source from ALQAC and Zalo. 
+Second, a Bộ Công an (BCA) dataset is constructed from published public-service questions and legal citations in their answers. The evaluation examines whether the cited provisions are present in the corpus and identifies retrieval failures. The evaluation result is reported separately due to differences in data source from ALQAC and Zalo.
 
 Third, the BGE-M3 embedding model is fine-tuned using legal question article pairs and evaluated in standalone and hybrid retrieval. BM25 and E5 remain unchanged, and fusion weights are held fixed when comparing pretrained and fine-tuned BGE-M3 within each hybrid. The analysis distinguishes development scores from results on test set queries.
 
 \section{Research Objectives}
 
-The main objective is to evaluate hybrid retrieval and fine-tuning of the BGE-M3 embedding model for Vietnamese legal information retrieval. The thesis has four specific objectives:
+The main objective is to evaluate hybrid retrieval and fine-tuning of the BGE-M3 embedding model for Vietnamese legal information retrieval. The thesis also constructs a new dataset BCA for evaluation, the goal of which is to provide a more comprehensive assessment of retrieval performance in the Vietnamese legal domain. The thesis has four specific objectives:
 
 \begin{enumerate}
-    \item Compare BM25, pretrained BGE-M3, pretrained E5, and BM25+BGE-M3 using the same queries, corpus, and relevance annotations within each evaluation condition. BM25's evaluation scores serve as the baseline.
+    \item Compare BM25, pretrained BGE-M3, pretrained E5, and BM25+BGE-M3 on ALQAC and Zalo datasets. BM25's evaluation scores serve as the baseline.
     \item Determine whether adding E5 improves retrieval by comparing BM25+BGE-M3+E5 with BM25+BGE-M3.
-    \item Evaluate whether fine-tuning BGE-M3 improves standalone retrieval and whether any improvement is retained in BM25+BGE-M3 and BM25+BGE-M3+E5. Model selection uses development data, followed by evaluation on a separate test set. Fusion weights are held fixed when comparing pretrained and fine-tuned BGE-M3 within each hybrid.
-    \item Construct and evaluate the BCA collection from published public-service questions and legal citations in their answers. Assess the availability of cited provisions in the corpus, the accuracy of mappings between citations and document identifiers, and dependence among questions linked by shared legal references.
+    \item Evaluate whether fine-tuning BGE-M3 improves the performance in BM25+BGE-M3 and BM25+BGE-M3+E5.
+    \item Construct and evaluate the BCA collection from published public-service questions and legal citations in their answers. Benchmark retrieval performance, examine the differences between public questions with Zalo and ALQAC.
 \end{enumerate}
 
 Retrieval effectiveness is measured primarily by NDCG@10. Hit@10, MRR@10, and MAP@10 provide additional measures of retrieval performance within the top ten results. Comparisons are reported separately for each dataset and corpus condition to establish the scope of any observed improvement.
 
 \section{Research Contributions}
 
-The thesis contribution is an empirical comparison of BM25, BGE-M3, E5, BM25+BGE-M3, and BM25+BGE-M3+E5 on ALQAC, Zalo, and BCA. The evaluation measures retrieval performance on datasets ALQAC, Zalo, and BCA. The results show that hybrid retrieval improves NDCG@10 over BM25 in most evaluated conditions, while adding E5 provides little to no additional benefit (Tables~\ref{tab:5.3} and~\ref{tab:5.4}).
+The thesis contribution is an empirical comparison of retrieval methods performance including BM25, BGE-M3, E5, BM25+BGE-M3, and BM25+BGE-M3+E5 on ALQAC, Zalo, and BCA. The evaluation measures retrieval performance on datasets ALQAC, Zalo, and BCA. The results show that hybrid retrieval improves NDCG@10 over BM25 in most evaluated conditions, while adding E5 provides little to no additional benefit (Tables~\ref{tab:5.3} and~\ref{tab:5.4}).
 
-The second contribution is an evaluation of fine-tuning the BGE-M3 embedding model for standalone and hybrid retrieval. The first experiment selects the fine-tuned model based on hybrid retrieval performance on development data. Development scores improve, but evaluation on a test set does not demonstrate a hybrid improvement. The second experiment selects the model based on standalone dense retrieval performance on development data. The result shows fine-tuning improves metric NDCG@10 but does not produce a meaningful improvement in either hybrid when fusion weights are the same (Tables~\ref{tab:5.12} and~\ref{tab:5.13}).
+The second contribution is an evaluation of fine-tuning the BGE-M3 embedding model for standalone and hybrid retrieval. The first experiment selects the fine-tuned model based on hybrid retrieval performance on development data. The second experiment selects the model based on standalone dense retrieval performance on development data. The result shows fine-tuning improves metric NDCG@10 but does not produce a meaningful improvement in either hybrid when fusion weights are the same (Tables~\ref{tab:5.12} and~\ref{tab:5.13}).
 
 The third contribution is the construction and evaluation of the BCA retrieval collection from published public-service questions and legal citations in their answers. The analysis examines the availability of cited provisions in the corpus and dependence among questions linked by shared legal references. The analysis also examines the sortfall failures of the BCA collection (Table~\ref{tab:5.5}).
 
@@ -62,6 +61,6 @@ For BCA dataset the data is collected from publicly available questions and answ
 
 \textbf{Chapter~4: Research Methodology} describes dataset and corpus construction, including the BCA collection, and the retrieval pipeline. It specifies fusion weight selection, BGE-M3 fine-tuning, and the procedures for model selection and evaluation.
 
-\textbf{Chapter~5: Experimental Evaluation} reports the retrieval comparisons, the effect of adding E5, and the effect of fine-tuning BGE-M3 and hybrid retrieval. It also analyzes BCA corpus coverage, dependence among questions linked by shared legal references, and retrieval failures.
+\textbf{Chapter~5: Experiments and Evaluation} describes the experimental conditions and benchmark evaluation procedure. Its results and analysis cover the BCA collection, BGE-M3 fine-tuning, and the overall comparison of individual and hybrid retrieval methods, including the contribution of E5.
 
 \textbf{Chapter~6: Conclusion and Future Work} summarizes the findings and contributions in relation to the research objectives. It discusses the limitations of the evaluation and outlines directions for future work.

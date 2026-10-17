@@ -151,6 +151,7 @@ Z_j(q,d)=\frac{s_j(q,d)-\mu_j(q)}{\sigma_j(q)},
 where \(\mu_j(q)\) and \(\sigma_j(q)>0\) are the mean and standard deviation of the retriever's scores over the corpus. Z-scores can be negative and are not restricted to the range \([0,1]\). This method is included as background; the reported experiments use Min-Max normalization. Both methods depend on the articles included in normalization, so the normalization set must be stated.
 
 \subsection{Weighted Score Fusion}
+\label{sec:weighted-score-fusion}
 
 Weighted score fusion adds the normalized retrieval scores after multiplying each by a weight~\cite{bruch2022}. The weights control how much each retriever contributes to the combined score. For a query \(q\) and an article \(d\), \(\widetilde{s}_b\), \(\widetilde{s}_g\), and \(\widetilde{s}_e\) denote the normalized scores from BM25, BGE-M3, and E5, respectively.
 
@@ -167,7 +168,37 @@ S_{BGE}(q,d)=w_b\widetilde{s}_b(q,d)+w_g\widetilde{s}_g(q,d)+w_e\widetilde{s}_e(
 \]
 The weights \(w_b\), \(w_g\), and \(w_e\) correspond to BM25, BGE-M3, and E5. They are nonnegative and satisfy \(w_b+w_g+w_e=1\). Articles are ranked by the combined score in descending order. Section~\ref{sec:score-fusion} specifies the fusion procedure used in the experiments.
 
-When \(w_e=0\), E5 does not contribute to the combined score. Setting \(w_g=1-w_b\) then reproduces BM25+BGE-M3, provided the corpus, retrieval scores, and normalization are unchanged. The weight search can therefore select a configuration that omits E5. A higher score on the data used to select weights does not establish an improvement on a separate test set. Therefore, E5's contribution is assessed by comparing the selected BM25+BGE-M3+E5 and BM25+BGE-M3 configurations on a separate test set.
+\paragraph{Example of Score Fusion.}
+Consider the legal question:
+\begin{quote}
+    \emph{``Is an employee entitled to severance allowance after terminating an employment contract?''}
+\end{quote}
+BM25 and BGE-M3 independently assign retrieval scores to candidate legal articles. Their scores are normalized separately over the indexed corpus using the Min-Max procedure described above. The normalized scores are then combined using weights of 0.4 for BM25 and 0.6 for BGE-M3:
+\[
+S_{BG}(q,d)=0.4\widetilde{s}_b(q,d)+0.6\widetilde{s}_g(q,d).
+\]
+Table~\ref{tab:score-fusion-example} shows hypothetical normalized scores for three candidate articles from the larger corpus. The article descriptions and weights are used only to illustrate the calculation.
+
+\begin{table}[H]
+    \centering
+    \caption{Illustrative BM25+BGE-M3 score fusion for three legal articles.}
+    \label{tab:score-fusion-example}
+    \begin{tabular}{lcccc}
+        \toprule
+        \textbf{Legal article} & \textbf{BM25} & \textbf{BGE-M3} & \textbf{Fused score} & \textbf{Final rank} \\
+        \midrule
+        A: Severance allowance & 0.90 & 0.95 & \textbf{0.93} & \textbf{1} \\
+        B: Unemployment benefits & 0.85 & 0.60 & 0.70 & 2 \\
+        C: Contract termination & 0.40 & 0.80 & 0.64 & 3 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+For Article A, the fused score is
+\[
+S_{BG}(q,A)=0.4\times0.90+0.6\times0.95=0.93.
+\]
+The articles are ranked by fused score in descending order. Article A ranks first because both models assign it high scores. The example illustrates how fusion combines lexical matching from BM25 and embedding similarity from BGE-M3 into a single ranking score. It demonstrates the calculation, rather than establishing which provision legally answers the question.
 
 \section{Fine-Tuning and Negative Sampling}
 

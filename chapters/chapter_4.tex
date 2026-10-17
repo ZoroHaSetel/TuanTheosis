@@ -16,16 +16,16 @@ Relevance labels support training, configuration selection, and evaluation. At r
 \section{Datasets and Corpus Preparation}
 \label{sec:datasets-corpus}
 
-The evaluation uses ALQAC, Zalo, and the BCA collection. For ALQAC and Zalo, it compares a corpus containing the supplied reference article text with a corpus prepared using article text extracted from legal documents collected in raw HTML format. For Zalo, reference text is retained when a corresponding extracted article is unavailable or empty, as explained below. Each comparison uses the same ordered queries and relevance targets, so the corpus versions are evaluated as paired conditions rather than independent datasets.
+The overall retrieval benchmark uses the supplied reference article text for ALQAC and Zalo. All methods within a dataset use the same ordered queries, corpus, and relevance targets. BCA uses the separately constructed corpus described in Section~\ref{sec:bca-construction}. The completed Zalo fine-tuning experiments use their recorded training and evaluation corpora, described below and in Section~\ref{sec:bge-finetuning}; their results are separate from the reference-text benchmark.
 
-Table~\ref{tab:4.1} summarizes the five baseline evaluation conditions. Queries that share legal references are grouped for selection and evaluation, as explained in Section~\ref{sec:evaluation-design}.
+Table~\ref{tab:4.1} summarizes the three baseline datasets. Queries that share legal references are grouped for selection and evaluation, as explained in Section~\ref{sec:evaluation-design}.
 
 \begingroup
 \small
 \setlength{\tabcolsep}{3pt}
 \renewcommand{\arraystretch}{1.18}
 \begin{longtable}{>{\raggedright\arraybackslash}p{3.808cm}>{\raggedright\arraybackslash}p{2.519cm}>{\raggedright\arraybackslash}p{2.519cm}>{\raggedright\arraybackslash}p{6.274cm}}
-\caption[Baseline datasets and corpus versions.]{Baseline datasets and corpus versions.}\label{tab:4.1}\\
+\caption[Baseline datasets.]{Baseline datasets.}\label{tab:4.1}\\
 \toprule
 \textbf{Dataset} & \textbf{Queries} & \textbf{Articles} & \textbf{Evaluation design} \\
 \midrule
@@ -39,10 +39,8 @@ Table~\ref{tab:4.1} summarizes the five baseline evaluation conditions. Queries 
 \endfoot
 \bottomrule
 \endlastfoot
-ALQAC, reference text & 811 & 3,363 & Grouped cross-validation using reference article text \\
-ALQAC, extracted text & 811 & 3,381 & Same ordered queries, with a separately extracted article corpus \\
-Zalo, reference text & 3,196 & 61,425 & Grouped cross-validation using reference article text \\
-Zalo, extracted text with reference fallback & 3,196 & 61,425 & Same ordered queries, with extracted text where available and reference text otherwise \\
+ALQAC & 811 & 3,363 & Grouped cross-validation using reference article text \\
+Zalo & 3,196 & 61,425 & Grouped cross-validation using reference article text \\
 BCA & 546 & 14,789 & Separate evaluation of the largest linked group and grouped cross-validation over smaller groups \\
 \end{longtable}
 \endgroup
@@ -51,24 +49,20 @@ BCA & 546 & 14,789 & Separate evaluation of the largest linked group and grouped
 
 ALQAC and Zalo provide Vietnamese legal questions with annotations identifying the relevant legal articles. The questions serve as retrieval queries, and the annotated references provide the targets used to evaluate the ranked results.
 
-For ALQAC, the baseline evaluation combines the supplied training and private-test questions, giving 811 queries. Its reference corpus contains 3,363 articles. 
+For ALQAC, the baseline evaluation combines the supplied training and private-test questions, giving 811 queries. Its reference corpus contains 3,363 articles.
 
-For Zalo, the baseline evaluation uses 3,196 queries and a reference corpus of 61,425 articles. Each query retains its recorded relevance targets when evaluated against either the reference-text corpus or the extracted-text corpus with reference fallback.
+For Zalo, the baseline evaluation uses 3,196 queries and a reference corpus of 61,425 articles. Each query retains its supplied relevance targets.
 
-For both datasets, questions linked by shared legal references are kept in the same group. Fusion weights are selected using other groups before evaluation on the excluded group, as described in Section~\ref{sec:evaluation-design}. Within each dataset, the same queries and relevance targets are used for both corpus versions so that their retrieval results can be compared directly. The corpus preparation procedures are described in the following subsection.
+For both datasets, questions linked by shared legal references are kept in the same group. Fusion weights are selected using other groups before evaluation on the excluded group, as described in Section~\ref{sec:evaluation-design}. All baseline methods within each dataset use the supplied reference corpus and annotations. The following subsection distinguishes this corpus from the preparation used in the completed fine-tuning experiments.
 
 \subsection{Article Extraction and Identifier Alignment}
 \label{sec:article-extraction}
 
-The reference corpus are organized into individual article records, each containing a legal document identifier, an article identifier, and the article text. For the extracted-text versions, legal documents collected in raw HTML format are converted to text and separated into articles. The retrievers use the resulting article text rather than raw HTML. Document and article identifiers link each retrieved result to its recorded relevance target.
+Each reference article record contains a legal document identifier, an article identifier, and article text. The overall ALQAC and Zalo benchmark uses these supplied records without comparing them with an extracted-text version.
 
-For ALQAC, a document mapping links the reference documents to their HTML sources. Articles are extracted from those sources, with a leading article heading removed where present. The resulting corpus contains 3,381 articles, compared with 3,363 reference articles. Extraction can change article boundaries and identifiers, so a larger corpus does not necessarily contain more of the annotated targets.
+The completed Zalo fine-tuning experiments use article text extracted from legal documents collected in raw HTML format. Preparation follows the reference article order. Extracted text replaces the reference text only if both document and article identifiers match and the cleaned text is nonempty. Otherwise, the reference text is retained. This preparation preserves 61,425 article identifiers and is documented here as the corpus actually used in those experiments; their scores are not relabeled as reference-text benchmark results.
 
-For Zalo, preparation follows the reference article order. An extracted article replaces the reference text only if both identifiers match and its cleaned text is nonempty. If no matching extracted article is available or its cleaned text is empty, the reference text is retained. This procedure is called \emph{reference fallback}.
-
-Fallback keeps all 61,425 articles searchable with their original identifiers and order. Removing articles without usable extracted text would also remove retrieval candidates, making it harder to distinguish changes caused by article availability from changes caused by text extraction. The resulting Zalo corpus therefore combines extracted text with retained reference text. Its comparison with the reference corpus evaluates this replacement procedure, not a complete replacement of all reference text.
-
-Identifier normalization is separate from text preprocessing. Document and article identifiers are normalized before matching retrieved articles to relevance targets. Within each corpus version, all retrievers use the same article order so that scores at the same position refer to the same article. Incorrect identifier alignment can prevent a relevant retrieved article from receiving evaluation credit even when its text is present.
+Identifier normalization is separate from text preprocessing. Within each experiment, all retrievers use the same article order so that scores at the same position refer to the same article. Incorrect identifier alignment can prevent a relevant retrieved article from receiving evaluation credit even when its text is present.
 
 \section{BCA Dataset Construction}
 \label{sec:bca-construction}
@@ -87,7 +81,7 @@ The collection script requests successive pages of question listings through the
 
 Acquisition requires separate listing and detail requests: the listing identifies available questions, while each detail response supplies the question and answer fields. Failed listing requests can interrupt discovery, and failed detail requests can leave individual records uncollected.
 
-The saved collection contains 652 records with distinct question identifiers. Of these, 546 are retained for retrieval evaluation because they contain at least one extracted legal document reference. 
+The saved collection contains 652 records with distinct question identifiers. Of these, 546 are retained for retrieval evaluation because they contain at least one extracted legal document reference.
 
 
 \subsection{Text Cleaning and Reference Extraction}
@@ -336,7 +330,7 @@ The fine-tuning comparisons use weights selected with pretrained BGE-M3 and keep
 \section{BGE-M3 Fine-Tuning}
 \label{sec:bge-finetuning}
 
-The two fine-tuning experiments differ in how they select BGE-M3: the first uses hybrid retrieval performance, while the second uses standalone dense retrieval performance. Both then compare hybrids containing pretrained and fine-tuned BGE-M3. BM25, E5, and the selected combination weights remain fixed within each pretrained and fine-tuned comparison. The experiments use different training procedures and are therefore described separately.
+The two fine-tuning experiments differ in how they select BGE-M3. The first selects the model using hybrid retrieval performance on development queries, followed by evaluation on a separate test set. The second selects it using standalone dense retrieval performance, then evaluates the selected model both on its own and in BM25+BGE-M3 and BM25+BGE-M3+E5. Within each hybrid comparison, fine-tuned BGE-M3 replaces pretrained BGE-M3 while BM25, E5, and the selected fusion weights remain fixed. These comparisons test whether fine-tuning improves standalone retrieval and whether any improvement is retained in the hybrids under fixed fusion weights. The experiments use different training procedures and are therefore described separately. Section~\ref{sec:finetuning-results} reports the results and evaluation limitations.
 
 \subsection{Model Selection Based on Hybrid Retrieval}
 \label{sec:finetuning-hybrid-selection}
