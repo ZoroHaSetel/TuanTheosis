@@ -29,6 +29,8 @@ Tài liệu này tổng hợp các góp ý đã trao đổi khi sửa abstract v
 
 Các thuật ngữ chuyên môn cần thiết vẫn được sử dụng, nhưng phải có ý nghĩa rõ trong ngữ cảnh. Dùng nhất quán tên BGE-M3 và multilingual-E5-base; có thể viết E5 sau khi đã giới thiệu tên đầy đủ.
 
+- Khi gọi tên loại mô hình, dùng “embedding model” hoặc “embedding models” thay cho “vector model(s)”. Giữ thuật ngữ “vector” khi mô tả biểu diễn, phép tính tương đồng, chuẩn hóa hoặc chế độ single-vector/multi-vector.
+
 ## 3. Những ý cần phân biệt rõ
 
 ### Baseline và các phép so sánh
