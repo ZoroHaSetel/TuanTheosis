@@ -58,16 +58,16 @@ For both datasets, questions linked by shared legal references are kept in the s
 \subsection{Article Extraction and Identifier Alignment}
 \label{sec:article-extraction}
 
-Each reference article record contains a legal document identifier, an article identifier, and article text. The overall ALQAC and Zalo benchmark uses these supplied records without comparing them with an extracted-text version.
+Each article is stored with its text, document identifier, and article identifier. The ALQAC and Zalo benchmark uses the text supplied with each dataset.
 
-The completed Zalo fine-tuning experiments use article text extracted from legal documents collected in raw HTML format. Preparation follows the reference article order. Extracted text replaces the reference text only if both document and article identifiers match and the cleaned text is nonempty. Otherwise, the reference text is retained. This preparation preserves 61,425 article identifiers and is documented here as the corpus actually used in those experiments; their scores are not relabeled as reference-text benchmark results.
+For the Zalo fine-tuning comparisons, article text is extracted from legal documents collected in raw HTML format, then cleaned and processed. The text is split into articles and matched to the supplied records by document and article identifiers. Extracted text replaces the supplied text when a match is found and the cleaned content is nonempty. Otherwise, the supplied text is retained. This reference fallback preserves all 61,425 articles for the pretrained and fine-tuned comparisons.
 
-Identifier normalization is separate from text preprocessing. Within each experiment, all retrievers use the same article order so that scores at the same position refer to the same article. Incorrect identifier alignment can prevent a relevant retrieved article from receiving evaluation credit even when its text is present.
+Identifiers are trimmed and converted to lowercase before target matching. All retrievers use the same article order so that their scores remain linked to the correct articles.
 
 \section{BCA Dataset Construction}
 \label{sec:bca-construction}
 
-The BCA dataset is constructed from public questions and published answers on the Bộ Công an portal. Each question becomes a retrieval query, and legal references extracted from its published answer become the recorded relevance targets. Construction consists of collecting the source records, cleaning their text, extracting legal references, and mapping those references to corpus identifiers. The answer text is used to construct targets and is not supplied to the retriever.
+The BCA dataset is constructed from public questions and published answers in the question-and-answer section of the Bộ Công an portal.\footnote{\url{https://bocongan.gov.vn/hoi-dap/}} Each question becomes a retrieval query, and legal references extracted from its published answer become the recorded relevance targets. Construction consists of collecting the source records, cleaning their text, extracting legal references, and mapping those references to corpus identifiers. The answer text is used to construct targets and is not supplied to the retriever.
 
 \subsection{Motivation and Research Value}
 
@@ -250,34 +250,29 @@ s_{\mathrm{dense}}(q,d)=\frac{\mathbf{u}_q^\top\mathbf{v}_d}{\max(\lVert\mathbf{
 \]
 Here, \(q\) is the question, \(d\) is an indexed article, and \(\lVert\cdot\rVert_2\) denotes the Euclidean norm. For vectors whose norms exceed the numerical threshold, this calculation is cosine similarity. The threshold prevents division by zero.
 
-Table~\ref{tab:4.3} summarizes the pretrained dense models and the baseline input settings. Both encoders use a maximum input length of 512 tokens in the baseline experiments. This experimental limit is distinct from BGE-M3's supported maximum of 8,192 tokens described in Chapter~3. The fine-tuning experiment selected by hybrid retrieval performance uses maximum lengths of 256 tokens for queries and 512 tokens for passages, as specified in Section~\ref{sec:bge-finetuning}.
+Table~\ref{tab:4.3} summarizes the embedding model settings used in the baseline benchmark. Both models use their pretrained parameters without further training. The separate BGE-M3 fine-tuning configurations are described in Section~\ref{sec:bge-finetuning}.
 
-\begingroup
+\begin{table}[htbp]
+\centering
 \small
 \setlength{\tabcolsep}{3pt}
 \renewcommand{\arraystretch}{1.18}
-\begin{longtable}{>{\raggedright\arraybackslash}p{5.072cm}>{\raggedright\arraybackslash}p{5.134cm}>{\raggedright\arraybackslash}p{5.134cm}}
-\caption[Baseline dense-model settings.]{Baseline dense-model settings.}\label{tab:4.3}\\
+\caption{Embedding model settings for baseline retrieval.}
+\label{tab:4.3}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{5.072cm}>{\raggedright\arraybackslash}p{5.134cm}>{\raggedright\arraybackslash}p{5.134cm}@{}}
 \toprule
-\textbf{Property} & \textbf{BGE-M3} & \textbf{Multilingual-E5-base} \\
+\textbf{Setting} & \textbf{BGE-M3} & \textbf{multilingual-E5-base} \\
 \midrule
-\endfirsthead
-\toprule
-\textbf{Property} & \textbf{BGE-M3} & \textbf{Multilingual-E5-base} \\
-\midrule
-\endhead
-\midrule
-\multicolumn{3}{r}{\footnotesize Continued on next page}\\
-\endfoot
-\bottomrule
-\endlastfoot
-Model family & BGE-M3 multilingual embedding model & E5 multilingual text-embedding model \\
+Model identifier & \texttt{BAAI/bge-m3} & \texttt{intfloat/}\allowbreak\texttt{multilingual-e5-base} \\
 Embedding dimension & 1,024 & 768 \\
-Experimental role & Primary pretrained dense component & Additional pretrained dense component \\
-Baseline maximum input length & 512 tokens & 512 tokens \\
-Fine-tuning status & Fine-tuned in the experiments in Section~\ref{sec:bge-finetuning} & Pretrained parameters remain fixed \\
-\end{longtable}
-\endgroup
+Query prefix & None & \texttt{query:} \\
+Article prefix & None & \texttt{passage:} \\
+Maximum input length & 512 tokens & 512 tokens \\
+Vector normalization & L2 normalization & L2 normalization \\
+Similarity score & Dot product of normalized vectors & Dot product of normalized vectors \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 The evaluation scores every indexed article rather than restricting retrieval to candidates from an approximate nearest-neighbor index. Thus, an available target that falls outside the first ten results is excluded by the resulting ranking rather than by a separate candidate filter. This exhaustive scoring design supports comparisons of ranking performance; it does not establish the system's latency in deployment.
 
@@ -335,84 +330,81 @@ The two fine-tuning experiments differ in how they select BGE-M3. The first sele
 \subsection{Model Selection Based on Hybrid Retrieval}
 \label{sec:finetuning-hybrid-selection}
 
+This experiment fine-tunes BGE-M3 on the Zalo dataset and selects its training settings using hybrid retrieval performance on development queries.
+
 \subsubsection{Training Data and Negative Examples}
 
-This experiment uses Zalo question and article pairs. For each eligible query, the training builder selects a known relevant article available in both clean and parsed views, creating paired training examples from the two corpus representations. Negative passages are mined from lexical and dense rankings after excluding known positives, duplicates, unavailable documents, and laws reserved for development and test evaluation.
+For each eligible question, one article labeled as relevant is selected. The article must be available in both the reference-text and extracted-text corpus versions. The question is paired with a article to create two training groups. Each group contains one positive article and seven explicit negative articles.
 
-The negative-selection procedure considers up to 256 candidates from each of BM25 and pretrained BGE-M3 on the parsed corpus. It alternates between the filtered lists until seven distinct negatives have been selected. These rankings and negative groups are fixed before training. All explicit negatives use parsed article text, including groups whose positive uses clean text.
+Negative candidates are taken from up to 256 of the highest-ranked results of each of BM25 and pretrained BGE-M3 using the extracted-text corpus. Filtering removes known relevant articles, duplicate candidates, unavailable articles, and articles from legal documents reserved for development or test evaluation. Articles from the same legal document as the positive are also excluded to reduce the risk of selecting a related but unannotated article as a negative.
 
-\begin{table}[H]
-\centering
-\footnotesize
-\setstretch{1.0}
-\setlength{\tabcolsep}{4pt}
-\renewcommand{\arraystretch}{1.05}
-\caption[Training groups and protected folds in the completed hybrid fine-tuning study.]{Training groups and protected folds in the completed hybrid fine-tuning study.}\label{tab:4.4}
-\vspace{6pt}
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{@{}lrrrrrr@{}}
-\toprule
-\textbf{Stage} & \textbf{Train folds} & \textbf{Queries} & \textbf{A/B groups} & \textbf{Protected folds} & \textbf{Protected laws} & \textbf{Law overlap} \\
-\midrule
-Pilot & 2, 3, 4 & 1,917 & 3,834 & 0, 1 & 258 & 0 \\
-Final training & 1, 2, 3, 4 & 2,556 & 5,112 & 0 & 110 & 0 \\
-\bottomrule
-\end{tabular}}
-\end{table}
 
-Each eligible query produces two training groups using the clean and parsed text of the same selected relevant article. The group counts therefore do not represent independent questions. The zero-overlap checks confirm that training groups contain no article from the protected law identifiers; they do not establish separation of legal concepts or similar language. Explicit-negative filtering also does not guarantee that passages from other groups in the same batch are nonrelevant to a query.
+
 
 \subsubsection{Training Objective and Configuration}
 
-This experiment trains BGE-M3 with a single-positive in-batch contrastive objective. Each query group contains one selected positive and seven explicit negatives. With batch size \(B\), group size \(G=8\), positive passage index \(y_i=iG\), normalized query vector \(\mathbf q_i\), normalized passage vector \(\mathbf p_j\), and temperature \(\tau=0.02\), the implemented objective is
+The training objective is to make BGE-M3 assign a higher similarity score to the selected relevant article than to the other articles in the batch. Each question is supplied with one positive article and seven explicit negatives. Articles from other question groups in the same batch provide additional comparisons. Only BGE-M3's parameters are updated during this training.
+
+A batch contains \(B\) question groups, with \(G=8\) articles per group. The normalized vectors for question \(i\) and article \(j\) are \(\mathbf q_i\) and \(\mathbf p_j\). The selected positive article is at position \(y_i=iG\), because it is stored first in each group. The training loss is
 \[
 \mathcal L_{\mathrm{batch}}=-\frac{1}{B}\sum_{i=0}^{B-1}
 \log\frac{\exp(\mathbf q_i^\top\mathbf p_{y_i}/\tau)}
 {\sum_{j=0}^{BG-1}\exp(\mathbf q_i^\top\mathbf p_j/\tau)}.
 \]
 
-\begingroup
-\small
-\setlength{\tabcolsep}{3pt}
-\renewcommand{\arraystretch}{1.18}
-\begin{longtable}{>{\raggedright\arraybackslash}p{6.306cm}>{\raggedright\arraybackslash}p{9.254cm}}
-\caption[Locked configuration for the completed final-training runs.]{Locked configuration for the completed final-training runs.}\label{tab:4.5}\\
-\toprule
-\textbf{Parameter} & \textbf{Verified value} \\
-\midrule
-\endfirsthead
-\toprule
-\textbf{Parameter} & \textbf{Verified value} \\
-\midrule
-\endhead
-\midrule
-\multicolumn{2}{r}{\footnotesize Continued on next page}\\
-\endfoot
-\bottomrule
-\endlastfoot
-Base encoder & BGE-M3 \\
-Trainable component & Full dense encoder \\
-Epochs & 2 \\
-Learning rate & \(2.0000\times10^{-5}\) \\
-Contrastive query batch & 4 \\
-Gradient accumulation & 8 \\
-Optimizer effective batch & 32 query groups \\
-Passage group & 1 selected positive and 7 explicit negatives \\
-Query /\allowbreak{} passage maximum length & 256 /\allowbreak{} 512 tokens \\
-Temperature & 0.0200 \\
-Pooling /\allowbreak{} normalization & First-token hidden state /\allowbreak{} L2 normalization \\
-Seeds & 42, 43, 44 \\
-Frozen E5 component & Multilingual-E5-base, unchanged throughout fine-tuning \\
-\end{longtable}
-\endgroup
+The dot product measures similarity, and \(\tau=0.02\) scales these scores before the loss is calculated. The numerator uses the selected positive article, while the denominator includes all articles in the batch. The loss decreases as the positive article's score increases relative to the others. The final loss is averaged over the \(B\) questions.
 
-The numerator rewards the selected positive article, while the denominator includes all passages in the forward-pass batch. With four query groups and eight passages per group, this denominator contains 32 passage positions. Gradient accumulation across eight forward passes yields an effective optimizer batch of 32 query groups, but does not combine their passages into one contrastive denominator.
+With the selected batch size of four question groups, each question is compared with 32 article vectors. Gradients are accumulated over eight forward passes before updating the model, so one update uses 32 question groups. Each loss calculation still compares only the articles within its own forward pass.
+
+Table~\ref{tab:4.5} lists the tested hyperparameter values and the selected configuration. The full training configuration is recorded in Appendix~D.
+
+\begin{table}[H]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.18}
+\caption{Hyperparameter search for hybrid-based model selection.}
+\label{tab:4.5}
+\begin{tabular}{@{}p{5.5cm}p{5.0cm}p{4.5cm}@{}}
+\toprule
+\textbf{Parameter} & \textbf{Values tested} & \textbf{Selected configuration} \\
+\midrule
+Contrastive query batch size & \(\{1,2,4\}\) & \textbf{4} \\
+Learning rate & \(\{5\times10^{-6},1\times10^{-5},2\times10^{-5}\}\) & \(\boldsymbol{2\times10^{-5}}\) \\
+Training epochs & \(\{1,2,3\}\) & \textbf{2} \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \subsubsection{Model Selection and Evaluation}
 
-Pilot training uses folds 2, 3, and 4. Fold 1 selects the learning rate, epoch, and forward-pass query batch using hybrid NDCG@10. NDCG@10 for BM25+BGE-M3 is the primary selection criterion, while BM25+BGE-M3+E5 is checked separately. The development rule requires an improvement of at least 0.01 for BM25+BGE-M3 and a decrease of no more than 0.01 for BM25+BGE-M3+E5. After the configuration is fixed, final models are trained again from pretrained BGE-M3 on folds 1, 2, 3, and 4 with seeds 42, 43, and 44.
+Table~\ref{tab:hybrid-finetuning-folds} shows the allocation of the 3,196 Zalo queries during model selection.
 
-Fold 0 contains 640 queries reserved for evaluation on a separate test set. The corrected comparison selects combination weights on folds 1, 2, 3, and 4 using pretrained BGE-M3 and keeps them fixed when replacing it with fine-tuned BGE-M3. A preliminary analysis had already examined fold 0 before a document-identity error was corrected. The corrected results are therefore interpreted as post-hoc evidence, despite excluding fold 0 from training and model selection.
+\begin{table}[H]
+\centering
+\small
+\renewcommand{\arraystretch}{1.18}
+\caption{Zalo fold allocation for hybrid-based model selection.}
+\label{tab:hybrid-finetuning-folds}
+\begin{tabular}{@{}crp{8.5cm}@{}}
+\toprule
+\textbf{Fold} & \textbf{Queries} & \textbf{Role} \\
+\midrule
+\textbf{0} & \textbf{640} & Test \\
+\textbf{1} & \textbf{639} & Development for configuration selection \\
+\textbf{2} & \textbf{639} & Pilot training \\
+\textbf{3} & \textbf{639} & Pilot training \\
+\textbf{4} & \textbf{639} & Pilot training \\
+\midrule
+\textbf{Total} & \textbf{3,196} & \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Models are trained on folds 2, 3, and 4, then evaluated on fold 1 to select the learning rate, epoch count, and query batch size. Selection uses BM25+BGE-M3 NDCG@10. Compared with the pretrained baseline, the development rule requires an increase of at least 0.01 for BM25+BGE-M3 and allows a decrease of at most 0.01 for BM25+BGE-M3+E5.
+
+The selected configuration is then used to train final models on folds 1, 2, 3, and 4 with seeds 42, 43, and 44. Fold 0 is the test dataset. Combination weights selected on folds 1, 2, 3, and 4 using pretrained BGE-M3 are kept fixed during the test comparison, as are BM25 and E5.
+
 
 Figure~\ref{fig:4.3} summarizes the selection and evaluation sequence.
 
@@ -421,13 +413,13 @@ Figure~\ref{fig:4.3} summarizes the selection and evaluation sequence.
 \begin{tikzpicture}[>=Latex, every node/.style={draw=black!65, rounded corners=2pt, fill=black!3, text width=4.35cm, minimum height=0.85cm, align=center, font=\small}, every path/.style={draw=black!60, thick}]
 \node (A) at (0.00,0.00) {Folds 2, 3, 4:\\pilot training pairs};
 \node (B) at (0.00,-1.55) {Learning-rate and epoch candidates};
-\node (C) at (0.00,-3.10) {Fold 1: checkpoint selection};
-\node (D) at (0.00,-4.65) {Batch ablation on fold 1};
-\node (E) at (0.00,-6.20) {Locked recipe};
+\node (C) at (0.00,-3.10) {learning-rate and\\epoch selection};
+\node (D) at (0.00,-4.65) {query-batch selection};
+\node (E) at (0.00,-6.20) {Lock configuration};
 \node (F) at (0.00,-7.75) {Folds 1, 2, 3, 4: train seeds 42, 43, 44};
 \node (G) at (0.00,-9.30) {Fold 0: initial evaluation};
-\node (H) at (0.00,-10.85) {Document-identity error identified};
-\node (I) at (0.00,-12.40) {Corrected weight selection\\on folds 1, 2, 3, 4};
+\node (H) at (0.00,-10.85) {Document-key mismatch\\identified};
+\node (I) at (0.00,-12.40) {Refit pretrained fusion\\weights on folds 1\textendash4};
 \node (J) at (0.00,-13.95) {Post-hoc corrected fold-0 comparison};
 \draw[->] (A.south) -- (B.north);
 \draw[->] (B.south) -- (C.north);
@@ -439,7 +431,7 @@ Figure~\ref{fig:4.3} summarizes the selection and evaluation sequence.
 \draw[->] (H.south) -- (I.north);
 \draw[->] (I.south) -- (J.north);
 \end{tikzpicture}
-\caption[Training and evaluation evidence flow.]{Training and evaluation evidence flow.}
+\caption[Model selection and test evaluation.]{Model selection and test evaluation.}
 \label{fig:4.3}
 \end{figure}
 
@@ -450,44 +442,38 @@ Figure~\ref{fig:4.3} summarizes the selection and evaluation sequence.
 
 This experiment selects BGE-M3 using standalone dense retrieval before testing it in BM25+BGE-M3 and BM25+BGE-M3+E5. It uses a fixed corpus of 61,425 parsed articles, with reference text retained where parsed text is unavailable. The official training partition contains 2,556 queries. Removing one near-duplicate of an official test query leaves 2,555 eligible training groups. The final evaluation uses 640 official test queries.
 
-Each group includes five explicit negatives. The training procedure uses a mask to identify all known positive articles within the batch candidate set. This differs from the selected-positive objective in Section~\ref{sec:finetuning-hybrid-selection}. The encoder uses the hidden state at the first token position, L2 normalization, and query and passage limits of 256 and 512 tokens, respectively. The specified temperature is 0.05, with bfloat16 precision, a cosine learning-rate schedule, and a warmup ratio of 0.05. The procedure requires at least 32 queries in a forward-pass contrastive batch, with 64 preferred; this requirement cannot be met by gradient accumulation alone. The available description does not identify which of these batch sizes was used in every final run.
+Each group includes five explicit negatives. The training procedure uses a mask to identify all known positive articles within the batch candidate set. This differs from the selected-positive objective in Section~\ref{sec:finetuning-hybrid-selection}. The encoder uses the hidden state at the first token position, L2 normalization, and query and passage limits of 256 and 512 tokens, respectively. The specified temperature is 0.05, with bfloat16 precision, a cosine learning-rate schedule, and a warmup ratio of 0.05. The final runs use a contrastive batch of 64 queries with gradient caching and chunks of two sequences, as shown in Figure~\ref{fig:colab-training-runtime}.
 
 \subsubsection{Training Objective}
 
-For logits \(z_{ij}=s(q_i,d_j)/\tau\), positive candidate positions \(P_i\), candidate positions \(C_i\), and batch size \(B\), the multi-positive loss is
-\[
-\mathcal{L}=-\frac{1}{B}\sum_{i=1}^{B}\left[\log\sum_{j\in P_i}\exp(z_{ij})-\log\sum_{j\in C_i}\exp(z_{ij})\right].
-\]
-Here \(s(q_i,d_j)\) is the similarity between query \(i\) and candidate article \(j\), and \(\tau=0.05\) controls the scale of the logits. The numerator includes every known positive present in the candidate set rather than one selected positive. This use of recorded labels does not establish that every unannotated candidate is legally irrelevant. The documented checks concern article identity, labels, and data provenance; they do not constitute expert review of every negative example.
+Utilising hard negatives, the training objective is to maximize the similarity score of each query with its known positive articles while minimizing the score with all other articles in the batch. The experiment loop thought configuration finetune to find the best model based on the highest NDCG@10 on the development set. The selected model is then evaluated on the official test queries, both as a standalone dense retriever and within the hybrid configurations.
 
 \subsubsection{Model Selection and Hybrid Evaluation}
 
-Screening evaluates 36 checkpoints across three learning rates, four development folds, and training steps 30, 60, and 90. A training-data stage passes if its mean NDCG@10 gain is at least 0.01, at least three folds improve NDCG@10, and mean Recall@100 decreases by no more than 0.01. These criteria use standalone dense retrieval. The Zalo-only stage is the first stage to pass, so subsequent data expansions are skipped. Screening selects a learning rate of \(2\times10^{-5}\) and step 60. Final models are trained using seeds 42, 43, and 44, with each checkpoint taken at step 60 and checked after reloading.
+BGE-M3 is selected using standalone NDCG@10 on development data, with Recall@100 checked to limit losses in target recovery. This evaluates the embedding model's retrieval performance before it is combined with BM25 and E5.
 
-For the hybrid comparisons, combination weights are selected on official training queries using pretrained BGE-M3, then fixed when fine-tuned BGE-M3 replaces it. BM25+BGE-M3 uses BM25 and BGE-M3 weights of 0.20 and 0.80. BM25+BGE-M3+E5 uses BM25, BGE-M3, and E5 weights of 0.15, 0.50, and 0.35. Dense and hybrid comparisons use the same 640 test queries. A gain of at least 0.01 NDCG@10 defines the practical improvement threshold, with the Recall@100 condition checked separately. This threshold is a decision rule rather than a statistical significance test.
-
-The official test queries had been examined before this experiment. Excluding them from final training and model selection does not remove that prior exposure, so the results are interpreted as post-hoc evidence. They assess query retrieval over a fixed corpus and do not establish transfer to new legal documents or a later time period. Chapter 5 reports standalone and hybrid outcomes separately.
+The selected model is then evaluated in BM25+BGE-M3 and BM25+BGE-M3+E5 on the same test dataset used for the standalone comparison. Fusion weights are selected using pretrained BGE-M3 on training queries. These weights, BM25, and E5 remain fixed when fine-tuned BGE-M3 replaces the pretrained model. This comparison tests whether a standalone improvement is retained after score fusion. Section~\ref{sec:finetuning-results} reports the results and evaluation limitations.
 
 \section{Evaluation Design and Statistical Analysis}
 \label{sec:evaluation-design}
 
 \subsection{Query Grouping and Data Splits}
 
-Queries that cite the same legal document are linked into groups. These links are transitive: if one question cites documents shared with two other questions, all three belong to the same connected group. Keeping each group within one fold prevents a cited document from appearing on both sides of fusion-weight selection and evaluation. It does not eliminate similarity in legal concepts or wording across groups.
+Questions that cite the same legal document are kept in one group. A question citing several documents links their groups together. This prevents questions linked by shared legal references from being split between weight selection and evaluation.
 
-For the pretrained ALQAC and Zalo comparisons, fusion weights are selected on the other folds and evaluated on the excluded fold. Each query receives one out-of-fold result, meaning that its relevance targets are excluded from the weight selection used for its prediction. The encoders remain fixed during this procedure. The ALQAC query pool combines the original training and private-test gold files, so these results describe grouped evaluation over that combined pool rather than performance on the original private-test partition.
+For the pretrained ALQAC and Zalo comparisons, one fold is evaluated using fusion weights selected on the remaining folds. Repeating this procedure gives each question one evaluation result without using its labels to select the weights applied to it. The query populations are defined in Section~\ref{sec:datasets-corpus}.
 
-Algorithm~\ref{alg:grouped-fusion-selection} specifies the selection procedure. The overall score is calculated from all evaluation queries, giving each query equal weight. It is not an unweighted mean of fold scores when fold sizes differ. Because each fold can select different weights, the result evaluates the selection procedure rather than one fixed weight vector.
+Algorithm~\ref{alg:grouped-fusion-selection} summarizes the procedure. Metrics are averaged over all evaluation queries, giving each query equal weight. The selected weights may differ between folds.
 
 \begin{algorithm}[H]
-\caption{Grouped selection of fusion weights and out-of-fold evaluation}
+\caption{Grouped selection and evaluation of fusion weights}
 \label{alg:grouped-fusion-selection}
 \footnotesize
 \begin{algorithmic}[1]
 \Require Ordered queries $Q$, corpus $D$, aligned normalized score matrices, grouped folds, ordered candidate weight grid $W$
 \Ensure Selected weights per fold and evaluation metrics for every query
 \For{each fold $f$}
-    \State Set $T$ to the selection-query indices and $V$ to the evaluation-query indices
+    \State Use the other folds for selection ($T$) and fold $f$ for evaluation ($V$)
     \For{each candidate weight vector $w\in W$, in recorded order}
         \State Rank $D$ for every query in $T$ using the weighted score sum
         \State Compute mean query NDCG@10
@@ -500,38 +486,33 @@ Algorithm~\ref{alg:grouped-fusion-selection} specifies the selection procedure. 
 \end{algorithmic}
 \end{algorithm}
 
-BCA requires a separate allocation because 484 of its 546 queries form one connected group. The remaining 62 queries belong to 49 smaller groups. The first comparison selects weights using the 62 queries and evaluates on the 484-query group. The smaller groups are then assigned to four evaluation folds containing 16, 16, 15, and 15 queries. For each of these folds, weights are selected on the remaining queries, including the largest group. Each question receives one evaluation result, but the selection populations differ substantially. The combined BCA score is therefore a descriptive summary, not a balanced five-fold estimate.
 
-The fine-tuning experiments use the separate training, development, and test allocations described in Section~\ref{sec:bge-finetuning}. Their results are compared with pretrained models on the same test queries, not with the all-fold pretrained averages. Although test queries are excluded from the corresponding training and model selection, they had been examined in earlier analyses. Both fine-tuning comparisons are therefore interpreted as post-hoc evidence.
+The fine-tuning experiments use the training, development, and test allocations in Section~\ref{sec:bge-finetuning}. Each fine-tuned model is compared with its matched pretrained baseline on the same test dataset.
 
 \subsection{Evaluation Metrics and Comparisons}
 
-The target-matching rules and metric formulas are defined in Section~\ref{sec:target-metrics}. NDCG@10 is the primary metric. Hit@10 measures whether at least one target is recovered, MRR@10 measures the position of the first match, and MAP@10 summarizes precision at matching ranks. The standalone dense and corresponding hybrid fine-tuning comparisons also report Recall@100.
+NDCG@10 is the primary metric because it rewards matches at higher ranks. Hit@10 records whether any target is retrieved, MRR@10 measures how early the first match occurs, and MAP@10 summarizes precision at matching ranks. The experiment selected using standalone dense performance also reports Recall@100 for its standalone and hybrid comparisons. Section~\ref{sec:target-metrics} defines the matching rules and formulas.
 
-The comparison of BM25+BGE-M3 with BM25 measures improvement over the lexical baseline. The comparison of BM25+BGE-M3+E5 with BM25+BGE-M3 isolates the contribution of adding E5 under the specified selection procedure. Fine-tuning comparisons replace pretrained BGE-M3 with its fine-tuned version while holding BM25, E5, and the corresponding fusion weights fixed. Standalone dense performance is assessed separately from hybrid performance. The specified threshold for a practically useful hybrid improvement is an absolute increase of 0.01 NDCG@10; this threshold is distinct from a statistical significance criterion.
+The evaluation separates three comparisons:
+\begin{itemize}
+    \item \textbf{Hybrid retrieval versus BM25:} compare BM25+BGE-M3 with BM25 to assess the benefit of combining lexical and dense retrieval.
+    \item \textbf{Contribution of E5:} compare BM25+BGE-M3+E5 with BM25+BGE-M3 to assess the additional contribution of E5.
+    \item \textbf{Effect of fine-tuning:} compare pretrained and fine-tuned BGE-M3, both on its own and within the hybrids. Within each hybrid comparison, BM25, E5, and the combination weights remain fixed.
+\end{itemize}
+A practically useful hybrid improvement requires an absolute NDCG@10 increase of at least 0.01. Statistical uncertainty is assessed separately.
 
-BCA results are reported both for all retained queries and for queries with at least one target available in the corpus. The latter population still includes queries with only some targets available, and their original metric denominators are retained. This distinction separates the effect of target availability from ranking performance without treating incomplete annotations as complete relevance judgments.
 
-\subsection{Statistical Analysis}
-
-For ALQAC and Zalo, the recorded comparison between BM25+BGE-M3+E5 and BM25+BGE-M3 uses the Wilcoxon signed-rank test on paired query-level out-of-fold NDCG@10 and MRR@10 values. Its \texttt{zero\_method=zsplit} setting splits the ranks of zero differences between the positive and negative rank sums. These stored tests are unadjusted for the multiple condition and metric comparisons. Queries within the same legal group can remain dependent despite grouped weight selection, so the query-level tests do not establish variation across independent legal topics.
-
-For BCA's 49 smaller groups, the analysis first averages paired NDCG@10 differences within each group. It then applies 100,000 random sign flips to those group means and uses 10,000 bootstrap resamples of the group means to form a 95\% interval. Each group has equal weight in these procedures. Their interval therefore concerns the mean across groups, whereas the reported query-level mean gives each question equal weight. These quantities differ when group sizes differ. Query resampling within the single largest group describes variation among its questions and cannot estimate variation across multiple such legal groups. The combined BCA aggregate remains descriptive.
-
-For the corrected fine-tuning comparison selected by hybrid performance, fine-tuned NDCG@10 is first averaged across seeds 42, 43, and 44 separately for each query. The matched pretrained value is then subtracted. The analysis uses 2,000 seeded bootstrap resamples of 106 legal groups covering the 640 test queries. Each resample draws groups with replacement, includes all their query differences, and calculates the query mean. Percentiles of these means form the reported 95\% interval.
-
-That implementation also records twice the smaller proportion of bootstrap means on either side of zero, capped at one, followed by Holm adjustment across the two hybrid comparisons. This is a bootstrap tail-area quantity, not a Wilcoxon result. Because the resamples come from the observed differences rather than an explicitly generated null distribution, it is not treated as a calibrated hypothesis-test p-value. Unequal group sizes also affect the resampling distribution: one legal group contains 428 of the 640 queries.
-
-Averaging within each query avoids counting three seed-specific predictions as three independent questions. The resulting interval concerns the average of the three observed seed results; it does not estimate uncertainty over arbitrary future seeds or evaluate an ensemble of encoders. For both fine-tuning experiments, variation across the three seeds is reported separately from uncertainty over queries. An interval containing zero does not establish equivalence, and a numerical improvement does not by itself establish a statistically supported or practically useful gain.
 
 \section{Experimental Environment and Reproducibility}
 \label{sec:experimental-environment}
 
-The recorded execution environments differ between the two fine-tuning experiments. Both report an NVIDIA L4 graphics processing unit and PyTorch \texttt{2.11.0+cu128}. The experiment using hybrid retrieval for model selection records Transformers \texttt{5.15.0}, NumPy \texttt{2.1.3}, and 16-bit floating-point (FP16) precision. The experiment using standalone dense retrieval for model selection records Transformers \texttt{5.16.1} and bfloat16 (BF16) precision. These details describe the recorded training runs rather than the local computer used to prepare the thesis. The final hybrid-selected run records do not specify processor, system memory, graphics memory, or driver details; preliminary environment checks cannot establish those details for the completed runs.
+The experiments run on Google Colab with a single NVIDIA L4 GPU. A local machine launches the runtime and monitors its logs through the Google Colab command-line interface. Figure~\ref{fig:colab-training-runtime} shows the execution environment for the fine-tuning experiment that selects BGE-M3 using standalone dense retrieval.
 
-Each selected fine-tuning configuration is evaluated with training seeds 42, 43, and 44. Reproducing the comparison requires the same model revision and tokenizer, training examples, query and article ordering, data splits, checkpoint selection rule, and fusion coefficients. Appendix~D records the hybrid-selected configuration, model revision, and checksums for its model files, training data, and training code. These records identify the inputs used in the experiment; access to the checkpoint files is also required to reproduce encoder outputs.
+Code and data are copied from Google Drive to the runtime disk and monitor task progress. Training runs as a background Python process, with seeds 42, 43, and 44 executed sequentially for 60 optimizer steps each. Gradient caching supports a contrastive batch of 64 queries while processing chunks of two sequences. 
 
-The saved score matrices and selected fusion coefficients support recalculation of the reported retrieval metrics without retraining. Their rows and columns must remain aligned with the recorded query and article identifiers. Recalculating metrics verifies the numerical results but does not establish that model training can be repeated exactly. Appendix~F describes the reproduction procedure and its limits.
+Checkpoints are saved at steps 30 and 60, verified, reloaded, and copied to Google Drive. The runtime disk holds temporary files, while Google Drive retains the files needed to resume from a valid checkpoint after a runtime interruption.
+
+\input{figures/colab-training-runtime}
 
 The experiments assess retrieval effectiveness. They do not provide controlled measurements of query latency, throughput, or deployment cost, so the recorded hardware specifications do not support conclusions about those outcomes.
 

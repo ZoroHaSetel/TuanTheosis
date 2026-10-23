@@ -24,12 +24,13 @@ Tài liệu này tổng hợp các góp ý đã trao đổi khi sửa abstract v
 | “legal-domain adaptation” | Nêu trực tiếp việc fine-tuning mô hình embedding. Ví dụ: “fine-tuning the BGE-M3 embedding model”. |
 | “two-way hybrid”, “three-way hybrid” | Gọi đúng tên cấu hình: “BM25+BGE-M3” và “BM25+BGE-M3+E5”. |
 | “In Study A”, “In Study B” | Mô tả mục tiêu hoặc cách chọn mô hình của từng thí nghiệm ngay trong câu. |
-| “corrected evaluation on queries excluded from training and model selection”, “held-out evaluation” | Ưu tiên “evaluation on a separate test set” khi tập này được giữ riêng khỏi huấn luyện và chọn mô hình. |
+| “corrected evaluation on queries excluded from training and model selection”, “held-out evaluation”, “separate test set” | Dùng “test dataset”; ví dụ: “evaluation on the test dataset”. Đây là cách gọi thay thế quy ước “evaluation on a separate test set” trước đây. Khi cần, nêu riêng điều kiện không dùng dữ liệu này cho huấn luyện và chọn mô hình; vẫn giữ giới hạn đã quan sát dữ liệu trong phân tích trước đó. |
 | “parsed corpus representations” | Nêu nguồn dữ liệu ở dạng raw HTML và bước trích xuất thành văn bản điều luật phục vụ retrieval. |
 
 Các thuật ngữ chuyên môn cần thiết vẫn được sử dụng, nhưng phải có ý nghĩa rõ trong ngữ cảnh. Dùng nhất quán tên BGE-M3 và multilingual-E5-base; có thể viết E5 sau khi đã giới thiệu tên đầy đủ.
 
 - Khi gọi tên loại mô hình, dùng “embedding model” hoặc “embedding models” thay cho “vector model(s)”. Giữ thuật ngữ “vector” khi mô tả biểu diễn, phép tính tương đồng, chuẩn hóa hoặc chế độ single-vector/multi-vector.
+- Khi tổng kết hoặc so sánh kết quả trên bộ dữ liệu, dùng “Zalo dataset”, “ALQAC dataset” hoặc “ALQAC and Zalo datasets”, không dùng “reference corpus/corpora” thay cho tên dataset. Chỉ dùng “corpus” khi nói cụ thể về kho điều luật, nguồn văn bản hoặc sự khác nhau giữa các phiên bản corpus. Không lặp lại “reference text” trong phần tổng kết khi điều kiện dữ liệu đã được giải thích ở phần phương pháp.
 
 ## 3. Những ý cần phân biệt rõ
 
@@ -88,6 +89,7 @@ Các thuật ngữ chuyên môn cần thiết vẫn được sử dụng, nhưng
 - Trình bày research gap theo trình tự: bằng chứng từ nghiên cứu trước → phạm vi của bằng chứng → câu hỏi cụ thể luận văn cần kiểm chứng → cách đánh giá.
 - Không khẳng định “chưa có nghiên cứu nào” nếu chưa có tổng quan đủ để chứng minh. Giới hạn lập luận vào các nguồn đã review và câu hỏi thực nghiệm của luận văn.
 - Citation hỗ trợ cơ sở phương pháp, không thay thế kết quả thực nghiệm của luận văn. Với thiết kế và quy trình do luận văn thực hiện, dẫn chiếu đến chương phương pháp khi cần.
+- Trong phần methodology, giải thích ngắn gọn cách thực hiện và lý do lựa chọn phương pháp. Đặt kết quả lựa chọn mô hình, cấu hình được chọn và nhận xét về việc đạt tiêu chí ở phần kết quả; tránh kể lại kết quả trong đoạn giải thích phương pháp.
 
 ## 7. Cấu trúc luận văn và dẫn chiếu
 

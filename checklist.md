@@ -28,9 +28,9 @@ Các tiêu đề theo thứ tự hiện tại trong `main.tex`, gồm cả mục
   - [ ] 2.6 Research Gap and Positioning
   - [ ] 2.7 Chapter Summary
 
-- [ ] 3 Theoretical Background
-  - [ ] 3.1 Queries, Articles, and Relevance
-    - [ ] Example of an article-level record.
+- [x] 3 Theoretical Background
+  - [x] 3.1 Queries, Articles, and Relevance
+    - [x] Example of an article-level record.
   - [ ] 3.2 Lexical Scoring with BM25
     - [ ] 3.2.1 Term Frequency and Inverse Document Frequency
     - [ ] 3.2.2 BM25
@@ -47,11 +47,11 @@ Các tiêu đề theo thứ tự hiện tại trong `main.tex`, gồm cả mục
     - [ ] 3.5.2 Negative Sampling
     - [ ] 3.5.3 Hard-Negative Mining
   - [ ] 3.6 Target Matching and Evaluation Metrics
-    - [ ] Normalized discounted cumulative gain.
-    - [ ] Hit and recall.
-    - [ ] Mean reciprocal rank.
-    - [ ] Mean average precision.
-  - [ ] 3.7 Chapter Summary
+    - [x] Normalized discounted cumulative gain.
+    - [x] Hit and recall.
+    - [x] Mean reciprocal rank.
+    - [x] Mean average precision.
+  - [x] 3.7 Chapter Summary
 
 - [ ] 4 Research Methodology
   - [ ] 4.1 Research Design and Retrieval Task
@@ -113,15 +113,15 @@ Các tiêu đề theo thứ tự hiện tại trong `main.tex`, gồm cả mục
       - [ ] Highest-Scoring Retrieval Configurations
     - [ ] 5.3.4 Summary of Results
 
-- [ ] 6 Conclusion and Future Work
-  - [ ] 6.1 Summary of Findings
-    - [ ] 6.1.1 Hybrid Retrieval over the Lexical Baseline
-    - [ ] 6.1.2 Incremental Contribution of E5
-    - [ ] 6.1.3 Effect of Legal-Domain Adaptation
-  - [ ] 6.2 Research Contributions
-  - [ ] 6.3 Discussion and Limitations
-  - [ ] 6.4 Future Work
-  - [ ] 6.5 Closing Remarks
+- [x] 6 Conclusion and Future Work
+  - [x] 6.1 Summary of Findings
+    - [x] 6.1.1 Hybrid Retrieval over the Lexical Baseline
+    - [x] 6.1.2 Incremental Contribution of E5
+    - [x] 6.1.3 Effect of Legal-Domain Adaptation
+  - [x] 6.2 Research Contributions
+  - [x] 6.3 Discussion and Limitations
+  - [x] 6.4 Future Work
+  - [x] 6.5 Closing Remarks
 
 - [ ] References
 

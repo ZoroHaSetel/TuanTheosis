@@ -10,7 +10,7 @@ The corpus contains laws (Luật), decrees (Nghị định), and circulars (Thô
 
 Chunking divides document text into units for indexing and retrieval. The choice of unit can affect retrieval performance~\cite{chen2024granularity}. This thesis uses articles as the retrieval units. For documents collected in raw HTML format, the extracted text is separated at article boundaries. Each article record contains its text, document identifier, and article identifier. Clauses and points are kept within their source article. Section~\ref{sec:datasets-corpus} describes corpus construction and the Zalo reference-text fallback when extraction is unavailable.
 
-Chunking can affect recall because it determines the content available to the retriever before encoding. If a chunk incorrectly combines three articles, one vector represents their combined content. This may make a specific provision harder to retrieve and associate text with the wrong article identifier. Improving the encoder does not repair missing text or incorrect identifiers in the corpus. Article boundaries and the match between text and identifiers must therefore be checked when investigating retrieval errors.
+Chunking can affect recall because it determines the content available to the retriever before encoding. If a chunk incorrectly combines three articles, one vector represents their combined content. In this thesis, chunking is performed at the article level, so each article receives its own embedding. The retriever can therefore return several articles from the same document, and each article can be evaluated against its own relevance target.
 
 \paragraph{Example of an article-level record.}
 The following example contains two article excerpts from the supplied sample for Decree No. 340/2025/NĐ-CP. The title and article texts are shortened for display, with ellipses marking omitted text. The example illustrates the record format; the complete sample retains each article's clauses and points.
@@ -42,13 +42,10 @@ An article-level target specifies a document and an article within it. A law-lev
 Retrieval returns a list of article identifiers ordered by retrieval score. These identifiers link the results to the article text and source document. A RAG generator can use the retrieved text to produce an answer, while this thesis evaluates the article ranking. Corpus coverage measures target availability, and ranking performance measures target positions.
 
 \section{Lexical Scoring with BM25}
-\subsection{Term Frequency and Inverse Document Frequency}
 
-Term frequency and inverse document frequency (TF-IDF) are combined to weight indexed terms. A term receives a higher weight when it occurs frequently in an article but appears in relatively few documents across the corpus~\cite{manning2008}. This illustrates how lexical weighting combines term occurrence with term rarity. The experiments use BM25 as the lexical baseline; TF-IDF is included here as background.
+BM25 scores articles by matching their indexed terms with those in a query. Term frequency is the number of times a term occurs in an article. Inverse document frequency (IDF) assigns greater weight to terms that occur in fewer documents across the corpus. BM25 combines these quantities with document length normalization~\cite{manning2008}.
 
-\subsection{BM25}
-
-BM25 is a popular lexical scoring function that combines term frequency, inverse document frequency, and document length normalization. For a query \(q\) and an article \(d\), a common scoring formula sums the contributions of query terms \(t\)~\cite{robertson2009}:
+For a query \(q\) and an article \(d\), a common BM25 scoring formula sums the contributions of query terms \(t\)~\cite{robertson2009}:
 \[
 \operatorname{BM25}(q,d)=\sum_{t\in q}\operatorname{IDF}(t)
 \frac{f(t,d)(k_1+1)}{f(t,d)+k_1\left(1-b+b|d|/\operatorname{avgdl}\right)}.
@@ -227,36 +224,42 @@ Negative sampling selects articles that the model is trained to rank below the k
 
 An article without a positive label may still be relevant. Excluding known relevant articles from negative candidates reduces contradictory training labels but does not resolve missing annotations. The training procedure must also state how it treats other known relevant articles within the same batch. Section~\ref{sec:bge-finetuning} describes the negative-selection rules and treatment of positive examples in the fine-tuning experiments.
 
+This thesis uses hard negatives selected from the retriever's rankings. The next section explains how these examples are selected and filtered.
+
 \subsection{Hard-Negative Mining}
 
-Hard-negative mining selects negative training examples from a retriever's rankings~\cite{zhan2021}. The procedure must specify the retriever, corpus, candidate ranks, and filtering rules so that the training examples can be reproduced.
+Hard-negative mining selects highly ranked articles as negative training examples after excluding known relevant articles~\cite{zhan2021}. Randomly sampled articles may concern unrelated topics and be easy for the model to distinguish from the relevant article. Hard negatives provide more difficult comparisons: they may share vocabulary or meaning with the question and receive high retrieval scores without having a recorded positive label.
 
-In the experiment that selects BGE-M3 based on hybrid retrieval performance, negatives are selected from lexical and dense rankings. Known relevant articles, duplicate candidates, unavailable articles, and articles from legal documents reserved for evaluation are excluded. Section~\ref{sec:bge-finetuning} describes the construction of these training examples.
+Training with these examples encourages BGE-M3 to distinguish the relevant article from similar articles that it may rank too highly. The objective is to assign the relevant article a higher similarity score, rather than treat all articles on the same topic as equally relevant. This helps the training focus on distinctions that random negatives may not provide. As noted above, an article without a positive label may still be relevant, so negative selection depends on the available annotations.
+
+In the experiment that selects BGE-M3 based on hybrid retrieval performance, negatives are selected from BM25 and pretrained BGE-M3 rankings. Known relevant articles, duplicate candidates, unavailable articles, and articles from legal documents reserved for evaluation are excluded. The filter also excludes articles from the same legal document as the selected positive article. This reduces the risk of selecting a related article as a negative when its relevance is not recorded in the annotations. The negative groups are fixed before training. Section~\ref{sec:bge-finetuning} describes their construction and filtering rules.
 
 \section{Target Matching and Evaluation Metrics}
 \label{sec:target-metrics}
 
-Evaluation compares ranked articles with the relevance targets recorded for each query. An article-level target requires both the legal document identifier and the article identifier to match. A target with an empty article identifier or \texttt{toanvan} refers to the whole legal document, so any article from that document can match it. Each target is counted at most once. Retrieving several articles from the same document therefore does not increase the score for a single whole-document target. When a query has both types of target, the evaluator's target-checking order determines which unmatched target receives credit.
+Evaluation checks whether ranked articles match the relevance targets recorded for each query. An article-level target requires both the document identifier and the article identifier to match. A whole-document target has an empty article identifier or the value \texttt{toanvan}; any article from that document can match it.
 
-In the following formulas, \(Q\) is the set of evaluation queries, and \(R_q\) is the set of distinct recorded relevance targets for query \(q\). The value \(y_{q,r}\) is one if the article at rank \(r\) matches a previously unmatched target, and zero otherwise. The cutoff \(k\) specifies how many articles from the top of the ranking are evaluated.
+Results are checked in rank order against targets that have not yet been matched. Each target receives credit at most once. Thus, retrieving several articles from one document does not give repeated credit for a single whole-document target. If a retrieved article matches both an article-level target and a whole-document target, the evaluator's checking order determines which target receives credit.
+
+In the formulas below, \(Q\) contains the evaluation queries, and \(R_q\) contains the distinct recorded targets for query \(q\). The indicator \(y_{q,r}\) is one when the article at rank \(r\) receives credit for a previously unmatched target, and zero otherwise. The notation @\(k\) means that only the first \(k\) ranked articles are considered.
 
 \paragraph{Normalized discounted cumulative gain.}
-Normalized discounted cumulative gain (NDCG) assigns more credit to relevant results at higher ranks and compares the observed ranking with an ideal ranking~\cite{jarvelin2002}. The thesis uses NDCG@10 as the primary metric, with binary credit defined by the target-matching rules above:
+Normalized discounted cumulative gain (NDCG) measures how well relevant results are placed near the top of a ranking~\cite{jarvelin2002}. A match at a higher rank contributes more than a match at a lower rank. The thesis uses NDCG@10 as the primary metric:
 \[
 \mathrm{NDCG}@10(q)=\frac{\sum_{r=1}^{10}y_{q,r}/\log_2(r+1)}{\sum_{r=1}^{\min(|R_q|,10)}1/\log_2(r+1)}.
 \]
-The denominator represents an ideal ranking in which up to ten targets are matched at the highest ranks. Queries without targets receive zero. Targets that cannot be matched to indexed articles remain in the denominator. The score therefore reflects both ranking quality and limitations in corpus coverage or identifier mapping.
+The numerator sums the credit for matches, with a smaller contribution at lower ranks. The denominator gives the score of an ideal ranking that matches up to ten recorded targets at the highest positions. Queries without recorded targets receive zero. Targets unavailable in the corpus remain in the denominator, so the metric also reflects target availability and identifier mapping.
 
 \paragraph{Hit and recall.}
 Hit@\(k\) is one if at least one target is matched within the first \(k\) results, and zero otherwise:
 \[
 \mathrm{Hit}@k(q)=\mathbb{1}\left[\sum_{r=1}^{k}y_{q,r}>0\right],
 \]
-Here, \(\mathbb{1}[\cdot]\) equals one when its condition is satisfied and zero otherwise. Hit is reported at \(k=1,5,10\). Recall measures the proportion of recorded targets that are retrieved~\cite{manning2008}. Under the matching rules used here, it is calculated for queries with at least one target as
+Here, \(\mathbb{1}[\cdot]\) equals one when its condition is satisfied and zero otherwise. The evaluator computes Hit@1, Hit@5, and Hit@10; the main results report Hit@10. Recall measures the proportion of recorded targets that are retrieved~\cite{manning2008}. For a query with at least one target, it is
 \[
 \mathrm{Recall}@k(q)=\frac{\sum_{r=1}^{k}y_{q,r}}{|R_q|}.
 \]
-For example, matching one of two targets within the first \(k\) results gives \(\mathrm{Hit}@k=1\) and \(\mathrm{Recall}@k=0.5\). The metrics coincide for queries with one target. The baseline results report Hit, while the fine-tuning comparisons also report Recall@100 (Tables~\ref{tab:5.12} and~\ref{tab:5.13}).
+For example, matching one of two targets within the first \(k\) results gives \(\mathrm{Hit}@k=1\) and \(\mathrm{Recall}@k=0.5\). Hit records whether any target is found, while recall records how many of the targets are found. They coincide for queries with one target. Recall@100 is also reported for the standalone dense and hybrid comparisons in the fine-tuning experiment that selects the model using standalone retrieval performance (Tables~\ref{tab:5.12} and~\ref{tab:5.13}).
 
 \paragraph{Mean reciprocal rank.}
 Mean reciprocal rank (MRR) measures how early the first target is matched. For a query whose first matching article occurs at rank \(r_q^*\), the reciprocal rank (RR) at cutoff ten is
@@ -271,10 +274,10 @@ MRR@10 is the mean of these values across queries:
 \[
 \mathrm{MRR}@10=\frac{1}{|Q|}\sum_{q\in Q}\mathrm{RR}@10(q).
 \]
-It considers only the first match, so additional matches do not change the score.
+For example, a first match at rank two gives a reciprocal rank of 0.5. Additional matches do not change this value because only the first matching rank is used.
 
 \paragraph{Mean average precision.}
-Average precision (AP) combines precision values at ranks where relevant results are retrieved. Mean average precision (MAP) averages AP across queries~\cite{manning2008}. In this thesis, \(P_q(r)\) is the proportion of the first \(r\) results that match distinct targets. The evaluator computes the metrics at cutoff ten as
+Average precision (AP) uses precision at each rank where a relevant result is retrieved. Mean average precision (MAP) averages AP across queries~\cite{manning2008}. Here, precision \(P_q(r)\) is the number of credited matches within the first \(r\) results divided by \(r\). The evaluator calculates AP@10 and MAP@10 as
 \[
 \begin{gathered}
 P_q(r)=\frac{1}{r}\sum_{j=1}^{r}y_{q,j},\\
@@ -282,9 +285,9 @@ P_q(r)=\frac{1}{r}\sum_{j=1}^{r}y_{q,j},\\
 \mathrm{MAP}@10=\frac{1}{|Q|}\sum_{q\in Q}\mathrm{AP}@10(q).
 \end{gathered}
 \]
-The AP@10 denominator is the number of recorded targets, capped at ten. The lower bound of one avoids division by zero and gives queries without targets a score of zero. This implementation differs from an AP definition that divides by the total number of targets without a cap.
+AP@10 sums precision only at ranks that receive matching credit. Its denominator is the number of recorded targets, capped at ten, with a minimum of one to avoid division by zero. Queries without targets therefore receive zero. This is the evaluator's truncated definition; an implementation using the total number of targets as the denominator can give a different value when there are more than ten targets.
 
-Each aggregate metric gives equal weight to each query and includes queries with zero scores, unless the results explicitly restrict evaluation to queries with available targets. These metrics measure retrieval against the recorded annotations. They do not establish that every legally relevant article has been retrieved or that a generated legal answer is correct.
+The reported query averages give each query equal weight, including queries with zero scores. When results are restricted to queries with available targets, that evaluation population is stated separately. All metrics use the recorded relevance targets, which may not include every legally relevant article.
 
 \section{Chapter Summary}
 
