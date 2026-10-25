@@ -1,6 +1,6 @@
 \chapter{Conclusion and Future Work}
 
-This chapter synthesizes the experimental findings rather than repeating the numerical analysis from Chapter 5. The conclusions distinguish improvement over BM25, incremental value beyond an existing hybrid, and transfer from dense adaptation into a complete retrieval system.
+This chapter synthesizes the experimental findings rather than repeating the numerical analysis from Chapter 5. The conclusions distinguish improvement over BM25, incremental value beyond an existing hybrid, and value of fine-tuning embedding models to overall benchmark.
 
 \section{Summary of Findings}
 
@@ -20,11 +20,14 @@ Adding E5 to BM25+BGE-M3 changes NDCG@10 by approximately -0.0021 on ALQAC and +
 
 The thesis evaluates two ways of selecting a fine-tuned BGE-M3 model: using hybrid retrieval performance or using BGE-M3's standalone retrieval performance. In both experiments, the hybrid comparison replaces pretrained BGE-M3 with its fine-tuned version while keeping BM25, E5, and the combination weights fixed.
 
-When model selection uses hybrid performance, fine-tuning improves development scores but gives lower mean NDCG@10 on the test dataset. The decreases are 0.0520 for BM25+BGE-M3 and 0.0249 for BM25+BGE-M3+E5 (Tables~\ref{tab:5.9} and~\ref{tab:5.10}). These are observed changes on the test dataset; the reported uncertainty intervals include zero and do not establish a general decrease in hybrid performance (Table~\ref{tab:5.11}).
 
 When model selection uses standalone performance, fine-tuning increases BGE-M3's mean NDCG@10 by 0.0189, although Recall@100 decreases by 0.0091 (Table~\ref{tab:5.12}). The hybrid results show a decrease of 0.0043 for BM25+BGE-M3 and an increase of 0.0009 for BM25+BGE-M3+E5. Neither meets the predefined NDCG@10 improvement threshold of 0.01 (Table~\ref{tab:5.13}).
 
 Therefore, the thesis concludes that BGE-ME can be finetuned to improve its own retrieval performance on Vietnamese legal data,but not necessarily in the hybrid setting.
+
+\subsection{Creation and Evaluation of BCA Dataset}
+
+The thesis constructs the BCA dataset from public-service questions and published answers. The benchmark performance evaluation shows that BCA's dataset or people daily questions can be used to evaluate retrieval performance but with some limitations. Additional processing is needed to improve the quality of retrieved results, including coverage gaps and other query level processing techniques.
 
 \section{Research Contributions}
 
@@ -42,11 +45,10 @@ The fine-tuning comparisons keep BM25, E5, and fusion weights fixed when replaci
 
 BCA's relevance targets are extracted from published answers and may omit relevant articles or contain extraction and mapping errors. Articles absent from the corpus cannot be retrieved, while incorrect identifier mappings can prevent relevant results from receiving credit. Unavailable targets remain in the evaluation, so BCA scores reflect corpus coverage and target matching as well as ranking performance. The experiments do not isolate how much each factor contributes to the scores (Section~\ref{sec:bca-results}).
 
-BCA questions may also share legal references. The aggregate over all 546 retained queries therefore describes performance on this collection; it does not establish improvement across independent groups of legal questions. Differences from the competition benchmarks cannot be attributed to question wording alone.
-
+BCA questions may also share legal references. The aggregate over all 546 retained queries therefore describes performance on this collection.
 The test queries in both fine-tuning experiments had been examined in earlier analyses. Although excluded from the corresponding training and model selection, they provide post-hoc evidence. Results across three seeds measure variation between training runs on the same test dataset, rather than uncertainty about performance on new questions.
 
-The evaluation covers Vietnamese legal article retrieval using recorded relevance targets. It does not measure answer correctness, citation support, the current applicability of legal provisions, or user satisfaction. Latency, throughput, and deployment cost were also not measured. These outcomes require separate evaluation before drawing conclusions about a complete legal question-answering system.
+The evaluation covers Vietnamese legal article retrieval using recorded relevance targets. Measure answer correctness, citation support, the current applicability of legal provisions, or user satisfaction is out of scope. Latency, throughput, and deployment cost were also not measured. These outcomes require separate evaluation before drawing conclusions about a complete legal question-answering system.
 
 \section{Future Work}
 

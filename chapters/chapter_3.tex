@@ -13,7 +13,7 @@ Chunking divides document text into units for indexing and retrieval. The choice
 Chunking can affect recall because it determines the content available to the retriever before encoding. If a chunk incorrectly combines three articles, one vector represents their combined content. In this thesis, chunking is performed at the article level, so each article receives its own embedding. The retriever can therefore return several articles from the same document, and each article can be evaluated against its own relevance target.
 
 \paragraph{Example of an article-level record.}
-The following example contains two article excerpts from the supplied sample for Decree No. 340/2025/NĐ-CP. The title and article texts are shortened for display, with ellipses marking omitted text. The example illustrates the record format; the complete sample retains each article's clauses and points.
+The following example contains two article excerpts from the supplied sample for Decree No. 340/2025/NĐ-CP. The title and article texts are shortened for display, with ellipses marking omitted text. The example illustrates the record format, the complete sample retains each article's clauses and points.
 
 \begin{Verbatim}[fontsize=\footnotesize,breaklines=true,breakanywhere=true]
 {
@@ -139,7 +139,7 @@ Vector normalization and score normalization serve different purposes. Vector no
 \frac{s_j(q,d)-\min_{x\in C}s_j(q,x)}
 {\max\left(\max_{x\in C}s_j(q,x)-\min_{x\in C}s_j(q,x),\epsilon\right)},
 \]
-where \(C\) is the indexed corpus and \(\epsilon>0\) prevents division by zero. The minimum and maximum are computed separately for each query and retriever. The resulting scores lie in \([0,1]\). If all articles receive the same raw score, their normalized scores are zero. Normalization preserves each retriever's score ordering; it changes the scale used for fusion. These scores are used to rank articles and are distinct from evaluation metrics such as normalized discounted cumulative gain. Section~\ref{sec:score-fusion} specifies the implemented normalization procedure.
+where \(C\) is the indexed corpus and \(\epsilon>0\) prevents division by zero. The minimum and maximum are computed separately for each query and retriever. The resulting scores lie in \([0,1]\). If all articles receive the same raw score, their normalized scores are zero. Normalization preserves each retriever's score ordering, it changes the scale used for fusion. These scores are used to rank articles and are distinct from evaluation metrics such as normalized discounted cumulative gain. Section~\ref{sec:score-fusion} specifies the implemented normalization procedure.
 
 An alternative is z-score normalization:
 \[
@@ -237,7 +237,7 @@ In the experiment that selects BGE-M3 based on hybrid retrieval performance, neg
 \section{Target Matching and Evaluation Metrics}
 \label{sec:target-metrics}
 
-Evaluation checks whether ranked articles match the relevance targets recorded for each query. An article-level target requires both the document identifier and the article identifier to match. A whole-document target has an empty article identifier or the value \texttt{toanvan}; any article from that document can match it.
+Evaluation checks whether ranked articles match the relevance targets recorded for each query. An article-level target requires both the document identifier and the article identifier to match. A whole-document target has an empty article identifier or the value \texttt{toanvan}, any article from that document can match it.
 
 Results are checked in rank order against targets that have not yet been matched. Each target receives credit at most once. Thus, retrieving several articles from one document does not give repeated credit for a single whole-document target. If a retrieved article matches both an article-level target and a whole-document target, the evaluator's checking order determines which target receives credit.
 
@@ -285,7 +285,7 @@ P_q(r)=\frac{1}{r}\sum_{j=1}^{r}y_{q,j},\\
 \mathrm{MAP}@10=\frac{1}{|Q|}\sum_{q\in Q}\mathrm{AP}@10(q).
 \end{gathered}
 \]
-AP@10 sums precision only at ranks that receive matching credit. Its denominator is the number of recorded targets, capped at ten, with a minimum of one to avoid division by zero. Queries without targets therefore receive zero. This is the evaluator's truncated definition; an implementation using the total number of targets as the denominator can give a different value when there are more than ten targets.
+AP@10 sums precision only at ranks that receive matching credit. Its denominator is the number of recorded targets, capped at ten, with a minimum of one to avoid division by zero. Queries without targets therefore receive zero. This is the evaluator's truncated definition, an implementation using the total number of targets as the denominator can give a different value when there are more than ten targets.
 
 The reported query averages give each query equal weight, including queries with zero scores. When results are restricted to queries with available targets, that evaluation population is stated separately. All metrics use the recorded relevance targets, which may not include every legally relevant article.
 

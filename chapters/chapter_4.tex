@@ -148,7 +148,7 @@ Extracted legal references are mapped to corpus identifiers to construct evaluat
 
 The reference corpus is extended with legal documents collected from public sources in raw HTML format. Article text is extracted from these documents and added to the corpus, while the raw HTML and source mappings are saved. Duplicate article identifiers within each document and articles with empty text are excluded. The resulting searchable corpus contains 14,789 articles.
 
-References that remain unresolved may be assigned the placeholder \texttt{INTERNAL\_DOCUMENT}. Entries with this placeholder are excluded from corpus additions, but their questions and recorded targets remain in the evaluation set. The placeholder indicates an unresolved mapping, it does not establish that the referenced document is internal or access-restricted.
+References that remain unresolved may be assigned the placeholder \texttt{INTERNAL\_DOCUMENT}. Entries with this placeholder are excluded from corpus additions, but their questions and recorded targets remain in the evaluation set.
 
 Target coverage is checked against the indexed article identifiers using the matching rules in Section~\ref{sec:target-metrics}. An article-level target requires a match on both the document and article identifiers. A whole-document target requires at least one indexed article with the same document identifier. A question has full coverage when all its recorded targets have a match, partial coverage when only some have a match, and no coverage when none has a match. These categories measure coverage of the recorded targets under the matching rules, rather than completeness of the corpus for answering the legal question.
 
@@ -274,7 +274,7 @@ Similarity score & Dot product of normalized vectors & Dot product of normalized
 \end{tabular}
 \end{table}
 
-The evaluation scores every indexed article rather than restricting retrieval to candidates from an approximate nearest-neighbor index. Thus, an available target that falls outside the first ten results is excluded by the resulting ranking rather than by a separate candidate filter. This exhaustive scoring design supports comparisons of ranking performance; it does not establish the system's latency in deployment.
+The evaluation scores every indexed article rather than restricting retrieval to candidates from an approximate nearest-neighbor index. Thus, an available target that falls outside the first ten results is excluded by the resulting ranking rather than by a separate candidate filter. This exhaustive scoring design supports comparisons of ranking performance, it does not establish the system's latency in deployment.
 
 \section{Score Normalization and Fusion}
 \label{sec:score-fusion}
