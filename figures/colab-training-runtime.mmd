@@ -1,0 +1,22 @@
+flowchart TB
+    LOCAL["Máy local<br/>Khởi chạy và theo dõi log"]
+    DRIVE[("Google Drive<br/>Code, dữ liệu và checkpoint bền vững")]
+    subgraph COLAB["Google Colab runtime"]
+        RUN["Python process chạy nền<br/>Seed 42 → 43 → 44, lần lượt<br/>60 optimizer steps / seed"]
+        DISK[("Ổ đĩa runtime /content<br/>Code và dữ liệu đã kiểm tra hash<br/>Log và checkpoint tạm")]
+        CPU["CPU / RAM<br/>Load dữ liệu, chọn batch<br/>Tokenize query và passage"]
+        subgraph GPU["NVIDIA L4 · CUDA 12.8"]
+            CACHE["Gradient caching<br/>Contrastive batch: 64 query<br/>Xử lý từng chunk: 2 sequences"]
+            MODEL["Full BGE-M3 + AdamW<br/>BF16 + gradient checkpointing<br/>Loss → backward → cập nhật trọng số"]
+        end
+    end
+    LOCAL -->|launch| RUN
+    RUN -.->|PID và log| LOCAL
+    DRIVE -->|copy và kiểm tra SHA-256| DISK
+    RUN -->|điều khiển vòng lặp| CPU
+    DISK -->|đọc dữ liệu đã copy| CPU
+    CPU --> CACHE
+    CACHE -->|cache vector và replay gradient| MODEL
+    MODEL -->|lưu tại step 30 và 60| DISK
+    DISK -->|kiểm tra, reload và mirror| DRIVE
+    DRIVE -.->|khôi phục checkpoint hợp lệ| RUN

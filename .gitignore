@@ -19,3 +19,6 @@ Icon
 
 # Local portable LaTeX installation
 .tools/TinyTeX/
+
+# LaTeX build output
+/build/

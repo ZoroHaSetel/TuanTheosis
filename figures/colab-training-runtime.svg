@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1140" role="img" aria-labelledby="colab-title colab-desc" id="colab-training-runtime-root">
+<title id="colab-title">Standalone BGE-M3 fine-tuning environment</title>
+<desc id="colab-desc">A local machine launches and monitors a background Python process in Google Colab. Google Drive stores persistent code, data and checkpoints. Runtime storage supplies verified data to CPU preprocessing, followed by gradient caching and model training on one NVIDIA L4 GPU. Checkpoints are saved, verified, reloaded and mirrored to Drive for recovery.</desc>
+<defs>
+      <style>#colab-training-runtime-root { color: #111; font-family: "Times New Roman",serif; }
+      #colab-training-runtime-root .zone { fill:#fafafa;stroke:#666;stroke-width:2;stroke-dasharray:9 6 }
+      #colab-training-runtime-root .gpu { fill:#f2f2f2;stroke:#666;stroke-width:2 }
+      #colab-training-runtime-root .node { fill:white;stroke:#222;stroke-width:2 }
+      #colab-training-runtime-root .heading { font-size:28px;font-weight:bold;text-anchor:middle }
+      #colab-training-runtime-root .detail { font-size:25px;text-anchor:middle }
+      #colab-training-runtime-root .boundary { font-size:27px;font-weight:bold }
+      #colab-training-runtime-root .edge { fill:none;stroke:#222;stroke-width:2.5;marker-end:url(#colab-training-runtime-colab-arrow) }
+      #colab-training-runtime-root .return { stroke-dasharray:8 6;stroke-width:2 }
+      #colab-training-runtime-root .label { font-size:23px;text-anchor:middle }</style><marker id="colab-training-runtime-colab-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#222"/></marker></defs>
+<rect width="1200" height="1140" fill="white"/>
+<rect class="zone" x="30" y="265" width="1140" height="845" rx="12"/>
+<rect x="430" y="248" width="160" height="50" fill="white"/>
+<text x="440" y="267" font-size="24" font-weight="bold">Google Colab</text>
+<text x="440" y="292" font-size="24" font-weight="bold">runtime</text>
+<rect class="gpu" x="570" y="575" width="550" height="500" rx="12"/>
+<text class="boundary" x="595" y="610">NVIDIA L4 · CUDA 12.8</text>
+
+<path class="edge" d="M180 155 V310"/>
+<path class="edge return" d="M400 310 V155"/>
+<path class="edge" d="M850 165 V310"/>
+<path class="edge" d="M1040 310 V165"/>
+<path class="edge return" d="M760 95 H608 Q600 95 600 103 V287 Q600 295 592 295 H458 Q450 295 450 303 V310"/>
+<path class="edge" d="M280 460 V640"/>
+<path class="edge" d="M760 420 H538 Q530 420 530 428 V577 Q530 585 522 585 H448 Q440 585 440 593 V640"/>
+<path class="edge" d="M480 710 H620"/>
+<path class="edge" d="M845 790 V900"/>
+<path class="edge" d="M1070 975 H1132 Q1140 975 1140 967 V528 Q1140 520 1132 520 H1008 Q1000 520 1000 512 V460"/>
+<g><rect class="node" x="80" y="30" width="400" height="125" rx="10"/>
+<text class="heading" x="280.0" y="69">Local machine</text>
+<text class="detail" x="280.0" y="104">Launch and monitor logs</text>
+</g>
+<g><rect class="node" x="760" y="20" width="360" height="145" rx="10"/>
+<path d="M760 42 Q940.0 73 1120 42" fill="none" stroke="#222" stroke-width="1.5"/>
+<text class="heading" x="940.0" y="83">Google Drive</text>
+<text class="detail" x="940.0" y="118">Persistent code, data</text>
+<text class="detail" x="940.0" y="147">and checkpoints</text>
+</g>
+<g><rect class="node" x="80" y="310" width="400" height="150" rx="10"/>
+<text class="heading" x="280.0" y="349">Background Python process</text>
+<text class="detail" x="280.0" y="384">Sequential seeds: 42, 43, 44</text>
+<text class="detail" x="280.0" y="413">60 optimizer steps per seed</text>
+</g>
+<g><rect class="node" x="760" y="310" width="360" height="150" rx="10"/>
+<path d="M760 332 Q940.0 363 1120 332" fill="none" stroke="#222" stroke-width="1.5"/>
+<text class="heading" x="940.0" y="373">Runtime disk: /content</text>
+<text class="detail" x="940.0" y="408">Hash-verified code and data</text>
+<text class="detail" x="940.0" y="437">Temporary logs and checkpoints</text>
+</g>
+<g><rect class="node" x="80" y="640" width="400" height="140" rx="10"/>
+<text class="heading" x="280.0" y="679">CPU / RAM</text>
+<text class="detail" x="280.0" y="714">Load data and select batches</text>
+<text class="detail" x="280.0" y="743">Tokenize queries and passages</text>
+</g>
+<g><rect class="node" x="620" y="630" width="450" height="160" rx="10"/>
+<text class="heading" x="845.0" y="669">Gradient caching</text>
+<text class="detail" x="845.0" y="704">Contrastive batch: 64 queries</text>
+<text class="detail" x="845.0" y="733">Chunk size: 2 sequences</text>
+</g>
+<g><rect class="node" x="620" y="900" width="450" height="150" rx="10"/>
+<text class="heading" x="845.0" y="939">Full BGE-M3 + AdamW</text>
+<text class="detail" x="845.0" y="974">BF16 + gradient checkpointing</text>
+<text class="detail" x="845.0" y="1003">Loss, backward pass, weight update</text>
+</g>
+<g><rect x="137.5" y="201.5" width="85" height="37" rx="4" fill="white"/>
+<text class="label" x="180" y="228.0">Launch</text>
+</g>
+<g><rect x="330.0" y="201.5" width="140" height="37" rx="4" fill="white"/>
+<text class="label" x="400" y="228.0">PID and logs</text>
+</g>
+<g><rect x="752.5" y="188.0" width="195" height="64" rx="4" fill="white"/>
+<text class="label" x="850" y="214.5">Copy and verify</text>
+<text class="label" x="850" y="241.5">SHA-256</text>
+</g>
+<g><rect x="952.5" y="188.0" width="175" height="64" rx="4" fill="white"/>
+<text class="label" x="1040" y="214.5">Verify, reload</text>
+<text class="label" x="1040" y="241.5">and mirror</text>
+</g>
+<g><rect x="487.5" y="153.0" width="225" height="64" rx="4" fill="white"/>
+<text class="label" x="600" y="179.5">Restore valid</text>
+<text class="label" x="600" y="206.5">checkpoint</text>
+</g>
+<g><rect x="195.0" y="503.0" width="170" height="64" rx="4" fill="white"/>
+<text class="label" x="280" y="529.5">Control the</text>
+<text class="label" x="280" y="556.5">training loop</text>
+</g>
+<g><rect x="472.5" y="458.0" width="185" height="64" rx="4" fill="white"/>
+<text class="label" x="565" y="484.5">Read copied</text>
+<text class="label" x="565" y="511.5">data</text>
+</g>
+<g><rect x="690.0" y="813.0" width="310" height="64" rx="4" fill="white"/>
+<text class="label" x="845" y="839.5">Cache embeddings and</text>
+<text class="label" x="845" y="866.5">replay gradients</text>
+</g>
+<g><rect x="825.0" y="501.5" width="290" height="37" rx="4" fill="white"/>
+<text class="label" x="970" y="528.0">Save at steps 30 and 60</text>
+</g>
+</svg>
