@@ -104,27 +104,26 @@ This section reports two fine-tuning experiments. The first selects BGE-M3 using
 
 \subsubsection{Selected Fine-Tuning Configurations}
 
-Table~\ref{tab:selected-finetuning} lists the selected settings.
-The experiment run on the same dataset and iterate thought parameters to find the best configuration. The selected settings are based on the best performance of NDCG@10 on the development set. The selected settings are used for the final evaluation on the test set.
+Table~\ref{tab:selected-finetuning} summarizes the selected training settings for both experiments. Each experiment selects its configuration using development NDCG@10 before evaluation on the test dataset.
 
 \begin{table}[H]
 \centering
 \small
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.15}
 \caption{Selected BGE-M3 fine-tuning parameters.}\label{tab:selected-finetuning}
-\begin{tabular}{@{}p{5.0cm}p{4.8cm}p{5.1cm}@{}}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{5.0cm}>{\raggedright\arraybackslash}p{4.8cm}>{\raggedright\arraybackslash}p{5.1cm}@{}}
 \toprule
 \textbf{Parameter} & \textbf{Hybrid-based selection} & \textbf{Standalone dense selection}\\
 \midrule
 Training data & Zalo & Zalo\\
 Learning rate & $\boldsymbol{2\times10^{-5}}$ & $\boldsymbol{2\times10^{-5}}$\\
-Training duration & \textbf{2 epochs} & \textbf{60 optimizer steps}\\
 Contrastive query batch size & \textbf{4} & \textbf{64}\\
 Effective optimizer batch & \textbf{32} & \textbf{64}\\
 Explicit negatives / group & \textbf{7} & \textbf{5}\\
 Temperature & \textbf{0.02} & \textbf{0.05}\\
 Query / passage max length & \textbf{256 / 512 tokens} & \textbf{256 / 512 tokens}\\
 Optimizer & AdamW & AdamW\\
-Learning-rate scheduler & Linear & Cosine\\
 Warmup ratio & \textbf{0.10} & \textbf{0.05}\\
 Precision & FP16 & BF16\\
 \bottomrule

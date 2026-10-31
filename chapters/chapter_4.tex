@@ -47,22 +47,22 @@ BCA & 546 & 14,789 & Separate evaluation of the largest linked group and grouped
 
 \subsection{ALQAC and Zalo Datasets}
 
-ALQAC and Zalo provide Vietnamese legal questions with annotations identifying the relevant legal articles. The questions serve as retrieval queries, and the annotated references provide the targets used to evaluate the ranked results.
+ALQAC and Zalo are two Vietnamese legal question-answering datasets used to evaluate retrieval performance in this thesis. Both datasets provide legal questions and annotations identifying the relevant legal articles. The questions are used as retrieval queries, while the annotated articles serve as relevance targets for evaluating the ranked results.
 
-For ALQAC, the baseline evaluation combines the supplied training and private-test questions, giving 811 queries. Its reference corpus contains 3,363 articles.
+For ALQAC, the baseline evaluation combines the provided training and private-test questions, resulting in 811 queries and a reference corpus of 3,363 legal articles. Zalo provides a larger evaluation collection, consisting of 3,196 queries and 61,425 legal articles. In both datasets, the original relevance annotations are preserved to ensure that retrieval results are evaluated against their corresponding legal references.
 
-For Zalo, the baseline evaluation uses 3,196 queries and a reference corpus of 61,425 articles. Each query retains its supplied relevance targets.
+To reduce the risk of information leakage during evaluation, questions sharing legal references are grouped together. Fusion weights are selected using the remaining groups and then evaluated on the excluded group, as described in Section~\ref{sec:evaluation-design}. All baseline retrieval methods use the same reference corpus and relevance annotations within each dataset to ensure consistent comparisons.
 
-For both datasets, questions linked by shared legal references are kept in the same group. Fusion weights are selected using other groups before evaluation on the excluded group, as described in Section~\ref{sec:evaluation-design}. All baseline methods within each dataset use the supplied reference corpus and annotations. The following subsection distinguishes this corpus from the preparation used in the completed fine-tuning experiments.
+The following subsection describes how these reference corpora differ from the data preparation used in the completed fine-tuning experiments.
 
 \subsection{Article Extraction and Identifier Alignment}
 \label{sec:article-extraction}
 
-Each article is stored with its text, document identifier, and article identifier. The ALQAC and Zalo benchmark uses the text supplied with each dataset.
+Each legal article is stored with its text, document identifier, and article identifier. For the baseline evaluations on ALQAC and Zalo, the experiments use the article text provided with each dataset.
 
-For the Zalo fine-tuning comparisons, article text is extracted from legal documents collected in raw HTML format, then cleaned and processed. The text is split into articles and matched to the supplied records by document and article identifiers. Extracted text replaces the supplied text when a match is found and the cleaned content is nonempty. Otherwise, the supplied text is retained. This reference fallback preserves all 61,425 articles for the pretrained and fine-tuned comparisons.
+For the Zalo fine-tuning experiments, an additional text preparation process is applied. Legal documents collected in raw HTML format are cleaned and divided into individual articles. These articles are then matched with the original dataset records using their document and article identifiers. When a matching article is found and its extracted text is not empty, the original text is replaced with the extracted content. Otherwise, the original text is retained. This fallback approach ensures that all 61,425 articles remain available for both pretrained and fine-tuned model comparisons.
 
-Identifiers are trimmed and converted to lowercase before target matching. All retrievers use the same article order so that their scores remain linked to the correct articles.
+To ensure consistent matching, document and article identifiers are trimmed and converted to lowercase before comparison. All retrievers use the same article records and relevance targets within each evaluation condition, allowing their performance to be compared consistently.
 
 \section{BCA Dataset Construction}
 \label{sec:bca-construction}
@@ -77,12 +77,11 @@ The second purpose is to construct a research resource beyond the supplied bench
 
 \subsection{Data Sources and Record Selection}
 
-The collection script requests successive pages of question listings through the portal's application programming interface, then retrieves each question and its published answer. Each record is assigned an identifier derived from the source question identifier. During a repeated collection, records with existing identifiers are skipped to prevent duplication.
+The BCA collection was constructed by retrieving legal questions and their published answers from the portal through its application programming interface (API). The collection process begins by requesting successive pages of question listings to identify available questions. Each question is then retrieved individually to obtain its full content and published answer. A unique record identifier is generated from the original question identifier, allowing previously collected records to be skipped during subsequent runs and preventing duplication.
 
-Acquisition requires separate listing and detail requests: the listing identifies available questions, while each detail response supplies the question and answer fields. Failed listing requests can interrupt discovery, and failed detail requests can leave individual records uncollected.
+Since question listings and detailed content are retrieved through separate API requests, failures at either stage can affect the collection process. A failed listing request may prevent some questions from being discovered, while a failed detail request may leave individual questions uncollected.
 
-The saved collection contains 652 records with distinct question identifiers. Of these, 546 are retained for retrieval evaluation because they contain at least one extracted legal document reference.
-
+The resulting collection contains 652 records with unique question identifiers. Among these, 546 records contain at least one extracted legal document reference and are retained for retrieval evaluation.
 
 \subsection{Text Cleaning and Reference Extraction}
 
@@ -411,10 +410,10 @@ Figure~\ref{fig:4.3} summarizes the selection and evaluation sequence.
 \begin{figure}[htbp]
 \centering
 \begin{tikzpicture}[>=Latex, every node/.style={draw=black!65, rounded corners=2pt, fill=black!3, text width=4.35cm, minimum height=0.85cm, align=center, font=\small}, every path/.style={draw=black!60, thick}]
-\node (A) at (0.00,0.00) {Folds 2, 3, 4:\\pilot training pairs};
+\node (A) at (0.00,0.00) {Folds 2, 3, 4:\\Pilot training pairs};
 \node (B) at (0.00,-1.55) {Learning-rate and epoch candidates};
-\node (C) at (0.00,-3.10) {learning-rate and\\epoch selection};
-\node (D) at (0.00,-4.65) {query-batch selection};
+\node (C) at (0.00,-3.10) {Learning-rate and\\epoch selection};
+\node (D) at (0.00,-4.65) {Query-batch selection};
 \node (E) at (0.00,-6.20) {Lock configuration};
 \node (F) at (0.00,-7.75) {Folds 1, 2, 3, 4: train seeds 42, 43, 44};
 \node (G) at (0.00,-9.30) {Fold 0: initial evaluation};

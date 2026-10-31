@@ -17,9 +17,9 @@ The scope of that evidence also matters. Legal case retrieval differs from retri
 
 The research gap addressed here is the evidence needed for two specific decisions: whether adding E5 improves BM25+BGE-M3, and whether fine-tuning BGE-M3 improves both standalone and hybrid retrieval. The thesis tests these questions under defined corpus conditions and separates model selection from evaluation on a separate test set. This is an empirical contribution rather than a new retrieval algorithm. Chapter~2 reviews the supporting literature, and Chapter~4 specifies the comparisons and evaluation procedures.
 
-The approach has three parts. First, the overall retrieval benchmark evaluates ALQAC and Zalo using only the reference article text supplied with each dataset. All retrieval methods within a dataset use the same questions, corpus, and recorded relevance targets.
+The approach has three parts. First, the overall retrieval benchmark evaluates ALQAC and Zalo datasets, which is a publicly available competition benchmark. We evaluate BM25, BGE-M3, E5, combined BM25+BGE-M3, and combined BM25+BGE-M3+E5 performance on these datasets.
 
-Second, a Bộ Công an (BCA) dataset is constructed from published public-service questions and legal citations in their answers. The evaluation examines whether the cited provisions are present in the corpus and identifies retrieval failures. The evaluation result is reported separately due to differences in data source from ALQAC and Zalo.
+Second, a Bộ Công an (BCA) dataset is constructed from published public-service questions and legal citations in their answers. The evaluation examines lexical and semantic performance and identifies retrieval failures. The evaluation result is reported separately due to differences in data source from ALQAC and Zalo.
 
 Third, the BGE-M3 embedding model is fine-tuned using legal question article pairs and evaluated in standalone and hybrid retrieval. BM25 and E5 remain unchanged, and fusion weights are held fixed when comparing pretrained and fine-tuned BGE-M3 within each hybrid. The analysis distinguishes development scores from results on test set queries.
 
@@ -28,9 +28,9 @@ Third, the BGE-M3 embedding model is fine-tuned using legal question article pai
 The main objective is to evaluate hybrid retrieval and fine-tuning of the BGE-M3 embedding model for Vietnamese legal information retrieval. The thesis also constructs a new dataset BCA for evaluation, the goal of which is to provide a more comprehensive assessment of retrieval performance in the Vietnamese legal domain. The thesis has four specific objectives:
 
 \begin{enumerate}
-    \item Compare BM25, pretrained BGE-M3, pretrained E5, and BM25+BGE-M3 on ALQAC and Zalo datasets. BM25's evaluation scores serve as the baseline.
-    \item Determine whether adding E5 improves retrieval by comparing BM25+BGE-M3+E5 with BM25+BGE-M3.
-    \item Evaluate whether fine-tuning BGE-M3 improves the performance in BM25+BGE-M3 and BM25+BGE-M3+E5.
+    \item Evaluate the retrieval performance of BM25, pretrained BGE-M3, pretrained E5, and the BM25+BGE-M3 hybrid on the ALQAC and Zalo datasets, using BM25 as the baseline.
+    \item Examine the effectiveness of incorporating E5 into hybrid retrieval by comparing BM25+BGE-M3+E5 with BM25+BGE-M3.
+    \item  Investigate the impact of legal-domain BGE-M3 fine-tuning on retrieval performance in both two-model and three-model hybrid configurations.
     \item Construct and evaluate the BCA collection from published public-service questions and legal citations in their answers. Benchmark retrieval performance, examine the differences between public questions with Zalo and ALQAC.
 \end{enumerate}
 

@@ -45,9 +45,6 @@ The fine-tuning comparisons keep BM25, E5, and fusion weights fixed when replaci
 
 BCA's relevance targets are extracted from published answers and may omit relevant articles or contain extraction and mapping errors. Articles absent from the corpus cannot be retrieved, while incorrect identifier mappings can prevent relevant results from receiving credit. Unavailable targets remain in the evaluation, so BCA scores reflect corpus coverage and target matching as well as ranking performance. The experiments do not isolate how much each factor contributes to the scores (Section~\ref{sec:bca-results}).
 
-BCA questions may also share legal references. The aggregate over all 546 retained queries therefore describes performance on this collection.
-The test queries in both fine-tuning experiments had been examined in earlier analyses. Although excluded from the corresponding training and model selection, they provide post-hoc evidence. Results across three seeds measure variation between training runs on the same test dataset, rather than uncertainty about performance on new questions.
-
 The evaluation covers Vietnamese legal article retrieval using recorded relevance targets. Measure answer correctness, citation support, the current applicability of legal provisions, or user satisfaction is out of scope. Latency, throughput, and deployment cost were also not measured. These outcomes require separate evaluation before drawing conclusions about a complete legal question-answering system.
 
 \section{Future Work}
