@@ -483,7 +483,7 @@ Across the evaluated conditions, both hybrids have higher NDCG@10 than BM25. The
 \subsection{Analysis of Vietnamese Legal Retrieval}
 \label{sec:vietnamese-legal-retrieval-analysis}
 
-Table~\ref{tab:legal-retrieval-cases} presents five cases from the ALQAC, Zalo, and BCA datasets. Success means finding at least one recorded target in the top 10. Ranks refer to the recorded article for ALQAC and Zalo, and the first article matching any target document for BCA.
+Table~\ref{tab:legal-retrieval-cases} presents five cases from the ALQAC, Zalo, and BCA datasets. Success means finding at least one recorded target in the top 10. Ranks refer to the recorded target article in each case.
 
 \begingroup
 \small
@@ -516,21 +516,77 @@ Chủ tọa phiên tòa không cần hỏi đương sự có thống nhất đư
 & Article 233, Law on Administrative Procedures: \textit{``Hỏi đương sự có thống nhất được với nhau về việc giải quyết vụ án hay không.''}
 & BM25: rank 1. BM25+\allowbreak{}BGE-M3: rank 10. BGE-M3, E5, and BM25+\allowbreak{}BGE-M3+\allowbreak{}E5: outside the top 10. Both hybrids rank Article 171 of the same law first.\\
 \midrule
-Hành vi nào sau đây bị cấm?
-& Article 5, Law on Marriage and Family: prohibited acts include \textit{``Kết hôn giả tạo, ly hôn giả tạo''}.
-& All methods: no target in the top 10. Top results: BM25+\allowbreak{}BGE-M3, consumer protection; BM25+\allowbreak{}BGE-M3+\allowbreak{}E5, road law.\\
+Trong thành phố có những tuyến đường hạn chế xe có tải trọng lớn nhưng xe tải của tôi thường phải trả hàng hóa thường xuyên và tôi đã xin được giấy cấp phép vào đường cấm đầy đủ. Tuy nhiên, có nhiều tuyến đường lại có biển cấm đỗ cấm dừng rất bất tiện cho tôi trong việc trả hàng hóa. Bộ Công an cho tôi hỏi, tôi có thể xin giấy phép được đi vào tuyến đường cấm đỗ, cấm dừng không? Nếu được thì thủ tục xin cấp phép như thế nào?
+& Article 37, Law 23/2008/QH12: \textit{``Quy định các đoạn đường cấm đi, đường đi một chiều, nơi cấm dừng, cấm đỗ, cấm quay đầu xe''}.
+& All five methods: target outside the top 10. BM25+\allowbreak{}BGE-M3 ranks Article 20 of Circular 46/2015/TT-BGTVT first, concerning permits for overloaded or oversized vehicles. BM25+\allowbreak{}BGE-M3+\allowbreak{}E5 ranks Article 51 of Law 23/2008/QH12 first, concerning parking and transport facilities.\\
 \midrule
-Cần trang bị cho lực lượng bảo vệ và bố trí lực lượng an ninh tại các ngân hàng để bảo vệ tài sản của người dân.
-& Decrees 206/2013/NĐ-CP, 37/2009/NĐ-CP, and 96/2016/NĐ-CP. Article 9 of Decree 37/2009/NĐ-CP refers to \textit{``bảo vệ an ninh nội bộ, an toàn tài sản''}. A fourth target has no indexed match.
-& BM25: first match at rank 3. BM25+\allowbreak{}BGE-M3: rank 8. BGE-M3, E5, and BM25+\allowbreak{}BGE-M3+\allowbreak{}E5: no match in the top 10. Both hybrids rank Article 19 of Law 30/2023/QH15 first.\\
+Thời gian qua, ngành Công an đã tiến hành bắt nhiều đối tượng và tịch thu số lượng lớn các chất liên quan đến ma túy. Tuy nhiên, việc xử lý, tiêu hủy như thế nào thì chưa rõ; do đó, cử tri đề nghị cần công khai cụ thể cho nhân dân biết vấn đề này trong thời gian tới.
+& Article 106, Criminal Procedure Code 101/2015/QH13: \textit{``Vật chứng là công cụ, phương tiện phạm tội, vật cấm tàng trữ, lưu hành thì bị tịch thu, nộp ngân sách nhà nước hoặc tiêu hủy''}.
+& All five methods: target outside the top 10. Both hybrids rank Article 29 of Decree 105/2021/NĐ-CP first: \textit{``Quy định về xử lý mẫu chất ma túy vì mục đích quốc phòng, an ninh''}.\\
 \end{longtable}
 \endgroup
 
 The Zalo cases illustrate direct lexical matching and retrieval of a differently phrased answer. In the first, the phrase \textit{``khu vực biên giới''} links the question to the article. In the second, the article names the disciplinary sanctions requested by the question. Both hybrids preserve the embedding models' successful ranking, with no additional rank gain from E5.
 
-The first ALQAC failure concerns related but distinct procedures. Article 171 addresses witness impartiality, whereas the target concerns agreement between litigants. Shared courtroom vocabulary may obscure this distinction. In the second ALQAC case, the query supplies neither a legal field nor the alternatives implied by \textit{``sau đây''}. Article 10 of the Law on Protection of Consumers' Rights and Article 7 of the Road Law both discuss prohibited acts, making missing context a plausible explanation for the mismatch.
+The ALQAC failure concerns related but distinct procedures. Article 171 addresses witness impartiality, whereas the target concerns agreement between litigants. Shared courtroom vocabulary may obscure this distinction. Fusion lowers the target from BM25's first position to rank 10 or outside the top 10. Because the hybrid configurations also use different weights, the lost match cannot be attributed to E5 alone.
 
-The BCA failure similarly involves overlapping security terminology. The top-ranked article concerns equipment for local community security forces rather than the bank setting. Three target documents are indexed, so the fourth unmatched target does not explain the loss of every available match. Together, the cases suggest that legal context and query completeness matter, and that fusion can lower the rank of a target found by BM25. These are possible explanations of individual outcomes; the comparisons also change fusion weights, so lost matches cannot be attributed to E5 alone.
+The first BCA failure concerns permission to use roads with stopping and parking restrictions. The recorded target addresses traffic organization, including the designation of restricted roads and parking locations. BM25+BGE-M3 instead retrieves a provision on permits for overloaded or oversized vehicles, containing the phrase \textit{``Chỉ cấp Giấy phép lưu hành xe quá tải trọng, xe quá khổ giới hạn''}. BM25+BGE-M3+E5 retrieves a provision stating \textit{``Bến xe, bãi đỗ xe, trạm dừng nghỉ phải xây dựng theo quy hoạch''}. These results match parts of the question about trucks, permits, and parking, but address different regulatory issues. Competition between these details is a plausible explanation for the missed target.
+
+The second BCA failure concerns the disposal of seized substances associated with drugs. The target describes the handling of evidence using the legal term \textit{``vật chứng''}, which does not appear in the question. Both hybrids instead retrieve a provision explicitly mentioning drug samples and their disposal. Its scope is the management of samples for defence and security purposes, rather than the general handling of evidence. This case illustrates a possible gap between a public-service question and the legal terminology of its recorded target. The retrieved provision may still contain relevant information; its absence from the labels does not establish that it is legally incorrect.
+
+Both BCA target articles are present in the corpus, so their absence from the top 10 is a ranking failure under the recorded labels. Together, the examples suggest that matching a topic is insufficient when the required procedure or regulatory scope differs. These interpretations explain individual outcomes, not the frequency or confirmed causes of errors across the dataset.
+
+\subsection{Difficulties in Processing BCA Legal Texts}
+\label{sec:bca-processing-difficulties}
+
+The BCA collection requires converting published answers into legal references and matching them to indexed articles. Table~\ref{tab:bca-processing-cases} presents four cases from the saved records and correction mappings. Unlike the ranking failures in Section~\ref{sec:vietnamese-legal-retrieval-analysis}, these cases concern the construction and representation of retrieval targets. The source excerpts retain the spelling of the saved answers.
+
+\begingroup
+\small
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.1}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{4.6cm}>{\raggedright\arraybackslash}p{5.7cm}>{\raggedright\arraybackslash}p{4.95cm}@{}}
+\caption{Observed BCA text-processing cases.}\label{tab:bca-processing-cases}\\
+\toprule
+\textbf{Question or answer excerpt} & \textbf{Stored references and processing outcome} & \textbf{Observed difficulty}\\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Question or answer excerpt} & \textbf{Stored references and processing outcome} & \textbf{Observed difficulty}\\
+\midrule
+\endhead
+\midrule
+\multicolumn{3}{r}{\footnotesize Continued on next page}\\
+\endfoot
+\bottomrule
+\endlastfoot
+Cử tri đề nghị Chính phủ chỉ đạo đẩy nhanh quá trình cấp mã số định danh cho trẻ em.
+& The answer describes the population database and coordination between the Ministry of Public Security and the Ministry of Justice. The stored reference list is empty, so this record supplies no retrieval target.
+& An administrative response can address a question without identifying a legal document or article. The record cannot enter the citation-based retrieval evaluation.\\
+\midrule
+\textit{``{\fontencoding{T1}\selectfont\DH}iều 2 Nghị định số 19/2009/N{\fontencoding{T1}\selectfont\DH}-CP''}
+& The saved extraction retains Article 2 but records the document as \textit{``Nghị định số 19/2009''}. The correction mapping links this shortened name to \texttt{19/2009/NĐ-CP}.
+& The extracted name loses the document suffix. The source also uses the character \textit{{\fontencoding{T1}\selectfont\DH}}, whereas the mapped identifier uses Vietnamese \textit{Đ}. Direct string matching would not align these representations.\\
+\midrule
+\textit{``mục 10, Phụ lục IV''}, followed by \textit{``Nghị định số 79/2014/NĐ-CP''}
+& The answer also cites Articles 9 and 15. Its saved references contain a whole-document target and targets for those two articles. No separate appendix or item identifier is stored.
+& The document-and-article representation does not preserve the cited appendix item as a distinct target. A whole-document match cannot establish recovery of that particular passage.\\
+\midrule
+\textit{``Quyết định số 607/QĐ-BCA, ngày 11/5/2005''}
+& The reference is retained with an empty article identifier. Its mapping contains \texttt{INTERNAL\_DOCUMENT} and no local parsed-document path. This placeholder is excluded from corpus additions.
+& The reference is recorded, but this mapping provides no indexed document for it. Keeping a target does not ensure that a retriever can recover a matching article.\\
+\end{longtable}
+\endgroup
+
+The first case concerns the availability of supervision. The answer reports an administrative process rather than supplying an explicit statutory basis, and the saved extraction contains no reference. Such a record may remain useful as a public question-answer pair, but it does not provide an article-level relevance label for this evaluation. An empty extraction alone is not evidence that every excluded answer lacks citations; extraction failures would require separate inspection.
+
+The second case shows why legal identifiers require more than lowercasing and whitespace removal. The saved document name is incomplete, and visually similar characters occur in the source citation and the corpus identifier. The recorded correction resolves this example, but the extraction remains dependent on an explicit mapping. This is a resolved identifier-alignment problem, rather than evidence of a ranking failure or a verified error in the published legal answer.
+
+The third case concerns the structure of legal evidence. An answer can rely on an appendix item as well as numbered articles in the same decree. The current target schema records document and article identifiers, so the appendix citation is represented only at document level. Under the matching rules in Section~\ref{sec:target-metrics}, any indexed article from that decree may satisfy the whole-document target. Evaluation credit therefore does not demonstrate retrieval of the cited appendix item. Preserving appendix and item identifiers would require extending both corpus extraction and target matching.
+
+The fourth case concerns unresolved document acquisition and mapping. The placeholder records the pipeline's outcome; it does not establish that the decision is confidential, unavailable from every public source, or legally invalid. Its exclusion from corpus additions leaves that recorded target without a document supplied through this mapping. More generally, a missing target match can reflect absent corpus content or an identifier problem, and those causes should be checked before attributing the failure to a retrieval model.
+
+These cases illustrate distinct limits in reference extraction, identifier alignment, target granularity, and corpus construction. They complement the BCA ranking examples, whose target articles are present in the corpus. The examples were selected for inspection and do not measure the frequency of each problem or its contribution to the aggregate BCA scores.
 
 \subsection{Summary of Results}
 
