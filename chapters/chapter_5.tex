@@ -483,71 +483,54 @@ Across the evaluated conditions, both hybrids have higher NDCG@10 than BM25. The
 \subsection{Analysis of Vietnamese Legal Retrieval}
 \label{sec:vietnamese-legal-retrieval-analysis}
 
-This section examines five cases from ALQAC, Zalo, and BCA to explain where lexical, dense, and hybrid retrieval succeed or fail. These illustrative cases do not establish error frequencies. Rankings are reconstructed from pretrained score caches using the recorded evaluation folds and fusion weights. ALQAC and Zalo use reference text; BCA uses its constructed corpus. A failure means that no recorded target appears in the top 10, rather than a judgment that the retrieved text is legally incorrect.
+Table~\ref{tab:legal-retrieval-cases} presents five cases from the ALQAC, Zalo, and BCA datasets. Success means finding at least one recorded target in the top 10. Ranks refer to the recorded article for ALQAC and Zalo, and the first article matching any target document for BCA.
 
-\subsubsection{Successful Retrieval Cases}
-
-Table~\ref{tab:legal-success-cases} reports the target ranks for two Zalo questions. The symbol $>10$ means that the target is absent from the retrieved top 10, not that its exact rank is known.
-
-\begin{table}[H]
-\centering
+\begingroup
 \small
-\caption{Target ranks in successful Zalo retrieval cases.}
-\label{tab:legal-success-cases}
-\begin{tabular}{@{}lccccc@{}}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.1}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{4.6cm}>{\raggedright\arraybackslash}p{5.7cm}>{\raggedright\arraybackslash}p{4.95cm}@{}}
+\caption{Successful and unsuccessful retrieval cases.}\label{tab:legal-retrieval-cases}\\
 \toprule
-\textbf{Case} & \textbf{BM25} & \textbf{BGE-M3} & \textbf{E5} & \shortstack{\textbf{BM25+}\\\textbf{BGE-M3}} & \shortstack{\textbf{BM25+BGE-M3}\\\textbf{+E5}}\\
+\textbf{Question} & \textbf{Recorded targets and excerpts} & \textbf{Retrieval outcome}\\
 \midrule
-Lexical match & 1 & 1 & 1 & 1 & 1\\
-Hybrid improvement & $>10$ & 1 & 1 & 1 & 1\\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\paragraph{Lexical matching succeeds.}
-The question is \textit{``Đập phá biển báo `khu vực biên giới' bị phạt thế nào?''} The recorded target is Article 10 of Decree 96/2020/NĐ-CP. Its text includes \textit{``hành vi làm xê dịch, tháo dỡ, phá hủy các biển báo''} and \textit{``khu vực biên giới''}. The specific phrase identifying the sign provides a direct lexical link to the target, which BM25 ranks first. Both dense retrievers and both hybrids also rank it first. This case is consistent with the value of specific legal terms for lexical matching; adding E5 produces no rank improvement here.
-
-\paragraph{Hybrid retrieval improves the ranking.}
-The question is \textit{``Áp dụng hình thức kỷ luật nào đối với quân nhân sử dụng ma túy được quy định như thế nào?''} The recorded target, Article 38 of Circular 16/2020/TT-BQP, states: \textit{``Sử dụng trái phép các chất ma túy thì bị kỷ luật tước danh hiệu quân nhân, buộc thôi việc.''} The question asks for a disciplinary measure, while the article names the sanctions. BM25 does not retrieve this target in the top 10, whereas BGE-M3 and E5 each rank it first. Both hybrids retain rank 1. This is an observed improvement over BM25, consistent with dense retrieval matching the question to a differently phrased answer. It does not isolate a causal effect of paraphrasing, and E5 provides no additional rank gain over BM25+BGE-M3 in this case.
-
-\subsubsection{Failed Hybrid Retrieval Cases}
-
-Table~\ref{tab:legal-failure-cases} shows three cases in which at least one hybrid misses all recorded targets in the top 10. Each query has a target present in the corpus. For BCA, the rank is the first article matching any recorded target under the benchmark's document-level matching rule.
-
-\begin{table}[H]
-\centering
-\small
-\caption{First target ranks in failed hybrid retrieval cases.}
-\label{tab:legal-failure-cases}
-\begin{tabular}{@{}lccccc@{}}
+\endfirsthead
 \toprule
-\textbf{Case} & \textbf{BM25} & \textbf{BGE-M3} & \textbf{E5} & \shortstack{\textbf{BM25+}\\\textbf{BGE-M3}} & \shortstack{\textbf{BM25+BGE-M3}\\\textbf{+E5}}\\
+\textbf{Question} & \textbf{Recorded targets and excerpts} & \textbf{Retrieval outcome}\\
 \midrule
-ALQAC: procedure & 1 & $>10$ & $>10$ & 10 & $>10$\\
-ALQAC: missing context & $>10$ & $>10$ & $>10$ & $>10$ & $>10$\\
-BCA: bank security & 3 & $>10$ & $>10$ & 8 & $>10$\\
+\endhead
+\midrule
+\multicolumn{3}{r}{\footnotesize Continued on next page}\\
+\endfoot
 \bottomrule
-\end{tabular}
-\end{table}
+\endlastfoot
+Đập phá biển báo ``khu vực biên giới'' bị phạt thế nào?
+& Article 10, Decree 96/2020/NĐ-CP: \textit{``phá hủy các biển báo''}, \textit{``khu vực biên giới''}.
+& All five methods rank the target first.\\
+\midrule
+Áp dụng hình thức kỷ luật nào đối với quân nhân sử dụng ma túy được quy định như thế nào?
+& Article 38, Circular 16/2020/TT-BQP: \textit{``Sử dụng trái phép các chất ma túy thì bị kỷ luật tước danh hiệu quân nhân, buộc thôi việc.''}
+& BM25 misses the target in the top 10. BGE-M3, E5, and both hybrids rank it first.\\
+\midrule
+Chủ tọa phiên tòa không cần hỏi đương sự có thống nhất được với nhau về giải quyết vụ án, đúng hay sai?
+& Article 233, Law on Administrative Procedures: \textit{``Hỏi đương sự có thống nhất được với nhau về việc giải quyết vụ án hay không.''}
+& BM25: rank 1. BM25+\allowbreak{}BGE-M3: rank 10. BGE-M3, E5, and BM25+\allowbreak{}BGE-M3+\allowbreak{}E5: outside the top 10. Both hybrids rank Article 171 of the same law first.\\
+\midrule
+Hành vi nào sau đây bị cấm?
+& Article 5, Law on Marriage and Family: prohibited acts include \textit{``Kết hôn giả tạo, ly hôn giả tạo''}.
+& All methods: no target in the top 10. Top results: BM25+\allowbreak{}BGE-M3, consumer protection; BM25+\allowbreak{}BGE-M3+\allowbreak{}E5, road law.\\
+\midrule
+Cần trang bị cho lực lượng bảo vệ và bố trí lực lượng an ninh tại các ngân hàng để bảo vệ tài sản của người dân.
+& Decrees 206/2013/NĐ-CP, 37/2009/NĐ-CP, and 96/2016/NĐ-CP. Article 9 of Decree 37/2009/NĐ-CP refers to \textit{``bảo vệ an ninh nội bộ, an toàn tài sản''}. A fourth target has no indexed match.
+& BM25: first match at rank 3. BM25+\allowbreak{}BGE-M3: rank 8. BGE-M3, E5, and BM25+\allowbreak{}BGE-M3+\allowbreak{}E5: no match in the top 10. Both hybrids rank Article 19 of Law 30/2023/QH15 first.\\
+\end{longtable}
+\endgroup
 
-\paragraph{Similar vocabulary, different procedural requirements.}
-The ALQAC question is \textit{``Chủ tọa phiên tòa không cần hỏi đương sự có thống nhất được với nhau về giải quyết vụ án, đúng hay sai?''} Its target is Article 233 of the Law on Administrative Procedures, which includes \textit{``Hỏi đương sự có thống nhất được với nhau về việc giải quyết vụ án hay không.''} Both hybrids instead rank Article 171 first. That article concerns witness impartiality and includes \textit{``Chủ tọa phiên tòa có thể quyết định cách ly đương sự với người làm chứng trước khi hỏi người làm chứng.''} The texts share courtroom participants and the act of questioning, but address different procedural requirements. This content comparison suggests difficulty distinguishing related procedures; it does not establish that the models specifically failed to interpret negation.
+The Zalo cases illustrate direct lexical matching and retrieval of a differently phrased answer. In the first, the phrase \textit{``khu vực biên giới''} links the question to the article. In the second, the article names the disciplinary sanctions requested by the question. Both hybrids preserve the embedding models' successful ranking, with no additional rank gain from E5.
 
-BM25 ranks Article 233 first, but BM25+BGE-M3 lowers it to rank 10, and BM25+BGE-M3+E5 excludes it from the top 10. The target's normalized BM25, BGE-M3, and E5 scores are 1.0000, 0.7147, and 0.7893, respectively. With weights $(0.4,0.6,0)$, its fused score is 0.8288; with $(0.2,0.6,0.2)$, it is 0.7867. Article 171 scores 0.9633 and 0.9669 under the same configurations. The saved scores therefore confirm that fusion does not preserve BM25's correct first-ranked target. The comparison changes both E5's contribution and BM25's weight, so the rank loss cannot be attributed to E5 alone.
+The first ALQAC failure concerns related but distinct procedures. Article 171 addresses witness impartiality, whereas the target concerns agreement between litigants. Shared courtroom vocabulary may obscure this distinction. In the second ALQAC case, the query supplies neither a legal field nor the alternatives implied by \textit{``sau đây''}. Article 10 of the Law on Protection of Consumers' Rights and Article 7 of the Road Law both discuss prohibited acts, making missing context a plausible explanation for the mismatch.
 
-\paragraph{The query omits the legal context.}
-The ALQAC question is \textit{``Hành vi nào sau đây bị cấm?''} Its target is Article 5 of the Law on Marriage and Family, which lists prohibited acts including \textit{``Kết hôn giả tạo, ly hôn giả tạo''}. However, the stored query supplies neither a legal field nor the alternatives implied by \textit{``sau đây''}. BM25+BGE-M3 ranks Article 10 of the Law on Protection of Consumers' Rights first, with the heading \textit{``Các hành vi bị nghiêm cấm trong bảo vệ quyền lợi người tiêu dùng''}. BM25+BGE-M3+E5 ranks Article 7 of the Road Law first, headed \textit{``Các hành vi bị nghiêm cấm''}. All five methods miss the target in the top 10. The retrieved articles match the general request for prohibited acts, while the query provides no explicit cue for marriage and family law. The observed omission is a plausible explanation for this failure; it is not evidence of a general inability to retrieve Vietnamese legal text.
-
-\paragraph{Shared security terms, different protected subjects.}
-The BCA query states: \textit{``Cần trang bị cho lực lượng bảo vệ và bố trí lực lượng an ninh tại các ngân hàng để bảo vệ tài sản của người dân.''} Its recorded targets include Decrees 206/2013/NĐ-CP, 37/2009/NĐ-CP, and 96/2016/NĐ-CP at document level. A fourth target is stored as \texttt{INTERNAL\_DOCUMENT} and has no indexed match. The other three documents are present, so this missing target does not by itself explain the absence of every target from the top 10.
-
-Article 9 of Decree 37/2009/NĐ-CP is the first matching result under BM25+BGE-M3, at rank 8. It includes \textit{``Chịu trách nhiệm chính trong công tác bảo vệ an ninh nội bộ, an toàn tài sản và trật tự bên trong mục tiêu.''} Both hybrids rank Article 19 of Law 30/2023/QH15 first, headed \textit{``Bảo đảm kinh phí hoạt động và trang bị cơ sở vật chất đối với lực lượng tham gia bảo vệ an ninh, trật tự ở cơ sở''}. This result shares terms about equipment and security forces, but concerns security at the local community level rather than the bank setting stated in the query. No recorded target remains in the top 10 after adding E5 and changing the weights from $(0.4,0.6,0)$ to $(0.2,0.4,0.4)$. This illustrates competition between related security contexts, without establishing that every unlabelled result is legally irrelevant.
-
-\subsubsection{Observed Difficulties and Implications}
-
-The successful Zalo cases show that specific terminology can support lexical matching and that dense retrieval can recover a target expressed differently from the question. The failed cases show that shared vocabulary does not ensure a match to the required procedure or protected subject. When the question omits its legal context, several unrelated provisions may fit its wording.
-
-These observations explain why higher aggregate hybrid scores can coexist with individual failures. Fusion combines scores rather than preserving each retriever's successful results, and adding E5 does not guarantee that an existing hit remains in the top 10. The cases support checking query context, target coverage, and score contributions when interpreting failures. They do not identify tokenization, Vietnamese diacritics, or input truncation as causes, since those mechanisms were not tested here.
+The BCA failure similarly involves overlapping security terminology. The top-ranked article concerns equipment for local community security forces rather than the bank setting. Three target documents are indexed, so the fourth unmatched target does not explain the loss of every available match. Together, the cases suggest that legal context and query completeness matter, and that fusion can lower the rank of a target found by BM25. These are possible explanations of individual outcomes; the comparisons also change fusion weights, so lost matches cannot be attributed to E5 alone.
 
 \subsection{Summary of Results}
 
