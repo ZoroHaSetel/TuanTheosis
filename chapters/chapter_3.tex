@@ -12,7 +12,7 @@ This process, known as chunking, determines how document content is organized fo
 
 Choosing the article as the retrieval unit also affects how documents are represented and ranked. If multiple articles are incorrectly combined into a single chunk, their content is represented by one embedding, which may make it harder to identify the relevant article. By keeping articles separate, each article receives its own embedding and can be ranked independently. This allows the retriever to return multiple relevant articles from the same legal document and enables evaluation against article-level relevance labels.
 
-\paragraph{Example of an article-level record.}
+\paragraph{Example of an article-level record:}
 The following example contains two article excerpts from the supplied sample for Decree No. 340/2025/NĐ-CP. The title and article texts are shortened for display, with ellipses marking omitted text. The example illustrates the record format, the complete sample retains each article's clauses and points.
 
 \begin{Verbatim}[fontsize=\footnotesize,breaklines=true,breakanywhere=true]
@@ -165,8 +165,8 @@ S_{BGE}(q,d)=w_b\widetilde{s}_b(q,d)+w_g\widetilde{s}_g(q,d)+w_e\widetilde{s}_e(
 \]
 The weights \(w_b\), \(w_g\), and \(w_e\) correspond to BM25, BGE-M3, and E5. They are nonnegative and satisfy \(w_b+w_g+w_e=1\). Articles are ranked by the combined score in descending order. Section~\ref{sec:score-fusion} specifies the fusion procedure used in the experiments.
 
-\paragraph{Example of Score Fusion.}
-Consider the legal question:
+\paragraph{Example of Score Fusion:}
+Given the legal question:
 \begin{quote}
     \emph{``Is an employee entitled to severance allowance after terminating an employment contract?''}
 \end{quote}
@@ -243,14 +243,14 @@ Results are checked in rank order against targets that have not yet been matched
 
 In the formulas below, \(Q\) contains the evaluation queries, and \(R_q\) contains the distinct recorded targets for query \(q\). The indicator \(y_{q,r}\) is one when the article at rank \(r\) receives credit for a previously unmatched target, and zero otherwise. The notation @\(k\) means that only the first \(k\) ranked articles are considered.
 
-\paragraph{Normalized discounted cumulative gain.}
+Normalized discounted cumulative gain :
 Normalized discounted cumulative gain (NDCG) measures how well relevant results are placed near the top of a ranking~\cite{jarvelin2002}. A match at a higher rank contributes more than a match at a lower rank. The thesis uses NDCG@10 as the primary metric:
 \[
 \mathrm{NDCG}@10(q)=\frac{\sum_{r=1}^{10}y_{q,r}/\log_2(r+1)}{\sum_{r=1}^{\min(|R_q|,10)}1/\log_2(r+1)}.
 \]
 The numerator sums the credit for matches, with a smaller contribution at lower ranks. The denominator gives the score of an ideal ranking that matches up to ten recorded targets at the highest positions. Queries without recorded targets receive zero. Targets unavailable in the corpus remain in the denominator, so the metric also reflects target availability and identifier mapping.
 
-\paragraph{Hit and recall.}
+Hit and recall:
 Hit@\(k\) is one if at least one target is matched within the first \(k\) results, and zero otherwise:
 \[
 \mathrm{Hit}@k(q)=\mathbb{1}\left[\sum_{r=1}^{k}y_{q,r}>0\right],
@@ -261,7 +261,7 @@ Here, \(\mathbb{1}[\cdot]\) equals one when its condition is satisfied and zero 
 \]
 For example, matching one of two targets within the first \(k\) results gives \(\mathrm{Hit}@k=1\) and \(\mathrm{Recall}@k=0.5\). Hit records whether any target is found, while recall records how many of the targets are found. They coincide for queries with one target. Recall@100 is also reported for the standalone dense and hybrid comparisons in the fine-tuning experiment that selects the model using standalone retrieval performance (Tables~\ref{tab:5.12} and~\ref{tab:5.13}).
 
-\paragraph{Mean reciprocal rank.}
+Mean reciprocal rank:
 Mean reciprocal rank (MRR) measures how early the first target is matched. For a query whose first matching article occurs at rank \(r_q^*\), the reciprocal rank (RR) at cutoff ten is
 \[
 \mathrm{RR}@10(q)=
@@ -276,7 +276,8 @@ MRR@10 is the mean of these values across queries:
 \]
 For example, a first match at rank two gives a reciprocal rank of 0.5. Additional matches do not change this value because only the first matching rank is used.
 
-\paragraph{Mean average precision.}
+
+Mean average precision:
 Average precision (AP) uses precision at each rank where a relevant result is retrieved. Mean average precision (MAP) averages AP across queries~\cite{manning2008}. Here, precision \(P_q(r)\) is the number of credited matches within the first \(r\) results divided by \(r\). The evaluator calculates AP@10 and MAP@10 as
 \[
 \begin{gathered}

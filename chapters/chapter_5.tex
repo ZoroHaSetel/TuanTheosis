@@ -13,16 +13,16 @@ The experiment were ran on a single NVIDIA L4 GPU on Google Colab platform. The 
 \section{Benchmark \& Evaluation Procedure}
 \label{sec:benchmark-evaluation-procedure}
 
-The overall benchmark uses the article text supplied with the ALQAC and Zalo datasets. BCA is evaluated using the corpus constructed from collected legal documents. The fine-tuning experiments are evaluated separately, each comparing pretrained and fine-tuned BGE-M3 on the same corpus and test dataset. Sections~\ref{sec:datasets-corpus} and~\ref{sec:bca-construction} describe the datasets and corpus preparation.
+The benchmark is conducted on the ALQAC and Zalo datasets. BCA is evaluated using the corpus constructed from collected legal documents. The fine-tuning experiments are evaluated separately, each comparing pretrained and fine-tuned BGE-M3 on the same corpus and test dataset. Sections~\ref{sec:datasets-corpus} and~\ref{sec:bca-construction} describe the datasets and corpus preparation.
 
 The evaluation follows six steps:
 \begin{enumerate}
-    \item \textbf{Prepare the inputs.} Align question text, article text, and relevance targets by their document and article identifiers. All retrievers use the same article order within each comparison. Only the question text is supplied as the query.
-    \item \textbf{Define the evaluation splits.} For the pretrained benchmark, keep questions linked by shared legal references in the same group. For ALQAC and Zalo, evaluate each fold using fusion weights selected on the remaining folds. Fine-tuning uses the training, development, and test allocations in Section~\ref{sec:bge-finetuning}.
-    \item \textbf{Score and rank the articles.} BM25, BGE-M3, and E5 score every article in the corpus. Each model ranks articles by its own scores. For hybrid retrieval, apply Min-Max normalization separately to each model's scores for each query, then rank articles by their weighted sum (Section~\ref{sec:score-fusion}).
-    \item \textbf{Select weights and fine-tuned models.} Select fusion weights using mean normalized discounted cumulative gain at rank ten (NDCG@10) on the selection queries. Select fine-tuned BGE-M3 using development performance in either hybrid or standalone dense retrieval, according to the experiment. For the fine-tuning comparisons, select fusion weights with pretrained BGE-M3 and keep them fixed when evaluating the fine-tuned model.
-    \item \textbf{Calculate evaluation metrics.} Match ranked articles to the recorded targets using the rules in Section~\ref{sec:target-metrics}. NDCG@10 is the primary metric. Hit@10 records whether a target appears in the first ten results. Mean reciprocal rank at ten (MRR@10) measures how early the first match occurs, while mean average precision at ten (MAP@10) accounts for precision at each matching rank. The experiment selected using standalone dense retrieval also reports Recall@100 for its standalone and hybrid comparisons.
-    \item \textbf{Compare retrieval performance.} Compare BM25+BGE-M3 with BM25 to assess improvement over the baseline, and BM25+BGE-M3+E5 with BM25+BGE-M3 to assess the contribution of E5. Evaluate fine-tuning by comparing pretrained and fine-tuned BGE-M3 on the same test dataset. Assess standalone and hybrid results separately, keeping BM25, E5, and fusion weights fixed within each hybrid comparison.
+    \item Prepare inputs: Align question text, article text, and relevance targets by their document and article identifiers. All retrievers use the same article order within each comparison. Only the question text is supplied as the query.
+    \item Define the evaluation splits: Questions sharing legal references are grouped together to prevent leakage between weight selection and evaluation.
+    \item Score and rank the articles: Apply BM25, BGE-M3, and E5 score all articles given a query (Section~\ref{sec:score-fusion}).
+    \item Select weights and fine-tuned models: Select fusion weights by mean NDCG@10 and fine-tuned BGE-M3 by development performance in the experiment. Keep pretrained fusion weights fixed when evaluating fine-tuned BGE-M3.
+    \item Calculate evaluation metrics: Match ranked articles to recorded targets using Section~\ref{sec:target-metrics}. NDCG@10 is the primary metric; Hit@10 indicates any match, MRR@10 captures the first match’s rank, and MAP@10 summarizes precision across matching ranks. The experiment using standalone dense model selection also reports Recall@100 for standalone and hybrid retrieval.
+    \item Compare retrieval performance: Compare BM25+BGE-M3 with BM25 to assess improvement over the baseline, and BM25+BGE-M3+E5 with BM25+BGE-M3 to assess the contribution of E5. Evaluate fine-tuning by comparing pretrained and fine-tuned BGE-M3 on the same test dataset. Assess standalone and hybrid results separately, keeping BM25, E5, and fusion weights fixed within each hybrid comparison.
 \end{enumerate}
 
 The ALQAC and Zalo benchmark averages the evaluation scores of all queries, giving each query equal weight. Each query is evaluated once, using weights selected on other folds. The BCA aggregate describes performance over the 546 retained queries.
@@ -131,7 +131,7 @@ Precision & FP16 & BF16\\
 \end{table}
 
 \subsubsection{Fine-Tuning for Hybrid Retrieval}
-\paragraph{Selecting the settings.}
+\paragraph{Selecting the settings:}
 
 Figure~\ref{fig:hybrid-learning-rate-selection} shows development NDCG@10 for three learning rates at epochs 1, 2, and 3. The two panels report BM25+BGE-M3 and BM25+BGE-M3+E5 using the same metric scale.
 
@@ -214,7 +214,7 @@ BM25+BGE-M3+E5 also has lower NDCG@10 in all three fine-tuned runs. Its mean dec
 
 
 \subsubsection{Fine-Tuning for Standalone Dense Retrieval}
-\paragraph{Selecting the settings.}
+\paragraph{Selecting the settings:}
 
 Selection evaluates 36 checkpoints across three learning rates, four development folds, and steps 30, 60, and 90, following Section~\ref{sec:finetuning-dense-selection}. The selected configuration uses Zalo training data, learning rate $2\times10^{-5}$, and 60 optimizer steps.
 
@@ -238,7 +238,7 @@ Development Recall@100 & 0.9633\\
 \end{table}
 
 
-\paragraph{Standalone test results.}
+\paragraph{Standalone test results:}
 
 Table~\ref{tab:5.12} compares pretrained and fine-tuned BGE-M3 on the official Zalo  dataset of 640 queries.
 
@@ -269,7 +269,7 @@ Fine-tuned BGE-M3 & \textbf{0.6932} & \textbf{0.0192} & \textbf{0.6448} & 0.9531
 
 All three runs improve NDCG@10 and MRR@10 but reduce Recall@100. Mean NDCG@10 increases by 0.0189, while mean Recall@100 decreases by 0.0091. No statistical significance test is reported for this standalone comparison.
 
-\paragraph{Hybrid test results.}
+\paragraph{Hybrid test results:}
 
 Table~\ref{tab:5.13} evaluates the fine-tuned model in both hybrids using the same test queries and corpus. The weights are 0.20/0.80 for BM25/BGE-M3 and 0.15/0.50/0.35 for BM25/BGE-M3/E5, selected using pretrained BGE-M3.
 
@@ -479,6 +479,10 @@ On Zalo, BM25+BGE-M3+E5 has the highest NDCG@10, MRR@10, and MAP@10, while BM25+
 For the full 546-query BCA collection, BM25+BGE-M3+E5 has the highest observed NDCG@10 and Hit@10, whereas BM25+BGE-M3 has the highest MRR@10 and MAP@10. These descriptive results do not establish an advantage across independent legal groups.
 
 Across the evaluated conditions, both hybrids have higher NDCG@10 than BM25. The contribution of E5 varies by condition and metric. Overall, the highest-scoring configuration depends on the metric and dataset. These results do not establish a general E5 improvement.
+
+\subsection{Analysis of Vietnamese-Language Retrieval}
+
+todo add in here
 
 \subsection{Summary of Results}
 
