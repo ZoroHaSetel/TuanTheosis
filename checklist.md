@@ -111,7 +111,8 @@ Các tiêu đề theo thứ tự hiện tại trong `main.tex`, gồm cả mục
       - [ ] Lexical and Hybrid Retrieval
       - [ ] Contribution of E5
       - [ ] Highest-Scoring Retrieval Configurations
-    - [ ] 5.3.4 Summary of Results
+    - [ ] 5.3.4 Analysis of Vietnamese Legal Retrieval
+    - [ ] 5.3.5 Summary of Results
 
 - [x] 6 Conclusion and Future Work
   - [x] 6.1 Summary of Findings
