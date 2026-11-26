@@ -37,7 +37,7 @@ The fields \texttt{law\_id}, \texttt{title}, and \texttt{url} describe the legal
 
 Relevance targets identify the documents or articles recorded as relevant to each query. ALQAC and Zalo use the available dataset annotations. For BCA, the question is used as the query, and citations in its published answer are extracted to form relevance targets. Document names and article numbers are normalized and matched to corpus identifiers. The answer text is used for target extraction and is not supplied to the retriever. Table~\ref{tab:4.2} illustrates this process.
 
-An article-level target specifies a document and an article within it. A law-level target specifies only the document. In the dataset, ``law-level'' also covers decrees and circulars. Duplicate targets are removed, and each target receives evaluation credit at most once. Retrieving several articles from one document therefore does not multiply credit for a single law-level target. Section~3.6 defines the matching rules and evaluation metrics.
+An article-level target specifies a document and an article within it. A law-level target specifies only the document. In the dataset, ``law-level'' also covers decrees and circulars. Duplicate targets are removed, and each target receives evaluation credit at most once. Retrieving several articles from one document therefore does not multiply credit for a single law-level target. Section~\ref{sec:target-metrics} defines the matching rules and evaluation metrics.
 
 Retrieval returns a list of article identifiers ordered by retrieval score. These identifiers link the results to the article text and source document. A RAG generator can use the retrieved text to produce an answer, while this thesis evaluates the article ranking. Corpus coverage measures target availability, and ranking performance measures target positions.
 
@@ -65,6 +65,7 @@ BM25 scores depend on the indexed text. Text extraction can change term counts, 
 BM25 relies on matching indexed terms. A relevant article expressed using different terms from the query may therefore receive a low score. The thesis compares BM25 with dense and hybrid retrieval to evaluate whether embedding similarity improves the ranking. BM25 scores determine article order, while evaluation metrics such as NDCG@10 measure ranking quality against the relevance annotations. The baseline is BM25's evaluation performance on the target collections.
 
 \section{Dense Retrieval and Vector Similarity}
+\label{sec:dense-similarity}
 
 An embedding is a numerical vector that represents text. In a bi-encoder architecture, the query and article are encoded separately. Dense retrieval then ranks articles by the similarity between their embeddings and the query embedding. Sentence-BERT produces sentence embeddings for similarity comparison~\cite{reimers2019}. Dense Passage Retrieval trains query and passage encoders to retrieve relevant passages~\cite{karpukhin2020}. Article embeddings can be computed in advance and reused across queries.
 
@@ -72,13 +73,13 @@ Figure~\ref{fig:dense-retrieval-overview} illustrates separate query and documen
 
 \input{figures/dense-retrieval-overview}
 
-For a query \(q\) and an article \(d\), \(u\) and \(v\) are their respective embedding vectors. Two common similarity measures are the dot product and cosine similarity:
+For a query \(q\) and an article \(d\), \(\mathbf{u}_q\) and \(\mathbf{v}_d\) are their respective embedding vectors. Two common similarity measures are the dot product and cosine similarity~\cite{manning2008}:
 \[
-s_{\mathrm{dot}}(q,d)=u^\top v,
+s_{\mathrm{dot}}(q,d)=\mathbf{u}_q^\top\mathbf{v}_d,
 \qquad
-s_{\mathrm{cos}}(q,d)=\frac{u^\top v}{\|u\|_2\|v\|_2}.
+s_{\mathrm{cos}}(q,d)=\frac{\mathbf{u}_q^\top\mathbf{v}_d}{\lVert\mathbf{u}_q\rVert_2\lVert\mathbf{v}_d\rVert_2}.
 \]
-The dot product \(u^\top v\) sums the products of corresponding vector components. The quantities \(\|u\|_2\) and \(\|v\|_2\) are the vector lengths. Cosine similarity divides the dot product by these lengths and is defined for nonzero vectors. When both vectors are normalized to length one, the dot product equals cosine similarity.
+The dot product \(\mathbf{u}_q^\top\mathbf{v}_d\) sums the products of corresponding vector components. The quantities \(\lVert\mathbf{u}_q\rVert_2\) and \(\lVert\mathbf{v}_d\rVert_2\) are their Euclidean norms. Cosine similarity divides the dot product by the product of these norms and is defined when both vectors are nonzero. When both vectors are normalized to length one, the dot product equals cosine similarity. Section~\ref{sec:retrieval-implementation} distinguishes this theoretical formula from the numerical safeguard used in the implementation.
 
 A pooling operation produces one embedding from the model's token representations. Input longer than the selected token limit is truncated, so the embedding may omit content that remains in the stored article. ColBERT retains multiple token embeddings for matching~\cite{khattab2020}. This thesis uses single-vector dense retrieval.
 
@@ -133,15 +134,15 @@ The retrievers produce raw scores on different scales:
 \end{itemize}
 Section~\ref{sec:retrieval-implementation} specifies the score calculation used in the experiments. Although BGE-M3 and E5 share the same theoretical range, their scores can have different distributions across articles. A raw score from one retriever is therefore not directly interchangeable with a score from another.
 
-Vector normalization and score normalization serve different purposes. Vector normalization gives each embedding a length of one. Min-Max score normalization rescales each retriever's scores across the corpus for a particular query before weighted fusion~\cite{bruch2022}. For raw score \(s_j(q,d)\) from retriever \(j\), the form used in this thesis is
+Vector normalization and score normalization serve different purposes. Vector normalization gives each nonzero embedding a length of one. Min-Max score normalization rescales retrieval scores before weighted fusion~\cite{bruch2022}. This thesis applies it over the full corpus separately for each query and retriever, with a positive denominator floor as a numerical safeguard. For raw score \(s_j(q,d)\) from retriever \(j\), the resulting form is
 \[
 \widetilde{s}_j(q,d)=
 \frac{s_j(q,d)-\min_{x\in C}s_j(q,x)}
 {\max\left(\max_{x\in C}s_j(q,x)-\min_{x\in C}s_j(q,x),\epsilon\right)},
 \]
-where \(C\) is the indexed corpus and \(\epsilon>0\) prevents division by zero. The minimum and maximum are computed separately for each query and retriever. The resulting scores lie in \([0,1]\). If all articles receive the same raw score, their normalized scores are zero. Normalization preserves each retriever's score ordering, it changes the scale used for fusion. These scores are used to rank articles and are distinct from evaluation metrics such as normalized discounted cumulative gain. Section~\ref{sec:score-fusion} specifies the implemented normalization procedure.
+where \(C\) is the nonempty indexed corpus and \(\epsilon>0\) prevents division by zero. The minimum and maximum are computed separately for each query and retriever. The resulting scores lie in \([0,1]\). If all articles receive the same raw score, their normalized scores are zero. Normalization preserves each retriever's score ordering while changing the scale used for fusion. These scores are used to rank articles and are distinct from evaluation metrics such as normalized discounted cumulative gain. Section~\ref{sec:score-fusion} specifies the implemented normalization procedure.
 
-An alternative is z-score normalization:
+An alternative is z-score normalization~\cite{bruch2022}:
 \[
 Z_j(q,d)=\frac{s_j(q,d)-\mu_j(q)}{\sigma_j(q)},
 \]
@@ -203,7 +204,7 @@ Pretraining on legal corpora develops language representations, as investigated 
 
 \subsection{Contrastive Learning}
 
-BGE-M3 is fine-tuned to give relevant articles higher similarity scores than articles used as negative training examples. For a question \(q\), \(d^+\) is one article labeled as relevant, and \(N(q)\) is the set of negative training examples. The similarity between a question and an article is denoted by \(s(q,d)\). A single-positive contrastive loss is~\cite{karpukhin2020}
+BGE-M3 is fine-tuned to give relevant articles higher similarity scores than articles used as negative training examples. For a question \(q\), \(d^+\) is one article labeled as relevant, and \(N(q)\) is the set of negative training examples. The similarity between a question and an article is denoted by \(s(q,d)\). A temperature-scaled form of the single-positive contrastive loss used in dense retrieval~\cite{karpukhin2020} is
 \[
 \mathcal L(q)=-\log\frac{\exp(s(q,d^+)/\tau)}{\exp(s(q,d^+)/\tau)+\sum_{d^-\in N(q)}\exp(s(q,d^-)/\tau)}.
 \]
@@ -241,52 +242,61 @@ Evaluation checks whether ranked articles match the relevance targets recorded f
 
 Results are checked in rank order against targets that have not yet been matched. Each target receives credit at most once. Thus, retrieving several articles from one document does not give repeated credit for a single whole-document target. If a retrieved article matches both an article-level target and a whole-document target, the evaluator's checking order determines which target receives credit.
 
-In the formulas below, \(Q\) contains the evaluation queries, and \(R_q\) contains the distinct recorded targets for query \(q\). The indicator \(y_{q,r}\) is one when the article at rank \(r\) receives credit for a previously unmatched target, and zero otherwise. The notation @\(k\) means that only the first \(k\) ranked articles are considered.
+In the formulas below, \(Q\) is a nonempty set of evaluation queries, and \(R_q\) contains the distinct recorded targets for query \(q\). The indicator \(y_{q,r}\) is one when the article at rank \(r\) receives credit for a previously unmatched target, and zero otherwise. Each retrieved article receives credit for at most one target. The cutoff \(k\) is a positive integer, and the notation @\(k\) means that only the first \(k\) ranked articles are considered. Ranks beyond the returned list have \(y_{q,r}=0\). The formulas apply these ranking measures to the thesis's target-matching rules; they do not treat repeated matches to one target as new relevant results.
 
-Normalized discounted cumulative gain :
-Normalized discounted cumulative gain (NDCG) measures how well relevant results are placed near the top of a ranking~\cite{jarvelin2002}. A match at a higher rank contributes more than a match at a lower rank. The thesis uses NDCG@10 as the primary metric:
+\paragraph{Normalized discounted cumulative gain:}
+Normalized discounted cumulative gain (NDCG) measures how well relevant results are placed near the top of a ranking~\cite{jarvelin2002,manning2008}. A match at a higher rank contributes more than a match at a lower rank. With binary matching credit, the normalized score is
 \[
-\mathrm{NDCG}@10(q)=\frac{\sum_{r=1}^{10}y_{q,r}/\log_2(r+1)}{\sum_{r=1}^{\min(|R_q|,10)}1/\log_2(r+1)}.
+\mathrm{NDCG}@k(q)=
+\begin{cases}
+\displaystyle\frac{\sum_{r=1}^{k}y_{q,r}/\log_2(r+1)}
+{\sum_{r=1}^{\min(|R_q|,k)}1/\log_2(r+1)}, & |R_q|>0,\\[6pt]
+0, & |R_q|=0.
+\end{cases}
 \]
-The numerator sums the credit for matches, with a smaller contribution at lower ranks. The denominator gives the score of an ideal ranking that matches up to ten recorded targets at the highest positions. Queries without recorded targets receive zero. Targets unavailable in the corpus remain in the denominator, so the metric also reflects target availability and identifier mapping.
+The numerator sums the credit for matches, with a smaller contribution at lower ranks. The denominator gives the reference ideal gain for matching up to \(\min(|R_q|,k)\) recorded targets at the highest positions. Queries without recorded targets receive zero without evaluating the fraction. Targets unavailable in the corpus remain in the denominator, so the metric also reflects target availability and identifier mapping. The primary metric is NDCG@10, obtained by setting \(k=10\).
 
-Hit and recall:
+\paragraph{Hit and recall:}
 Hit@\(k\) is one if at least one target is matched within the first \(k\) results, and zero otherwise:
 \[
-\mathrm{Hit}@k(q)=\mathbb{1}\left[\sum_{r=1}^{k}y_{q,r}>0\right],
+\mathrm{Hit}@k(q)=\mathbf{1}\left[\sum_{r=1}^{k}y_{q,r}>0\right],
 \]
-Here, \(\mathbb{1}[\cdot]\) equals one when its condition is satisfied and zero otherwise. The evaluator computes Hit@1, Hit@5, and Hit@10; the main results report Hit@10. Recall measures the proportion of recorded targets that are retrieved~\cite{manning2008}. For a query with at least one target, it is
+Here, \(\mathbf{1}[\cdot]\) equals one when its condition is satisfied and zero otherwise. This binary success measure uses the same target-matching credit as the other metrics. The evaluator computes Hit@1, Hit@5, and Hit@10; the main results report Hit@10. Recall measures the proportion of recorded targets that are retrieved~\cite{manning2008}. Queries without targets receive zero:
 \[
-\mathrm{Recall}@k(q)=\frac{\sum_{r=1}^{k}y_{q,r}}{|R_q|}.
+\mathrm{Recall}@k(q)=
+\begin{cases}
+\displaystyle\frac{\sum_{r=1}^{k}y_{q,r}}{|R_q|}, & |R_q|>0,\\[6pt]
+0, & |R_q|=0.
+\end{cases}
 \]
 For example, matching one of two targets within the first \(k\) results gives \(\mathrm{Hit}@k=1\) and \(\mathrm{Recall}@k=0.5\). Hit records whether any target is found, while recall records how many of the targets are found. They coincide for queries with one target. Recall@100 is also reported for the standalone dense and hybrid comparisons in the fine-tuning experiment that selects the model using standalone retrieval performance (Tables~\ref{tab:5.12} and~\ref{tab:5.13}).
 
-Mean reciprocal rank:
-Mean reciprocal rank (MRR) measures how early the first target is matched. For a query whose first matching article occurs at rank \(r_q^*\), the reciprocal rank (RR) at cutoff ten is
+\paragraph{Mean reciprocal rank:}
+Mean reciprocal rank (MRR) averages the reciprocal rank of the first successful result~\cite{voorhees2000qa}. Here, success means matching a recorded target. Let \(r_q^*\) be the first rank with \(y_{q,r}=1\), or \(\infty\) if there is no match. The reciprocal rank (RR) at cutoff \(k\) is
 \[
-\mathrm{RR}@10(q)=
+\mathrm{RR}@k(q)=
 \begin{cases}
-1/r_q^*, & \text{if a target is matched within the first ten results},\\
+1/r_q^*, & r_q^*\leq k,\\
 0, & \text{otherwise}.
 \end{cases}
 \]
-MRR@10 is the mean of these values across queries:
+MRR@\(k\) is the mean of these values across queries:
 \[
-\mathrm{MRR}@10=\frac{1}{|Q|}\sum_{q\in Q}\mathrm{RR}@10(q).
+\mathrm{MRR}@k=\frac{1}{|Q|}\sum_{q\in Q}\mathrm{RR}@k(q).
 \]
-For example, a first match at rank two gives a reciprocal rank of 0.5. Additional matches do not change this value because only the first matching rank is used.
+The reported MRR@10 uses \(k=10\). For example, a first match at rank two gives a reciprocal rank of 0.5. Additional matches do not change this value because only the first matching rank is used.
 
 
-Mean average precision:
-Average precision (AP) uses precision at each rank where a relevant result is retrieved. Mean average precision (MAP) averages AP across queries~\cite{manning2008}. Here, precision \(P_q(r)\) is the number of credited matches within the first \(r\) results divided by \(r\). The evaluator calculates AP@10 and MAP@10 as
+\paragraph{Mean average precision:}
+Average precision (AP) uses precision at each rank where a relevant result is retrieved. Mean average precision (MAP) averages AP across queries~\cite{manning2008}. Here, precision \(P_q(r)\) is the number of credited matches within the first \(r\) results divided by \(r\). The evaluator's truncated AP and its query average are
 \[
 \begin{gathered}
 P_q(r)=\frac{1}{r}\sum_{j=1}^{r}y_{q,j},\\
-\mathrm{AP}@10(q)=\frac{\sum_{r=1}^{10}y_{q,r}P_q(r)}{\max(1,\min(|R_q|,10))},\\
-\mathrm{MAP}@10=\frac{1}{|Q|}\sum_{q\in Q}\mathrm{AP}@10(q).
+\mathrm{AP}@k(q)=\frac{\sum_{r=1}^{k}y_{q,r}P_q(r)}{\max(1,\min(|R_q|,k))},\\
+\mathrm{MAP}@k=\frac{1}{|Q|}\sum_{q\in Q}\mathrm{AP}@k(q).
 \end{gathered}
 \]
-AP@10 sums precision only at ranks that receive matching credit. Its denominator is the number of recorded targets, capped at ten, with a minimum of one to avoid division by zero. Queries without targets therefore receive zero. This is the evaluator's truncated definition, an implementation using the total number of targets as the denominator can give a different value when there are more than ten targets.
+AP@\(k\) sums precision only at ranks that receive matching credit. Its denominator is the number of recorded targets, capped at \(k\), with a minimum of one to avoid division by zero. Queries without targets therefore receive zero. The reported MAP@10 uses \(k=10\). This is the evaluator's truncated definition; an implementation using the total number of targets as the denominator can give a different value when there are more than \(k\) targets.
 
 The reported query averages give each query equal weight, including queries with zero scores. When results are restricted to queries with available targets, that evaluation population is stated separately. All metrics use the recorded relevance targets, which may not include every legally relevant article.
 

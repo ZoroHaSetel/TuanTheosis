@@ -5,18 +5,18 @@ This chapter describes the research design, datasets, and implementation used to
 \section{Research Design and Retrieval Task}
 \label{sec:research-design}
 
-This thesis uses controlled retrieval experiments to compare lexical retrieval, dense retrieval, and their combination for Vietnamese legal questions. The system receives a question, scores the indexed legal articles, and returns a ranked list. Each article has a legal document identifier and an article identifier. The primary outcome is normalized discounted cumulative gain at rank ten (NDCG@10); the matching rules and evaluation metrics are defined in Section~\ref{sec:target-metrics}.
+This thesis uses controlled retrieval experiments to compare lexical retrieval, dense retrieval, and their combination for Vietnamese legal questions. The system receives a question, scores the indexed legal articles, and returns a ranked list. Each article has a legal document identifier and an article identifier. The primary outcome is normalized discounted cumulative gain at rank ten (NDCG@10), the matching rules and evaluation metrics are defined in Section~\ref{sec:target-metrics}.
 
 BM25 provides the baseline for retrieval effectiveness. Comparing BM25+BGE-M3 with BM25 assesses the benefit of combining lexical and dense retrieval. Comparing BM25+BGE-M3+E5 with BM25+BGE-M3 assesses the additional benefit of multilingual-E5-base. Dataset and corpus conditions provide separate settings for these comparisons, with the same query population retained within each comparison of corpus versions. The evaluation also distinguishes articles absent from the corpus from errors in mapping target identifiers, since both can affect measured performance.
 
-The fine-tuning experiments compare pretrained and fine-tuned BGE-M3 in standalone dense retrieval and in the hybrid configurations. One experiment selects the model using hybrid retrieval performance on development data; the other uses standalone dense retrieval performance. The hybrid comparisons keep BM25, E5, and the combination weights fixed while replacing BGE-M3 with its fine-tuned version. This design tests whether improvements in standalone retrieval are retained after score fusion. Section~\ref{sec:bge-finetuning} describes the training procedures, and Section~\ref{sec:evaluation-design} specifies the evaluation conditions and their limitations.
+The fine-tuning experiments compare pretrained and fine-tuned BGE-M3 in standalone dense retrieval and in the hybrid configurations. One experiment selects the model using hybrid retrieval performance on development data, the other uses standalone dense retrieval performance. The hybrid comparisons keep BM25, E5, and the combination weights fixed while replacing BGE-M3 with its fine-tuned version. This design tests whether improvements in standalone retrieval are retained after score fusion. Section~\ref{sec:bge-finetuning} describes the training procedures, and Section~\ref{sec:evaluation-design} specifies the evaluation conditions and their limitations.
 
 Relevance labels support training, configuration selection, and evaluation. At retrieval time, the system uses only the question text and the indexed corpus. Published answers and recorded relevance targets are not retrieval inputs. The experiments therefore measure recovery of annotated legal articles rather than the correctness of a generated legal answer.
 
 \section{Datasets and Corpus Preparation}
 \label{sec:datasets-corpus}
 
-The retrieval benchmark uses the supplied reference article text for ALQAC and Zalo. All methods within a dataset use the same ordered queries, corpus, and relevance targets. BCA uses the separately constructed corpus described in Section~\ref{sec:bca-construction}. The completed Zalo fine-tuning experiments use their recorded training and evaluation corpora, described below and in Section~\ref{sec:bge-finetuning}; their results are separate from the reference-text benchmark.
+The retrieval benchmark uses the supplied reference article text for ALQAC and Zalo. All methods within a dataset use the same ordered queries, corpus, and relevance targets. BCA uses the separately constructed corpus described in Section~\ref{sec:bca-construction}. The completed Zalo fine-tuning experiments use their recorded training and evaluation corpora, described below and in Section~\ref{sec:bge-finetuning}, their results are separate from the reference-text benchmark.
 
 Table~\ref{tab:4.1} summarizes the three baseline datasets. Queries that share legal references are grouped for selection and evaluation, as explained in Section~\ref{sec:evaluation-design}.
 
@@ -71,7 +71,7 @@ The BCA dataset is constructed from public questions and published answers in th
 
 \subsection{Motivation and Research Value}
 
-The first purpose is to extend evaluation to questions submitted through a public-service channel. Competition benchmarks provide defined tasks and evaluation conditions; for example, ALQAC evaluates legal retrieval and question answering using a manually annotated dataset~\cite{alqac2024}. BCA adds questions concerning residence, identity documents, fire prevention, traffic penalties, and immigration. Citizens may describe their circumstances in everyday language rather than use the terms found in legislation. This motivates examining retrieval on public-service questions alongside the ALQAC and Zalo benchmark comparisons.
+The first purpose is to extend evaluation to questions submitted through a public-service channel. Competition benchmarks provide defined tasks and evaluation conditions, for example, ALQAC evaluates legal retrieval and question answering using a manually annotated dataset~\cite{alqac2024}. BCA adds questions concerning residence, identity documents, fire prevention, traffic penalties, and immigration. Citizens may describe their circumstances in everyday language rather than use the terms found in legislation. This motivates examining retrieval on public-service questions alongside the ALQAC and Zalo benchmark comparisons.
 
 The second purpose is to construct a research resource beyond the supplied benchmarks. The collection and reference-extraction pipeline converts published question-answer records into queries and traceable relevance targets. It supports evaluation of BM25, BGE-M3, E5, and their combinations on a separately collected set of questions. The resulting analysis examines performance across collections, including differences in target availability and shared legal references. The resource contribution is the constructed collection and its documented processing procedure.
 
@@ -136,7 +136,7 @@ Figure~\ref{fig:4.2} summarizes the construction process and its connection to c
 \draw[->] (G.south) -- (H.north);
 \draw[->] (H.south) -- (I.north);
 \end{tikzpicture}
-\caption[Construction of the BCA retrieval collection.]{Construction of the BCA retrieval collection. Published answers supply reference evidence; only question text is used as the retrieval query.}
+\caption[Construction of the BCA retrieval collection.]{Construction of the BCA retrieval collection. Published answers supply reference evidence, only question text is used as the retrieval query.}
 \label{fig:4.2}
 \end{figure}
 
@@ -180,8 +180,8 @@ Table~\ref{tab:4.2} illustrates how a question about fire-prevention equipment i
 Stored query & ``Bộ Công an cho tôi hỏi có quy định bắt buộc nào về các trang thiết bị, dụng cụ phòng cháy chữa cháy đối với nhà chung cư không?'' & Question text supplies the retrieval input \\
 Extracted answer references & Nghị định số 79/2014/NĐ-CP, with article identifiers empty, 9, and 15 & The saved extraction contains one whole-document reference and two article references \\
 Normalized document identifier & \texttt{79/2014/nd-cp} & The mapped identifier is converted to lowercase \\
-Evaluation targets & \texttt{(79/2014/nd-cp, empty)}\newline \texttt{(79/2014/nd-cp, 9)}\newline \texttt{(79/2014/nd-cp, 15)} & Each pair contains a document identifier and an article identifier; \texttt{empty} denotes an empty article identifier \\
-Retrieval inputs & Question text as the query; indexed article text as the corpus & The published answer is used only to construct targets, which are used for evaluation \\
+Evaluation targets & \texttt{(79/2014/nd-cp, empty)}\newline \texttt{(79/2014/nd-cp, 9)}\newline \texttt{(79/2014/nd-cp, 15)} & Each pair contains a document identifier and an article identifier, \texttt{empty} denotes an empty article identifier \\
+Retrieval inputs & Question text as the query, indexed article text as the corpus & The published answer is used only to construct targets, which are used for evaluation \\
 \end{longtable}
 \endgroup
 
@@ -195,7 +195,7 @@ The retrieval experiments use Vietnamese questions as queries and legal article 
 
 For hybrid retrieval, each retriever's scores are normalized separately for each query over the full corpus. The normalized scores are combined using a weighted sum, and articles are ranked by the combined score. Fusion weights are selected on the weight-selection queries and fixed before ranking the separate evaluation queries. The system returns the ten highest-ranked articles with their document and article identifiers. The returned identifiers are compared with the recorded relevance targets to compute NDCG@10 and the other evaluation metrics. Section~\ref{sec:score-fusion} specifies score normalization and fusion, and Section~\ref{sec:evaluation-design} describes query grouping and the allocation of queries to weight selection and evaluation. Figure~\ref{fig:4.1} summarizes this procedure with pretrained dense models.
 
-The fine-tuning comparisons replace pretrained BGE-M3 with a fine-tuned model while keeping BM25, E5, and the corresponding fusion weights fixed. Standalone dense retrieval is evaluated separately to examine whether changes in BGE-M3's retrieval performance are also observed in the hybrid configurations. Section~\ref{sec:bge-finetuning} describes the training and model selection procedures. The evaluated system produces article rankings; reranking and answer generation are outside its scope.
+The fine-tuning comparisons replace pretrained BGE-M3 with a fine-tuned model while keeping BM25, E5, and the corresponding fusion weights fixed. Standalone dense retrieval is evaluated separately to examine whether changes in BGE-M3's retrieval performance are also observed in the hybrid configurations. Section~\ref{sec:bge-finetuning} describes the training and model selection procedures. The evaluated system produces article rankings, reranking and answer generation are outside its scope.
 
 \begin{figure}[htbp]
 \centering
@@ -226,7 +226,7 @@ The fine-tuning comparisons replace pretrained BGE-M3 with a fine-tuned model wh
 \draw[->] (F.west) -- (-7.5,-4.65) |- (J.west);
 \draw[->] (J.south) -- (K.north);
 \end{tikzpicture}
-\caption[Hybrid scoring and evaluation pipeline.]{Hybrid scoring and evaluation pipeline with pretrained dense models. Scores are computed over the full corpus. Recorded targets support query grouping; targets for the weight-selection queries guide fusion-weight selection, and targets for the separate evaluation queries are used to compute metrics. Retrievers receive question and article text.}
+\caption[Hybrid scoring and evaluation pipeline.]{Hybrid scoring and evaluation pipeline with pretrained dense models. Scores are computed over the full corpus. Recorded targets support query grouping, targets for the weight-selection queries guide fusion-weight selection, and targets for the separate evaluation queries are used to compute metrics. Retrievers receive question and article text.}
 \label{fig:4.1}
 \end{figure}
 
@@ -241,13 +241,13 @@ BM25 scores tokenized question and article text. Preprocessing converts text to 
 
 \subsection{BGE-M3 and Multilingual-E5-base}
 
-BGE-M3 is the primary dense retriever. Multilingual-E5-base, referred to as E5, provides an additional dense score for the BM25+BGE-M3+E5 configuration. The experiments use BGE-M3's dense representation; its sparse and multi-vector retrieval methods are not evaluated.
+BGE-M3 is the primary dense retriever. Multilingual-E5-base, referred to as E5, provides an additional dense score for the BM25+BGE-M3+E5 configuration. The experiments use BGE-M3's dense representation, its sparse and multi-vector retrieval methods are not evaluated.
 
-Each encoder maps the question and each article to vectors. The implementation divides each vector by its Euclidean norm, with a minimum denominator of \(10^{-10}\), and computes the dot product of the normalized vectors. For the query vector \(\mathbf{u}_q\) and article vector \(\mathbf{v}_d\) before normalization, the resulting score is
+Each encoder maps the question and each article to vectors. Section~\ref{sec:dense-similarity} defines cosine similarity~\cite{manning2008}. The implementation uses a numerical safeguard: it divides each vector by its Euclidean norm with a minimum denominator of \(10^{-10}\), then computes their dot product. For the query vector \(\mathbf{u}_q\) and article vector \(\mathbf{v}_d\) before normalization, the resulting score is
 \[
 s_{\mathrm{dense}}(q,d)=\frac{\mathbf{u}_q^\top\mathbf{v}_d}{\max(\lVert\mathbf{u}_q\rVert_2,10^{-10})\max(\lVert\mathbf{v}_d\rVert_2,10^{-10})}.
 \]
-Here, \(q\) is the question, \(d\) is an indexed article, and \(\lVert\cdot\rVert_2\) denotes the Euclidean norm. For vectors whose norms exceed the numerical threshold, this calculation is cosine similarity. The threshold prevents division by zero.
+Here, \(q\) is the question, \(d\) is an indexed article, and \(\lVert\cdot\rVert_2\) denotes the Euclidean norm. For vectors whose norms are at least the numerical threshold, this calculation is cosine similarity. The threshold prevents division by zero and gives a score of zero when either vector is zero, theoretical cosine similarity is undefined in that case.
 
 Table~\ref{tab:4.3} summarizes the embedding model settings used in the baseline benchmark. Both models use their pretrained parameters without further training. The separate BGE-M3 fine-tuning configurations are described in Section~\ref{sec:bge-finetuning}.
 
@@ -278,21 +278,23 @@ The evaluation scores every indexed article rather than restricting retrieval to
 \section{Score Normalization and Fusion}
 \label{sec:score-fusion}
 
-BM25 and dense retrieval produce scores on different scales. Before combining them, the baseline applies Min-Max normalization separately to each retriever's scores for each query. For retriever \(r\), raw score \(s_r(q,d)\), and full indexed corpus \(C\), the normalized score is
+BM25 and dense retrieval produce scores on different scales. Following Min-Max scaling for score fusion~\cite{bruch2022}, the baseline normalizes each retriever's scores separately for each query. It uses the full indexed corpus and a positive denominator floor, as defined in Chapter 3. For retriever \(j\), raw score \(s_j(q,d)\), and nonempty corpus \(C\), the normalized score is
 \[
-\widetilde{s}_r(q,d)=\frac{s_r(q,d)-\min_{d'\in C}s_r(q,d')}{\max\left(\max_{d'\in C}s_r(q,d')-\min_{d'\in C}s_r(q,d'),\epsilon\right)}.
+\widetilde{s}_j(q,d)=
+\frac{s_j(q,d)-\min_{x\in C}s_j(q,x)}
+{\max\left(\max_{x\in C}s_j(q,x)-\min_{x\in C}s_j(q,x),\epsilon\right)}.
 \]
 Here, \(\epsilon\) is a small positive constant that prevents division by zero. If a retriever assigns the same score to every article for a query, all its normalized scores are zero. Normalization uses the full corpus rather than a shortlist of retrieved candidates, so every indexed article can enter the final ranking.
 
-The BM25+BGE-M3 score is
+Using weighted score fusion~\cite{bruch2022}, the BM25+BGE-M3 score is
 \[
-S_{bg}(q,d)
+S_{BG}(q,d)
 =w_b\widetilde{s}_{b}(q,d)+(1-w_b)\widetilde{s}_{g}(q,d),
 \]
 where \(b\) denotes BM25, \(g\) denotes BGE-M3, and \(0\leq w_b\leq1\). Adding E5 gives
 \[
 \begin{aligned}
-S_{bge}(q,d)
+S_{BGE}(q,d)
 &=w_b\widetilde{s}_{b}(q,d)+w_g\widetilde{s}_{g}(q,d)
 +w_e\widetilde{s}_{e}(q,d),\\
 w_b+w_g+w_e&=1,
@@ -302,20 +304,20 @@ where \(e\) denotes E5 and all weights are nonnegative. The articles are ranked 
 
 The baseline selects weights from a grid with increments of 0.1. BM25+BGE-M3 has 11 candidate settings, with \(w_b\in\{0,0.1,\ldots,1\}\). BM25+BGE-M3+E5 has 66 candidate settings whose weights sum to one. This grid includes zero-weight settings, including \(w_e=0\), so it can reproduce every BM25+BGE-M3 setting in the baseline grid. A higher score on the weight-selection queries therefore does not establish that E5 improves retrieval on separate evaluation queries.
 
-For each baseline split, the weights with the highest mean NDCG@10 on the weight-selection queries are fixed before evaluation on the other queries. Section~\ref{sec:evaluation-design} describes the grouping and fold procedure. Algorithm~\ref{alg:locked-hybrid-ranking} shows how the selected configuration produces a ranking for one query.
+For each baseline split, the weights with the highest mean NDCG@10 on the weight-selection queries are fixed before evaluation on the other queries. Section~\ref{sec:evaluation-design} describes the grouping and fold procedure. Algorithm~\ref{alg:locked-hybrid-ranking} shows how the selected configuration produces a ranking for one query. Its retriever index set is \(J=\{b,g\}\) for BM25+BGE-M3 or \(J=\{b,g,e\}\) for BM25+BGE-M3+E5. The fixed weights satisfy \(w_j\geq0\) and \(\sum_{j\in J}w_j=1\), for the two-retriever configuration, \(w_g=1-w_b\). Thus, \(S(q,d)\) in the algorithm denotes \(S_{BG}(q,d)\) or \(S_{BGE}(q,d)\) for the selected configuration.
 
 \begin{algorithm}[H]
 \caption{Article ranking with fixed fusion weights}
 \label{alg:locked-hybrid-ranking}
 \footnotesize
 \begin{algorithmic}[1]
-\Require Query $q$, corpus $C$, retriever scores, fixed fusion weights $w$
+\Require Query $q$, corpus $C$, retriever set $J$, scores $s_j(q,d)$, fixed weights $(w_j)_{j\in J}$
 \Ensure Ten highest-ranked articles
-\State Normalize each retriever's scores over the full corpus for $q$
+\State Compute $\widetilde{s}_j(q,d)$ over the full corpus $C$ for each $j\in J$ and query $q$
 \For{each article $d\in C$}
-    \State $\mathrm{combined}[d]\gets\sum_r w_r\,\mathrm{normalized\_score}[r,d]$
+    \State $S(q,d)\gets\sum_{j\in J}w_j\widetilde{s}_j(q,d)$
 \EndFor
-\State \Return the ten articles with highest combined score
+\State \Return the ten articles with highest $S(q,d)$
 \end{algorithmic}
 \end{algorithm}
 
@@ -344,11 +346,11 @@ Negative candidates are taken from up to 256 of the highest-ranked results of ea
 
 The training objective is to make BGE-M3 assign a higher similarity score to the selected relevant article than to the other articles in the batch. Each question is supplied with one positive article and seven explicit negatives. Articles from other question groups in the same batch provide additional comparisons. Only BGE-M3's parameters are updated during this training.
 
-A batch contains \(B\) question groups, with \(G=8\) articles per group. The normalized vectors for question \(i\) and article \(j\) are \(\mathbf q_i\) and \(\mathbf p_j\). The selected positive article is at position \(y_i=iG\), because it is stored first in each group. The training loss is
+A batch contains \(B\) question groups, with \(G=8\) articles per group. The unit-normalized vectors for question \(i\) and article \(j\) are \(\widehat{\mathbf{u}}_i\) and \(\widehat{\mathbf{v}}_j\). The selected positive article is at position \(y_i=iG\), using zero-based indices because it is stored first in each group. Following the single-positive contrastive objective~\cite{karpukhin2020}, this experiment uses the temperature-scaled, batch-averaged form
 \[
 \mathcal L_{\mathrm{batch}}=-\frac{1}{B}\sum_{i=0}^{B-1}
-\log\frac{\exp(\mathbf q_i^\top\mathbf p_{y_i}/\tau)}
-{\sum_{j=0}^{BG-1}\exp(\mathbf q_i^\top\mathbf p_j/\tau)}.
+\log\frac{\exp(\widehat{\mathbf{u}}_i^\top\widehat{\mathbf{v}}_{y_i}/\tau)}
+{\sum_{j=0}^{BG-1}\exp(\widehat{\mathbf{u}}_i^\top\widehat{\mathbf{v}}_j/\tau)}.
 \]
 
 The dot product measures similarity, and \(\tau=0.02\) scales these scores before the loss is calculated. The numerator uses the selected positive article, while the denominator includes all articles in the batch. The loss decreases as the positive article's score increases relative to the others. The final loss is averaged over the \(B\) questions.
@@ -527,4 +529,4 @@ The evaluation measures recovery of recorded legal references. These references 
 \section{Chapter Summary}
 \label{sec:method-summary}
 
-This chapter presents the research design, the datasets and corpus preparation, and the construction of BCA from public questions and published answers. It specifies lexical and dense retrieval, score normalization and fusion, and BGE-M3 fine-tuning with model selection based on either hybrid or standalone dense retrieval. The evaluation design explains query grouping, data splits, metric comparisons, and the scope of statistical analysis. The chapter also documents the experimental environment, reproducibility requirements, and data-use limitations; Chapter 5 reports the results.
+This chapter presents the research design, the datasets and corpus preparation, and the construction of BCA from public questions and published answers. It specifies lexical and dense retrieval, score normalization and fusion, and BGE-M3 fine-tuning with model selection based on either hybrid or standalone dense retrieval. The evaluation design explains query grouping, data splits, metric comparisons, and the scope of statistical analysis. The chapter also documents the experimental environment, reproducibility requirements, and data-use limitations, Chapter 5 reports the results.
